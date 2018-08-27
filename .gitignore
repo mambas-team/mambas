@@ -15,6 +15,9 @@
 # Ignore Mambas database file
 mambas/server/resources/database.db
 
+# Ignore all __pycache__ directories
+__pycache__/
+
 # Allow setup.py file
 !setup.py
 
