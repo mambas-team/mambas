@@ -1,0 +1,28 @@
+# Ignore all
+*
+
+# Allow this file
+!.gitignore
+
+# Allow mambas, tests and examples folder
+!mambas
+!mambas/**
+!tests
+!tests/**
+!examples
+!examples/**
+
+# Ignore Mambas database file
+mambas/server/resources/database.db
+
+# Allow setup.py file
+!setup.py
+
+# Allow requirements.txt file
+!requirements.txt
+
+# Allow .travis.yml file
+!.travis.yml
+
+# Allow README.md file
+!README.md
