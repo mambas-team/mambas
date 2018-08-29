@@ -11,9 +11,8 @@ install:
   - conda update -q conda
   - conda info -a
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
-  - conda install --file requirements.txt --yes --quiet -c conda-forge
+  - conda install --file requirements.txt --yes --quiet -c conda-forge -c anaconda
   - source activate test-environment
   - python setup.py install
 script:
-  # TODO: start tests here
-  python -c "print('Hello World')"
+  - py.test tests/
