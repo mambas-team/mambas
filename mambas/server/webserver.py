@@ -212,7 +212,7 @@ class MambasWebserver(bottle.Bottle):
 
         if "start" in message and bool(message["start"]):
             # Set session start time
-            self.db.set_session_start_time(session.id_session, datetime.now())
+            self.db.set_session_start_time(session.id_session, datetime.datetime.now())
 
         if "model" in message:
             model = message["model"]
@@ -221,7 +221,7 @@ class MambasWebserver(bottle.Bottle):
         if "end" in message and bool(message["end"]):
             # Set session is_active flag to False
             # TODO: remove flag and use dt_end timestamp
-            self.db.set_session_end_time(session.id_session, datetime.now())
+            self.db.set_session_end_time(session.id_session, datetime.datetime.now())
 
             # Set session end time
             self.db.set_session_inactive(session.id_session)
