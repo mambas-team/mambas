@@ -29,3 +29,6 @@ __pycache__/
 
 # Allow README.md file
 !README.md
+
+# Allow MANIFEST.in file
+!MANIFEST.in
