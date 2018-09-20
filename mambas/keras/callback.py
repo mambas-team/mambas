@@ -6,10 +6,11 @@ from keras.callbacks import Callback
 
 class MambasCallback(Callback):
 
-    def __init__(self, id_project, root="http://localhost:8080", custom_metrics=[]):
+    def __init__(self, id_project, root="http://localhost:8080", proxies={}, custom_metrics=[]):
         super(MambasCallback, self).__init__()
         self.id_project = id_project
         self.root = root
+        self.proxies = proxies
         self.custom_metrics = custom_metrics
         self.id_session = None
 
@@ -62,9 +63,9 @@ class MambasCallback(Callback):
 
         try:
             if method == "put":
-                r = requests.put(path) if message is None else requests.put(path, json=message)
+                r = requests.put(path, proxies=self.proxies) if message is None else requests.put(path, proxies=self.proxies, json=message)
             elif method == "post":
-                r = requests.post(path) if message is None else requests.post(path, json=message)
+                r = requests.post(path, proxies=self.proxies) if message is None else requests.post(path, proxies=self.proxies, json=message)
             else:
                 raise ValueError("HTTP method {} is not available".format(method))
             
