@@ -1,190 +1,203 @@
 % include(header_path)
 
-<div class="container-fluid">
-    <!-- First row -->
-    <div class="row">
-        <!-- Status -->
-        <div class="col-md-3">
-            <div class="card p-30">
-                % if status:
-                <div class="media">
-                    <div class="media-left meida media-middle">
-                        <span><i class="fa fa-spinner f-s-40 color-primary"></i></span>
-                    </div>
-                    <div class="media-body media-text-right">
-                        <h2>Running</h2>
-                        <p class="m-b-0">Status</p>
-                    </div>
-                </div>
-                % else:
-                <div class="media">
-                    <div class="media-left meida media-middle">
-                        <span><i class="fa fa-check f-s-40 color-success"></i></span>
-                    </div>
-                    <div class="media-body media-text-right">
-                        <h2>Finished</h2>
-                        <p class="m-b-0">Status</p>
-                    </div>
-                </div>
-                <!--% elif status.lower() == "error":
-                <div class="media">
-                    <div class="media-left meida media-middle">
-                        <span><i class="fa fa-times f-s-40 color-danger"></i></span>
-                    </div>
-                    <div class="media-body media-text-right">
-                        <h2>Error</h2>
-                        <p class="m-b-0">Status</p>
-                    </div>
-                </div>-->
-                % end
-            </div>
-        </div>
-        <!-- End status -->
-        <!-- Number epochs -->
-        <div class="col-md-3">
-            <div class="card p-30">
-                <div class="media">
-                    <div class="media-left meida media-middle">
-                        <span><i class="fa fa-retweet f-s-40 color-primary"></i></span>
-                    </div>
-                    <div class="media-body media-text-right">
-                        <h2>{{ number_epochs }}</h2>
-                        <p class="m-b-0">Epochs</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End number epochs -->
-        <!-- Duration -->
-        <div class="col-md-3">
-            <div class="card p-30">
-                <div class="media">
-                    <div class="media-left meida media-middle">
-                        <span><i class="fa fa-clock-o f-s-40 color-primary"></i></span>
-                    </div>
-                    <div class="media-body media-text-right">
-                        % if 'duration' in locals():
-                        <h2>{{ duration }}</h2>
-                        % else:
-                        <h2>-</h2>
-                        % end
-                        <p class="m-b-0">Duration</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End duration -->
-    </div>
-    <!-- End first row -->
-    <!-- Second row -->
-    % if 'loss' in graphs.keys():
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Loss</h4>
-                    <div id="loss-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(function() {
-            "use strict";
-            Morris.Area({
-                element: 'loss-chart',
-                data: {{ !graphs["loss"] }},
-                xkey: 'epoch',
-                ykeys: [ 'loss', 'val_loss' ],
-                labels: [ 'Loss', 'Validation loss' ],
-                parseTime: false,
-                pointSize: 3,
-                fillOpacity: 0,
-                pointStrokeColors: [ '#26DAD2', '#fc6180' ],
-                behaveLikeLine: true,
-                gridLineColor: '#e0e0e0',
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: [ '#26DAD2', '#fc6180' ],
-                resize: true
-            });
-        });
-    </script>
-    % end
-    <!-- End second row -->
-    <!-- Third row -->
-    % if 'acc' in graphs.keys():
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Accuracy</h4>
-                    <div id="acc-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(function() {
-            "use strict";
-            Morris.Area({
-                element: 'acc-chart',
-                data: {{ !graphs["acc"] }},
-                xkey: 'epoch',
-                ykeys: [ 'acc', 'val_acc' ],
-                labels: [ 'Accuracy', 'Validation accuracy' ],
-                parseTime: false,
-                pointSize: 3,
-                fillOpacity: 0,
-                pointStrokeColors: [ '#26DAD2', '#fc6180' ],
-                behaveLikeLine: true,
-                gridLineColor: '#e0e0e0',
-                lineWidth: 3,
-                hideHover: 'auto',
-                lineColors: [ '#26DAD2', '#fc6180' ],
-                resize: true
-            });
-        });
-    </script>
-    % end
-    <!-- End third row -->
-    <!-- Additional rows for custom metric graphs -->
-    % for k, v in graphs.items():
-        % if not k in ['loss', 'acc']:
+<div class="content">
+    <div class="container-fluid">
+        <!-- Dashboard tiles -->
         <div class="row">
-            <div class="col">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card card-stats">
+                % if status:
+                <div class="card-header card-header-warning card-header-icon">
+                % else:
+                <div class="card-header card-header-success card-header-icon">
+                % end
+                <div class="card-icon">
+                    <i class="material-icons">weekend</i>
+                </div>
+                <p class="card-category">Status</p>
+                % if status:
+                <h3 class="card-title">Running</h3>
+                % else:
+                <h3 class="card-title">Finished</h3>
+                % end
+                </div>
+                <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons text-danger">warning</i>
+                    <a href="#pablo">Get More Space...</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card card-stats">
+                <div class="card-header card-header-rose card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">equalizer</i>
+                </div>
+                <p class="card-category">Epochs</p>
+                <h3 class="card-title">{{ number_epochs }}</h3>
+                </div>
+                <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Tracked from Google Analytics
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">store</i>
+                </div>
+                <p class="card-category">Duration</p>
+                % if 'duration' in locals():
+                <h3 class="card-title">{{ duration }}</h3>
+                % else:
+                <h3 class="card-title">-</h3>
+                % end
+                </div>
+                <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">date_range</i> Last 24 Hours
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- End dashboard tiles -->
+        <!-- Loss graph -->
+        % if 'loss' in graphs.keys():
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header card-header-icon card-header-info">
+                        <div class="card-icon">
+                            <i class="material-icons">timeline</i>
+                        </div>
+                        <h4 class="card-title">Loss
+                            <small> - Rounded</small>
+                        </h4>
+                    </div>
                     <div class="card-body">
-                        <h4 class="card-title">{{ k }}</h4>
-                        <div id="{{k}}-chart"></div>
+                        <div id="loss-chart"></div>
+                        <script>
+                            $(function() {
+                                "use strict";
+                                Morris.Area({
+                                    element: 'loss-chart',
+                                    data: {{ !graphs["loss"] }},
+                                    xkey: 'epoch',
+                                    ykeys: [ 'loss', 'val_loss' ],
+                                    labels: [ 'Loss', 'Validation loss' ],
+                                    parseTime: false,
+                                    pointSize: 3,
+                                    fillOpacity: 0,
+                                    pointStrokeColors: [ '#26DAD2', '#fc6180' ],
+                                    behaveLikeLine: true,
+                                    gridLineColor: '#e0e0e0',
+                                    lineWidth: 3,
+                                    hideHover: 'auto',
+                                    lineColors: [ '#26DAD2', '#fc6180' ],
+                                    resize: true
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-            $(function() {
-                "use strict";
-                Morris.Area({
-                    element: '{{k}}-chart',
-                    data: {{ !v }},
-                    xkey: 'epoch',
-                    ykeys: [ '{{ k }}' ],
-                    parseTime: false,
-                    pointSize: 3,
-                    fillOpacity: 0,
-                    pointStrokeColors: [ '#4680ff' ],
-                    behaveLikeLine: true,
-                    gridLineColor: '#e0e0e0',
-                    lineWidth: 3,
-                    hideHover: 'auto',
-                    lineColors: [ '#4680ff' ],
-                    resize: true
-                });
-            });
-        </script>
         % end
-    % end
-    <!-- End additional rows for custom metric graphs -->
+        <!-- End loss graph -->
+        <!-- Accuracy graph -->
+        % if 'acc' in graphs.keys():
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon card-header-info">
+                        <div class="card-icon">
+                            <i class="material-icons">timeline</i>
+                        </div>
+                        <h4 class="card-title">Accuracy
+                            <small> - Rounded</small>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="acc-chart"></div>
+                        <script>
+                            $(function() {
+                                "use strict";
+                                Morris.Area({
+                                    element: 'acc-chart',
+                                    data: {{ !graphs["acc"] }},
+                                    xkey: 'epoch',
+                                    ykeys: [ 'acc', 'val_acc' ],
+                                    labels: [ 'Accuracy', 'Validation accuracy' ],
+                                    parseTime: false,
+                                    pointSize: 3,
+                                    fillOpacity: 0,
+                                    pointStrokeColors: [ '#26DAD2', '#fc6180' ],
+                                    behaveLikeLine: true,
+                                    gridLineColor: '#e0e0e0',
+                                    lineWidth: 3,
+                                    hideHover: 'auto',
+                                    lineColors: [ '#26DAD2', '#fc6180' ],
+                                    resize: true
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        % end
+        <!-- End accuracy graph -->
+        <!-- Additional rows for custom metric graphs -->
+        % for k, v in graphs.items():
+            % if not k in ['loss', 'acc']:
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-icon card-header-info">
+                            <div class="card-icon">
+                                <i class="material-icons">timeline</i>
+                            </div>
+                            <h4 class="card-title">{{ k }}
+                                <small> - Rounded</small>
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="{{ k }}-chart"></div>
+                            <script>
+                                $(function() {
+                                    "use strict";
+                                    Morris.Area({
+                                        element: '{{k}}-chart',
+                                        data: {{ !v }},
+                                        xkey: 'epoch',
+                                        ykeys: [ '{{ k }}' ],
+                                        parseTime: false,
+                                        pointSize: 3,
+                                        fillOpacity: 0,
+                                        pointStrokeColors: [ '#4680ff' ],
+                                        behaveLikeLine: true,
+                                        gridLineColor: '#e0e0e0',
+                                        lineWidth: 3,
+                                        hideHover: 'auto',
+                                        lineColors: [ '#4680ff' ],
+                                        resize: true
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            % end
+        % end
+        <!-- End additional rows for custom metric graphs -->
+    </div>
 </div>
 
 % include(footer_path)

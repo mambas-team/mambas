@@ -1,18 +1,24 @@
 % include(header_path)
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card p-30">
-                <div class="media">
-                    <div class="media-left meida media-middle">
-                        <span><i class="fa fa-repeat f-s-40 color-primary"></i></span>
-                    </div>
-                    <div class="media-body media-text-right">
-                        <h2>{{ number_sessions }}</h2>
-                        <p class="m-b-0">Total sessions</p>
-                    </div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">weekend</i>
                 </div>
+                <p class="card-category">Total sessions</p>
+                <h3 class="card-title">{{ number_sessions }}</h3>
+                </div>
+                <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons text-danger">warning</i>
+                    <a href="#pablo">Get More Space...</a>
+                </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@ class MambasWebserver(bottle.Bottle):
 
         # Gets for component styles
         self.get("/css/<filepath:re:.*\.css>", callback=self.get_css)
-        self.get("/images/<filepath:re:.*\.(jpg|png|gif|ico|svg)>", callback=self.get_images)
+        self.get("/img/<filepath:re:.*\.(jpg|png|gif|ico|svg)>", callback=self.get_images)
         self.get("/icons/<filepath:re:.*\.(css|svg|woff|woff2|ttf)>", callback=self.get_icons)
         self.get("/js/<filepath:re:.*\.js>", callback=self.get_js)
 
@@ -48,7 +48,7 @@ class MambasWebserver(bottle.Bottle):
         return bottle.static_file(filepath, root=css_path)
 
     def get_images(self, filepath):
-        images_path = pkg_resources.resource_filename(__package__, "components/images")
+        images_path = pkg_resources.resource_filename(__package__, "components/img")
         return bottle.static_file(filepath, root=images_path)
 
     def get_icons(self, filepath):
