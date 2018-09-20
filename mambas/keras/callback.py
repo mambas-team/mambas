@@ -6,10 +6,11 @@ from keras.callbacks import Callback
 
 class MambasCallback(Callback):
 
-    def __init__(self, id_project, root="http://localhost:8080", custom_metrics=[]):
+    def __init__(self, id_project, root="http://localhost:8080", proxies={}, custom_metrics=[]):
         super(MambasCallback, self).__init__()
         self.id_project = id_project
         self.root = root
+        self.proxies = proxies
         self.custom_metrics = custom_metrics
         self.id_session = None
 
@@ -29,16 +30,28 @@ class MambasCallback(Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         message = {}
-        message["epoch"] = epoch
+
+        if isinstance(epoch, (np.ndarray, np.generic)):
+            message["epoch"] = epoch.item()
+        else:
+            message["epoch"] = epoch
         
         metrics = {}
+
         for k, v in logs.items():
             if isinstance(v, (np.ndarray, np.generic)):
                 metrics[k] = v.item()
             else:
                 metrics[k] = v
+
         for c in self.custom_metrics:
-            metrics[c.__name__] = c(epoch=epoch)   
+            k = c.__name__
+            v = c(epoch=epoch)
+            if isinstance(v, (np.ndarray, np.generic)):
+                metrics[k] = v.item()
+            else:
+                metrics[k] = v
+                
         message["metrics"] = metrics
 
         if self.id_session is not None:
@@ -62,9 +75,9 @@ class MambasCallback(Callback):
 
         try:
             if method == "put":
-                r = requests.put(path) if message is None else requests.put(path, json=message)
+                r = requests.put(path, proxies=self.proxies) if message is None else requests.put(path, proxies=self.proxies, json=message)
             elif method == "post":
-                r = requests.post(path) if message is None else requests.post(path, json=message)
+                r = requests.post(path, proxies=self.proxies) if message is None else requests.post(path, proxies=self.proxies, json=message)
             else:
                 raise ValueError("HTTP method {} is not available".format(method))
             
