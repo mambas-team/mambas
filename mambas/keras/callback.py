@@ -30,16 +30,28 @@ class MambasCallback(Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         message = {}
-        message["epoch"] = epoch
+
+        if isinstance(epoch, (np.ndarray, np.generic)):
+            message["epoch"] = epoch.item()
+        else:
+            message["epoch"] = epoch
         
         metrics = {}
+
         for k, v in logs.items():
             if isinstance(v, (np.ndarray, np.generic)):
                 metrics[k] = v.item()
             else:
                 metrics[k] = v
+
         for c in self.custom_metrics:
-            metrics[c.__name__] = c(epoch=epoch)   
+            k = c.__name__
+            v = c(epoch=epoch)
+            if isinstance(v, (np.ndarray, np.generic)):
+                metrics[k] = v.item()
+            else:
+                metrics[k] = v
+                
         message["metrics"] = metrics
 
         if self.id_session is not None:
