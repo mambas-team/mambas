@@ -1,49 +1,118 @@
 mambas = {
-    deleteSession: function(session_name) {
+    deleteSession: function(sessionName, idProject, idSession) {
         swal({
-            title: 'Are you sure?',
-            html: "The Session <b>" + session_name + "</b> will be deleted permanently. You won't be able to revert this!",
-            type: 'warning',
+            title: "Are you sure?",
+            html: "The Session <b>" + sessionName + "</b> will be deleted permanently. You won't be able to revert this!",
+            type: "warning",
             showCancelButton: true,
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn',
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonClass: "btn btn-warning",
+            cancelButtonClass: "btn",
+            confirmButtonText: "Delete",
             buttonsStyling: false
-        }).then(
-            function() {
-                swal({
-                    title: 'Deleted!',
-                    text: 'Your file has been deleted.',
-                    type: 'success',
-                    confirmButtonClass: "btn btn-success",
-                    buttonsStyling: false
-                })
-            },
-            function() {
+        }).then((result) => {
+            if(result.value) {
+                var url = "/projects/" + idProject + "/sessions/" + idSession;
+                $.ajax({
+                    url: url,
+                    type: "DELETE"
+                }).done(() => {
+                    swal({
+                        title: "Deleted",
+                        html: "The session <b>" + sessionName + "</b> was deleted.",
+                        type: "success",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    }).then(() => {
+                        window.location.href = "/";
+                    });
+                }).fail(() => {
+                    swal({
+                        title: "Error",
+                        html: "The session <b>" + sessionName + "</b> could not be deleted.",
+                        type: "error",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    });
+                });
             }
-        ).catch(swal.noop)
+        });
+    },
+
+    deleteProject: function(projectName, idProject) {
+        swal({
+            title: "Are you sure?",
+            html: "The Project <b>" + projectName + "</b> will be deleted permanently. You won't be able to revert this!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn btn-warning",
+            cancelButtonClass: "btn",
+            confirmButtonText: "Delete",
+            buttonsStyling: false
+        }).then((result) => {
+            if(result.value) {
+                var url = "/projects/" + idProject;
+                $.ajax({
+                    url: url,
+                    type: "DELETE"
+                }).done(() => {
+                    swal({
+                        title: "Deleted",
+                        html: "The Project <b>" + projectName + "</b> was deleted.",
+                        type: "success",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    }).then(() => {
+                        window.location.href = "/";
+                    });
+                }).fail(() => {
+                    swal({
+                        title: "Error",
+                        html: "The Project <b>" + projectName + "</b> could not be deleted.",
+                        type: "error",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    });
+                });
+            }
+        });
     },
 
     createProject: function() {
         swal({
-            title: 'Create a new project',
-            html: '<div class="form-group">' +
-                '<input id="input-field" type="text" class="form-control" placeholder="Enter a project name" />' +
-                '</div>',
+            title: "Create a new Project",
+            html: "<div class='form-group'>" +
+                "<input id='input-create-project' type='text' class='form-control' placeholder='Enter a project name' />" +
+                "</div>",
             showCancelButton: true,
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn',
-            confirmButtonText: 'Create',
+            confirmButtonClass: "btn btn-primary",
+            cancelButtonClass: "btn",
+            confirmButtonText: "Create",
             buttonsStyling: false
-        }).then(function(result) {
-            swal({
-                type: 'success',
-                html: 'You entered: <strong>' +
-                    $('#input-field').val() +
-                    '</strong>',
-                confirmButtonClass: 'btn btn-success',
-                buttonsStyling: false
-            })
-        }).catch(swal.noop)
+        }).then((result) => {
+            if (result.value) {
+                var projectName = $("#input-create-project").val()
+                var json = JSON.stringify({"name": projectName});
+                $.post("/projects", json).done((data) => {
+                    swal({
+                        title: "Created",
+                        html: "The Project <b>" + projectName + "</b> was created.",
+                        type: "success",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    }).then(() => {
+                        var url = "/projects/" + data.id.toString() + "/dashboard";
+                        window.location.href = url;
+                    });
+                }).fail(() => {
+                    swal({
+                        title: "Error",
+                        html: "The Project <b>" + projectName + "</b> could not be created.",
+                        type: "error",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    });
+                });
+            }
+        });
     }
 }

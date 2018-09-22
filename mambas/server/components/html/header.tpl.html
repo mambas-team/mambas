@@ -39,17 +39,9 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#0">
-                        <i class="material-icons">dashboard</i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <!-- your sidebar here -->
                 % for project in navigation_projects:
                 <li class="nav-item ">
                     <a class="nav-link collapsed" data-toggle="collapse" href="#project-{{ project['id'] }}" aria-expanded="false">
-                        <i class="material-icons">image</i>
                         <p> {{ project['name'] }} 
                             <b class="caret"></b>
                         </p>
@@ -58,13 +50,13 @@
                         <ul class="nav">
                             <li class="nav-item ">
                                 <a class="nav-link" href="/projects/{{ project['id'] }}/dashboard">
-                                    <span class="sidebar-mini"> P </span>
+                                    <i class="material-icons">dashboard</i>
                                     <span class="sidebar-normal"> Dashboard </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="/projects/{{ project['id'] }}/sessions">
-                                    <span class="sidebar-mini"> RS </span>
+                                    <i class="material-icons">view_list</i>
                                     <span class="sidebar-normal"> Sessions </span>
                                 </a>
                             </li>
@@ -79,9 +71,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
             <div class="container-fluid">
-                <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="#pablo">Dashboard</a>
-                </div>
+                <div class="navbar-wrapper">{{ title }}</div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="navbar-toggler-icon icon-bar"></span>
@@ -90,11 +80,24 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav">
-                    <button type="submit" class="btn btn-white btn-round btn-just-icon" onclick="mambas.createProject()">
-                        <i class="material-icons">add</i>
-                        <div class="ripple-container"></div>
-                    </button>
-                    <!-- your navbar here -->
+                    % for icon in icons:
+                        % if icon['type'] == 'create_project':
+                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Create a new Project" onclick="mambas.createProject()">
+                            <i class="material-icons">add</i>
+                            <div class="ripple-container"></div>
+                        </button>
+                        % elif icon['type'] == 'delete_project':
+                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Project {{ icon['project_name'] }}" onclick="mambas.deleteProject(&quot;{{ icon['project_name'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
+                            <i class="material-icons">delete</i>
+                            <div class="ripple-container"></div>
+                        </button>
+                        % elif icon['type'] == 'delete_session':
+                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Session {{ icon['session_name'] }}" onclick="mambas.deleteSession(&quot;{{ icon['session_name'] }}&quot;, &quot;{{ icon['id_session'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
+                            <i class="material-icons">delete</i>
+                            <div class="ripple-container"></div>
+                        </button>
+                        % end
+                    % end
                     </ul>
                 </div>
             </div>

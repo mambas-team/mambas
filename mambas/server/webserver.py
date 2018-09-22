@@ -20,8 +20,7 @@ class MambasWebserver(bottle.Bottle):
         self.get("/js/<filepath:re:.*\.js>", callback=self.get_js)
 
         # Gets for dashboard
-        self.get("/", callback=self.get_dashboard)
-        self.get("/dashboard", callback=self.get_dashboard)
+        self.get("/", callback=self.get_index)
 
         # Gets for projects
         self.get("/projects/<id_project>", callback=self.redirect_project_dashboard)
@@ -60,7 +59,7 @@ class MambasWebserver(bottle.Bottle):
         return bottle.static_file(filepath, root=js_path)
 
 
-    def get_dashboard(self):
+    def get_index(self):
 
         view = views.DashboardView()
 
