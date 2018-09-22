@@ -94,6 +94,7 @@ class ProjectSessionsView(BaseView):
             if session.dt_start is not None and session.dt_end is not None:
                 list_session["duration"] = session.dt_end - session.dt_start
             list_session["is_active"] = session.is_active
+            list_session["session_name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
 
         view = bottle.template(template_path, self.view_model)
