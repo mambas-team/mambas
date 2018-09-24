@@ -7,7 +7,7 @@ from mambas.server import views
 class TestBaseView():
 
     def test_set_navigation_projects(self):
-        projects = [models.Project(1, "Project1", 0)]
+        projects = [models.Project(1, "Project1", 0, "token")]
         base_view = views.BaseView()
         base_view.set_navigation_projects(projects)
         assert base_view.view_model["navigation_projects"][0]["id"] == 1
