@@ -18,9 +18,9 @@ class MambasDatabase():
 
     # PROJECTS --------------------------------------------------------------------------
 
-    def create_project(self, name):
+    def create_project(self, name, token):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO projects (name) VALUES (?)", [name])
+        cursor.execute("INSERT INTO projects (name, token) VALUES (?, ?)", (name, token))
         id_project = cursor.lastrowid
         self.conn.commit()
         project = self.get_project(id_project)
@@ -28,7 +28,7 @@ class MambasDatabase():
 
     def get_project(self, id_project):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id_project, name, session_counter FROM projects WHERE id_project = ?", [id_project])
+        cursor.execute("SELECT id_project, name, session_counter, token FROM projects WHERE id_project = ?", [id_project])
         rows = cursor.fetchall()
         project = None
         if len(rows) > 0:
@@ -36,27 +36,36 @@ class MambasDatabase():
             id_project = row[0]
             name = row[1]
             session_counter = row[2]
-            project = models.Project(id_project, name, session_counter)
+            token = row[3]
+            project = models.Project(id_project, name, session_counter, token)
+        return project
+
+    def get_project_by_token(self, token):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT id_project, name, session_counter, token FROM projects WHERE token = ?", [token])
+        rows = cursor.fetchall()
+        project = None
+        if len(rows) > 0:
+            row = rows[0]
+            id_project = row[0]
+            name = row[1]
+            session_counter = row[2]
+            token = row[3]
+            project = models.Project(id_project, name, session_counter, token)
         return project
 
     def get_all_projects(self):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id_project, name, session_counter FROM projects")
+        cursor.execute("SELECT id_project, name, session_counter, token FROM projects")
         rows = cursor.fetchall()
         projects = []
         for row in rows:
             id_project = row[0]
             name = row[1]
             session_counter = row[2]
-            projects.append(models.Project(id_project, name, session_counter))
+            token = row[3]
+            projects.append(models.Project(id_project, name, session_counter, token))
         return projects
-
-    def set_project_name(self, id_project, name):
-        cursor = self.conn.cursor()
-        cursor.execute("UPDATE projects SET name = ? WHERE id_project = ?", (name, id_project))
-        self.conn.commit()
-        project = self.get_project(id_project)
-        return project
 
     def increment_project_session_counter(self, id_project):
         cursor = self.conn.cursor()

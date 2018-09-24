@@ -1,4 +1,56 @@
 mambas = {
+    createProject: function() {
+        swal({
+            title: "Create a new Project",
+            html: "<div class='form-group'>" +
+                "<input id='input-create-project' type='text' class='form-control' placeholder='Enter a project name' />" +
+                "</div>",
+            showCancelButton: true,
+            confirmButtonClass: "btn btn-primary",
+            cancelButtonClass: "btn",
+            confirmButtonText: "Create",
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.value) {
+                var projectName = $("#input-create-project").val()
+                var json = JSON.stringify({"name": projectName});
+                $.post("/projects", json).done((data) => {
+                    swal({
+                        title: "Created",
+                        html: "The Project <b>" + projectName + "</b> was created.",
+                        type: "success",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    }).then(() => {
+                        var url = "/projects/" + data.id.toString() + "/dashboard";
+                        window.location.href = url;
+                    });
+                }).fail(() => {
+                    swal({
+                        title: "Error",
+                        html: "The Project <b>" + projectName + "</b> could not be created.",
+                        type: "error",
+                        confirmButtonClass: "btn",
+                        buttonsStyling: false
+                    });
+                });
+            }
+        });
+    },
+
+    displayToken: function(token) {
+        swal({
+            title: "Token",
+            html: "<div class='form-group'>" +
+                "<input type='text' class='form-control text-center' value='" + token + "' readonly /><br>" +
+                "<p class='text-muted'>Need help? </p>" +
+                "</div>",
+            type: "info",
+            confirmButtonClass: "btn btn-info",
+            buttonsStyling: false
+        });
+    },
+
     deleteSession: function(sessionName, idProject, idSession) {
         swal({
             title: "Are you sure?",
@@ -68,45 +120,6 @@ mambas = {
                     swal({
                         title: "Error",
                         html: "The Project <b>" + projectName + "</b> could not be deleted.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
-                });
-            }
-        });
-    },
-
-    createProject: function() {
-        swal({
-            title: "Create a new Project",
-            html: "<div class='form-group'>" +
-                "<input id='input-create-project' type='text' class='form-control' placeholder='Enter a project name' />" +
-                "</div>",
-            showCancelButton: true,
-            confirmButtonClass: "btn btn-primary",
-            cancelButtonClass: "btn",
-            confirmButtonText: "Create",
-            buttonsStyling: false
-        }).then((result) => {
-            if (result.value) {
-                var projectName = $("#input-create-project").val()
-                var json = JSON.stringify({"name": projectName});
-                $.post("/projects", json).done((data) => {
-                    swal({
-                        title: "Created",
-                        html: "The Project <b>" + projectName + "</b> was created.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        var url = "/projects/" + data.id.toString() + "/dashboard";
-                        window.location.href = url;
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The Project <b>" + projectName + "</b> could not be created.",
                         type: "error",
                         confirmButtonClass: "btn",
                         buttonsStyling: false

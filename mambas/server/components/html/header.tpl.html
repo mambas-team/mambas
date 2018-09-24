@@ -82,17 +82,22 @@
                     <ul class="navbar-nav">
                     % for icon in icons:
                         % if icon['type'] == 'create_project':
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Create a new Project" onclick="mambas.createProject()">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Create a new Project" onclick="mambas.createProject()">
                             <i class="material-icons">add</i>
                             <div class="ripple-container"></div>
                         </button>
+                        % elif icon['type'] == 'display_token':
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Display Token" onclick="mambas.displayToken(&quot;{{ icon['token'] }}&quot;)">
+                            <i class="material-icons">info</i>
+                            <div class="ripple-container"></div>
+                        </button>
                         % elif icon['type'] == 'delete_project':
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Project {{ icon['project_name'] }}" onclick="mambas.deleteProject(&quot;{{ icon['project_name'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Project {{ icon['project_name'] }}" onclick="mambas.deleteProject(&quot;{{ icon['project_name'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
                             <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>
                         </button>
                         % elif icon['type'] == 'delete_session':
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Session {{ icon['session_name'] }}" onclick="mambas.deleteSession(&quot;{{ icon['session_name'] }}&quot;, &quot;{{ icon['id_session'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ icon['session_name'] }}" onclick="mambas.deleteSession(&quot;{{ icon['session_name'] }}&quot;, &quot;{{ icon['id_session'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
                             <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>
                         </button>

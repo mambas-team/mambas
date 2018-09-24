@@ -1,6 +1,7 @@
 import bottle
 import datetime
 import json
+import hashlib
 import pkg_resources
 
 from mambas.server import models
@@ -138,8 +139,13 @@ class MambasWebserver(bottle.Bottle):
 
         project_name = message["name"]
 
+        time = datetime.datetime.now()
+        time_str = str(time).encode("utf-8")
+        hash = hashlib.md5(time_str)
+        token = hash.hexdigest()
+
         # Create project
-        project = self.db.create_project(project_name)
+        project = self.db.create_project(project_name, token)
 
         # Prepare answer
         answer = {"id": project.id_project}

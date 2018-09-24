@@ -65,6 +65,11 @@ class ProjectDashboardView(BaseView):
         self.view_model["delete_url"] = "/projects/{}".format(self.project.id_project)
         self.view_model["number_sessions"] = len(self.sessions)
 
+        icon_display_token = {}
+        icon_display_token["type"] = "display_token"
+        icon_display_token["token"] = self.project.token
+        self.view_model["icons"].append(icon_display_token)
+
         icon_delete_project = {}
         icon_delete_project["type"] = "delete_project"
         icon_delete_project["project_name"] = self.project.name
@@ -108,6 +113,11 @@ class ProjectSessionsView(BaseView):
             list_session["id_project"] = self.project.id_project
             list_session["session_name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
+
+        icon_display_token = {}
+        icon_display_token["type"] = "display_token"
+        icon_display_token["token"] = self.project.token
+        self.view_model["icons"].append(icon_display_token)
 
         icon_delete_project = {}
         icon_delete_project["type"] = "delete_project"
