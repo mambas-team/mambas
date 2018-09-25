@@ -26,7 +26,7 @@ class MambasCallback(Callback):
             path = "{}/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)
             self.__send("put", path, message)
         else:
-            warnings.warn("Warning: Could not set session id")
+            warnings.warn("Could not set session id")
 
     def on_epoch_end(self, epoch, logs=None):
         message = {}
@@ -58,7 +58,7 @@ class MambasCallback(Callback):
             path = "{}/projects/{}/sessions/{}/epochs".format(self.root, self.id_project, self.id_session)
             self.__send("post", path, message)
         else:
-            warnings.warn("Warning: Could not send epoch information because session id is not set")
+            warnings.warn("Could not send epoch information because session id is not set")
 
     def on_train_end(self, logs=None):
         message = {}
@@ -68,7 +68,7 @@ class MambasCallback(Callback):
             path = "{}/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)
             self.__send("put", path, message)
         else:
-            warnings.warn("Warning: Could not send epoch information because session id is not set")
+            warnings.warn("Could not send epoch information because session id is not set")
     
     def __send(self, method, path, message=None):
         answer = None
@@ -88,6 +88,6 @@ class MambasCallback(Callback):
                 warnings.warn("Warning: Mambas server answered with HTTP status code {}".format(r.status_code))
 
         except requests.exceptions.RequestException:
-            warnings.warn("Warning: Could not reach Mambas server at {}".format(str(self.root)))
+            warnings.warn("Could not reach Mambas server at {}".format(str(self.root)))
 
         return answer
