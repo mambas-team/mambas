@@ -188,12 +188,13 @@ class MambasWebserver(bottle.Bottle):
 
 
     def post_session(self, id_project):
-        # Get project
+        # Check if project exists
         project = self.db.get_project(id_project)
-        # TODO: raise error if project not exists
+        if project is None:
+            bottle.abort(404)
         
-        # Increment session counter and get session index for this project
-        self.db.increment_project_session_counter(id_project)
+        # Increment session counter
+        project = self.db.increment_project_session_counter(id_project)
         session_index = project.session_counter
 
         # Create session
