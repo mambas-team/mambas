@@ -46,7 +46,7 @@ mambas = {
                 "<p class='text-muted'>Need help? </p>" +
                 "</div>",
             type: "info",
-            confirmButtonClass: "btn btn-info",
+            confirmButtonClass: "btn",
             buttonsStyling: false
         });
     },

@@ -41,6 +41,9 @@ class MambasWebserver(bottle.Bottle):
         # Deletes
         self.delete("/projects/<id_project>", callback=self.delete_project)
         self.delete("/projects/<id_project>/sessions/<id_session>", callback=self.delete_session)
+
+        # Gets for api
+        self.get("/api/id-for-token", callback=self.api_get_id_project)
     
 
     def get_css(self, filepath):
@@ -253,6 +256,26 @@ class MambasWebserver(bottle.Bottle):
 
         # Prepare answer
         answer = {"id_epoch": epoch.id_epoch}
+        bottle.response.content_type = "application/json"
+        
+        return json.dumps(answer)
+
+
+    def api_get_id_project(self):
+        query = bottle.request.query.decode()
+
+        if not "token" in query:
+            bottle.abort(400)
+
+        token = bottle.request.query["token"]
+
+        project = self.db.get_project_by_token(token)
+        
+        if project is None:
+            bottle.abort(404)
+
+        # Prepare answer
+        answer = {"id_project": project.id_project}
         bottle.response.content_type = "application/json"
         
         return json.dumps(answer)

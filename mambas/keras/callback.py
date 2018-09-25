@@ -6,13 +6,14 @@ from keras.callbacks import Callback
 
 class MambasCallback(Callback):
 
-    def __init__(self, id_project, root="http://localhost:8080", proxies={}, custom_metrics=[]):
+    def __init__(self, token, root="http://localhost:8080", proxies={}, custom_metrics=[]):
         super(MambasCallback, self).__init__()
-        self.id_project = id_project
+        self.token = token
         self.root = root
         self.proxies = proxies
         self.custom_metrics = custom_metrics
         self.id_session = None
+        self.id_project = self.__request_id_project()
 
     def on_train_begin(self, logs=None):
         path = "{}/projects/{}/sessions".format(self.root, self.id_project)
@@ -70,11 +71,24 @@ class MambasCallback(Callback):
         else:
             warnings.warn("Could not send epoch information because session id is not set")
     
+    def __request_id_project(self):
+        id_project = None
+
+        path = "{}/api/id-for-token?token={}".format(self.root, self.token)
+        answer = self.__send("get", path)
+
+        if answer is not None:
+            id_project = answer["id_project"]
+
+        return id_project
+
     def __send(self, method, path, message=None):
         answer = None
 
         try:
-            if method == "put":
+            if method == "get":
+                r = requests.get(path, proxies=self.proxies) if message is None else requests.get(path, proxies=self.proxies, json=message)
+            elif method == "put":
                 r = requests.put(path, proxies=self.proxies) if message is None else requests.put(path, proxies=self.proxies, json=message)
             elif method == "post":
                 r = requests.post(path, proxies=self.proxies) if message is None else requests.post(path, proxies=self.proxies, json=message)
