@@ -128,4 +128,15 @@ mambas = {
             }
         });
     }
-}
+};
+
+$(function() {
+    "use strict";
+    $(".clickable-row").click(function(event) {
+        var elem = $(event.target);
+        if(elem.parents("button").length < 1 && !elem.is("button") &&
+           elem.parents("a").length < 1 && !elem.is("a")) {
+            window.location = $(this).data("href");
+        }
+    });
+});
