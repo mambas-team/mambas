@@ -127,11 +127,38 @@ mambas = {
                 });
             }
         });
+    },
+
+    setChart: function(idElement, data, key) {
+        if(!idElement in graphs) {
+            var graph = Morris.Area({
+                element: idElement,
+                xkey: "epoch",
+                ykeys: [key],
+                parseTime: false,
+                pointSize: 3,
+                fillOpacity: 0,
+                pointStrokeColors: ["#4680ff"],
+                behaveLikeLine: true,
+                gridLineColor: "#e0e0e0",
+                lineWidth: 3,
+                hideHover: "auto",
+                lineColors: ["#4680ff"],
+                resize: true
+            });
+
+            graphs[idElement] = graph;
+        }
+
+        graphs[idElement].setData(data);
     }
 };
 
 $(function() {
     "use strict";
+
+    var graphs = {};
+
     $(".clickable-row").click(function(event) {
         var elem = $(event.target);
         if(elem.parents("button").length < 1 && !elem.is("button") &&

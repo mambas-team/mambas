@@ -180,7 +180,7 @@ class SessionView(BaseView):
                     next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
 
 
-        self.view_model["status"] = self.session.is_active
+        self.view_model["is_active"] = self.session.is_active
         self.view_model["number_epochs"] = len(self.epochs)
         if self.session.dt_start is not None and self.session.dt_end is not None:
             self.view_model["duration"] = self.session.dt_end - self.session.dt_start

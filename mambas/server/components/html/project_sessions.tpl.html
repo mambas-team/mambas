@@ -37,9 +37,9 @@
                             </td>
                             <td>
                                 % if session['is_active']:
-                                <span class="badge badge-primary">Running</span>
+                                <i class="material-icons text-info spin" rel="tooltip" title="Running">refresh</i>
                                 % else:
-                                <span class="badge badge-success">Finished</span>
+                                <i class="material-icons text-success" rel="tooltip" title="Finished">check</i>
                                 % end
                             </td>
                             <td class="td-actions text-right">

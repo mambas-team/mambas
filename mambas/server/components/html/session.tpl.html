@@ -4,32 +4,29 @@
     <div class="container-fluid">
         <!-- Dashboard tiles -->
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="card card-stats">
-                % if status:
-                <div class="card-header card-header-warning card-header-icon">
+                % if is_active:
+                <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons spin">refresh</i>
+                </div>
                 % else:
                 <div class="card-header card-header-success card-header-icon">
-                % end
                 <div class="card-icon">
-                    <i class="material-icons">weekend</i>
+                    <i class="material-icons">check</i>
                 </div>
+                % end
                 <p class="card-category">Status</p>
-                % if status:
+                % if is_active:
                 <h3 class="card-title">Running</h3>
                 % else:
                 <h3 class="card-title">Finished</h3>
                 % end
                 </div>
-                <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons text-danger">warning</i>
-                    <a href="#pablo">Get More Space...</a>
-                </div>
-                </div>
             </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="card card-stats">
                 <div class="card-header card-header-rose card-header-icon">
                 <div class="card-icon">
@@ -45,11 +42,11 @@
                 </div>
             </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
+                <div class="card-header card-header-info card-header-icon">
                 <div class="card-icon">
-                    <i class="material-icons">store</i>
+                    <i class="material-icons">timer</i>
                 </div>
                 <p class="card-category">Duration</p>
                 % if 'duration' in locals():
@@ -58,15 +55,44 @@
                 <h3 class="card-title">-</h3>
                 % end
                 </div>
-                <div class="card-footer">
-                <div class="stats">
-                    <i class="material-icons">date_range</i> Last 24 Hours
-                </div>
-                </div>
             </div>
             </div>
         </div>
         <!-- End dashboard tiles -->
+
+        <!--<div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon card-header-info">
+                        <div class="card-icon">
+                            <i class="material-icons">timeline</i>
+                        </div>
+                        <h4 class="card-title">Loss
+                            <small> - Rounded</small>
+                        </h4>
+                    </div>
+                    <div class="card-body ">
+                        <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                            % for k, v in graphs.items():
+                            <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
+                                {{ k }}
+                            </a>
+                            </li>
+                            % end
+                        </ul>
+                        <div class="tab-content tab-space">
+                            % for k, v in graphs.items():
+                            <div class="tab-pane" id="tab-{{ k }}" onchange="alert('HI')">
+                                <div id="chart-{{ k }}" style="height: 200px"></div>
+                            </div>
+                            % end
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
         <!-- Loss graph -->
         % if 'loss' in graphs.keys():
         <div class="row">

@@ -25,7 +25,7 @@ import time
 
 batch_size = 128
 num_classes = 10
-epochs = 20
+epochs = 2
 
 # the data, split between train and test sets
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
