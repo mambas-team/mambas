@@ -1,6 +1,7 @@
 import bottle
 import datetime
 import json
+import hashlib
 import pkg_resources
 
 from mambas.server import models
@@ -15,13 +16,12 @@ class MambasWebserver(bottle.Bottle):
 
         # Gets for component styles
         self.get("/css/<filepath:re:.*\.css>", callback=self.get_css)
-        self.get("/images/<filepath:re:.*\.(jpg|png|gif|ico|svg)>", callback=self.get_images)
+        self.get("/img/<filepath:re:.*\.(jpg|png|gif|ico|svg)>", callback=self.get_images)
         self.get("/icons/<filepath:re:.*\.(css|svg|woff|woff2|ttf)>", callback=self.get_icons)
         self.get("/js/<filepath:re:.*\.js>", callback=self.get_js)
 
         # Gets for dashboard
-        self.get("/", callback=self.get_dashboard)
-        self.get("/dashboard", callback=self.get_dashboard)
+        self.get("/", callback=self.get_index)
 
         # Gets for projects
         self.get("/projects/<id_project>", callback=self.redirect_project_dashboard)
@@ -48,7 +48,7 @@ class MambasWebserver(bottle.Bottle):
         return bottle.static_file(filepath, root=css_path)
 
     def get_images(self, filepath):
-        images_path = pkg_resources.resource_filename(__package__, "components/images")
+        images_path = pkg_resources.resource_filename(__package__, "components/img")
         return bottle.static_file(filepath, root=images_path)
 
     def get_icons(self, filepath):
@@ -60,7 +60,7 @@ class MambasWebserver(bottle.Bottle):
         return bottle.static_file(filepath, root=js_path)
 
 
-    def get_dashboard(self):
+    def get_index(self):
 
         view = views.DashboardView()
 
@@ -139,8 +139,13 @@ class MambasWebserver(bottle.Bottle):
 
         project_name = message["name"]
 
+        time = datetime.datetime.now()
+        time_str = str(time).encode("utf-8")
+        hash = hashlib.md5(time_str)
+        token = hash.hexdigest()
+
         # Create project
-        project = self.db.create_project(project_name)
+        project = self.db.create_project(project_name, token)
 
         # Prepare answer
         answer = {"id": project.id_project}

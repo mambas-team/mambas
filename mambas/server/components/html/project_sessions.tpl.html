@@ -1,47 +1,58 @@
 % include(header_path)
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-title">
-                    <h4>Sessions</h4>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                <div class="card-header card-header-rose card-header-icon">
+                    <div class="card-icon">
+                    <i class="material-icons">view_list</i>
+                    </div>
+                    <h4 class="card-title">Sessions</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Start date</th>
-                                    <th>Duration</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                % for session in list_sessions:
-                                <tr class="clickable-row" data-href="sessions/{{ session['id'] }}">
-                                    <th scope="row">{{ session['index'] }}</td>
-                                    <td>{{ session['start_date'] }}</td>
-                                    <td>
-                                        % if 'duration' in session.keys():
-                                        {{ session['duration'] }}
-                                        % else:
-                                        -
-                                        % end
-                                    </td>
-                                    <td>
-                                        % if session['is_active']:
-                                        <span class="badge badge-primary">Running</span>
-                                        % else:
-                                        <span class="badge badge-success">Finished</span>
-                                        % end
-                                    </td>
-                                </tr>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Start date</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        % for session in list_sessions:
+                        <tr>
+                            <th class="text-center">{{ session['index'] }}</th>
+                            <td>{{ session['start_date'] }}</td>
+                            <td>
+                                % if 'duration' in session.keys():
+                                {{ session['duration'] }}
+                                % else:
+                                -
                                 % end
-                            </tbody>
-                        </table>
+                            </td>
+                            <td>
+                                % if session['is_active']:
+                                <span class="badge badge-primary">Running</span>
+                                % else:
+                                <span class="badge badge-success">Finished</span>
+                                % end
+                            </td>
+                            <td class="td-actions text-right">
+                                <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Session {{ session['session_name'] }}" onclick="mambas.deleteSession(&quot;{{ session['session_name'] }}&quot;, &quot;{{ session['id_project'] }}&quot;, &quot;{{ session['id'] }}&quot;)">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                        % end
+                        </tbody>
+                    </table>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

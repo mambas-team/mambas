@@ -2,7 +2,9 @@ CREATE TABLE IF NOT EXISTS projects (
     id_project INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(40),
     session_counter INTEGER DEFAULT 0,
-    CONSTRAINT name_unique UNIQUE (name)
+    token VARCHAR(32),
+    CONSTRAINT name_unique UNIQUE (name),
+    CONSTRAINT token_unique UNIQUE (token)
 );
 
 CREATE TABLE IF NOT EXISTS sessions (

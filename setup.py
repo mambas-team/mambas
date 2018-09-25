@@ -10,4 +10,6 @@ setup(name="mambas",
       license="MIT",
       include_package_data=True,
       install_requires=["bottle", "keras"],
-      packages=find_packages())
+      packages=find_packages(),
+      entry_points={"console_scripts": ["mambas = mambas.server.__main__:main"]}
+      )

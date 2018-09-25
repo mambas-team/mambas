@@ -10,6 +10,7 @@ class BaseView():
         self.view_model["header_path"] = header_path
         footer_path = pkg_resources.resource_filename(__package__, self.template_path("footer"))
         self.view_model["footer_path"] = footer_path
+        self.view_model["icons"] = []
 
     def set_navigation_projects(self, projects):
         for project in projects:
@@ -33,6 +34,10 @@ class DashboardView(BaseView):
         template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
 
         self.view_model["title"] = "Dashboard"
+
+        icon_create_project = {}
+        icon_create_project["type"] = "create_project"
+        self.view_model["icons"].append(icon_create_project)
 
         view = bottle.template(template_path, self.view_model)
         return view
@@ -59,6 +64,17 @@ class ProjectDashboardView(BaseView):
         self.view_model["token"] = self.project.id_project
         self.view_model["delete_url"] = "/projects/{}".format(self.project.id_project)
         self.view_model["number_sessions"] = len(self.sessions)
+
+        icon_display_token = {}
+        icon_display_token["type"] = "display_token"
+        icon_display_token["token"] = self.project.token
+        self.view_model["icons"].append(icon_display_token)
+
+        icon_delete_project = {}
+        icon_delete_project["type"] = "delete_project"
+        icon_delete_project["project_name"] = self.project.name
+        icon_delete_project["id_project"] = self.project.id_project
+        self.view_model["icons"].append(icon_delete_project)
 
         view = bottle.template(template_path, self.view_model)
         return view
@@ -94,7 +110,20 @@ class ProjectSessionsView(BaseView):
             if session.dt_start is not None and session.dt_end is not None:
                 list_session["duration"] = session.dt_end - session.dt_start
             list_session["is_active"] = session.is_active
+            list_session["id_project"] = self.project.id_project
+            list_session["session_name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
+
+        icon_display_token = {}
+        icon_display_token["type"] = "display_token"
+        icon_display_token["token"] = self.project.token
+        self.view_model["icons"].append(icon_display_token)
+
+        icon_delete_project = {}
+        icon_delete_project["type"] = "delete_project"
+        icon_delete_project["project_name"] = self.project.name
+        icon_delete_project["id_project"] = self.project.id_project
+        self.view_model["icons"].append(icon_delete_project)
 
         view = bottle.template(template_path, self.view_model)
         return view
@@ -155,6 +184,13 @@ class SessionView(BaseView):
         self.view_model["number_epochs"] = len(self.epochs)
         if self.session.dt_start is not None and self.session.dt_end is not None:
             self.view_model["duration"] = self.session.dt_end - self.session.dt_start
+
+        icon_delete_session = {}
+        icon_delete_session["type"] = "delete_session"
+        icon_delete_session["session_name"] = "{}: {}".format(self.project.name, self.session.index)
+        icon_delete_session["id_session"] = self.session.id_session
+        icon_delete_session["id_project"] = self.session.id_project
+        self.view_model["icons"].append(icon_delete_session)
 
         view = bottle.template(template_path, self.view_model)
         return view
