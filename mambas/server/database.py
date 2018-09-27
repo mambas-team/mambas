@@ -83,9 +83,9 @@ class MambasDatabase():
 
     # SESSIONS --------------------------------------------------------------------------
 
-    def create_session_for_project(self, session_index, id_project):
+    def create_session_for_project(self, session_index, host, id_project):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO sessions (session_index, id_project) VALUES (?, ?)", (session_index, id_project))
+        cursor.execute("INSERT INTO sessions (session_index, host, id_project) VALUES (?, ?, ?)", (session_index, host, id_project))
         id_session = cursor.lastrowid
         self.conn.commit()
         session = self.get_session(id_session)
@@ -93,7 +93,7 @@ class MambasDatabase():
 
     def get_session(self, id_session):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id_session, session_index, dt_start, dt_end, is_active, id_project FROM sessions WHERE id_session = ?", [id_session])
+        cursor.execute("SELECT id_session, session_index, dt_start, dt_end, is_active, host, id_project FROM sessions WHERE id_session = ?", [id_session])
         rows = cursor.fetchall()
         session = None
         if len(rows) > 0:
@@ -103,13 +103,14 @@ class MambasDatabase():
             dt_start = datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") if row[2] is not None else None
             dt_end = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S") if row[3] is not None else None
             is_active = row[4]
-            id_project = row[5]
-            session = models.Session(id_session, session_index, dt_start, dt_end, is_active, id_project)
+            host = row[5]
+            id_project = row[6]
+            session = models.Session(id_session, session_index, dt_start, dt_end, is_active, host, id_project)
         return session
 
     def get_sessions_for_project(self, id_project):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id_session, session_index, dt_start, dt_end, is_active, id_project FROM sessions WHERE id_project = ?", [id_project])
+        cursor.execute("SELECT id_session, session_index, dt_start, dt_end, is_active, host, id_project FROM sessions WHERE id_project = ?", [id_project])
         rows = cursor.fetchall()
         sessions = []
         for row in rows:
@@ -118,8 +119,9 @@ class MambasDatabase():
             dt_start = datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") if row[2] is not None else None
             dt_end = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S") if row[3] is not None else None
             is_active = row[4]
-            id_project = row[5]
-            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, id_project))
+            host = row[5]
+            id_project = row[6]
+            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, host, id_project))
         return sessions
 
     def set_session_inactive(self, id_session):

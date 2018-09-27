@@ -19,6 +19,7 @@
                             <th class="text-center">#</th>
                             <th>Start date</th>
                             <th>Duration</th>
+                            <th>Host</th>
                             <th>Status</th>
                             <th class="text-right">Actions</th>
                         </tr>
@@ -34,6 +35,9 @@
                                 % else:
                                 -
                                 % end
+                            </td>
+                            <td>
+                                {{ session['host'] }}
                             </td>
                             <td>
                                 % if session['is_active']:

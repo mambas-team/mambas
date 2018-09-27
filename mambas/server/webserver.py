@@ -197,8 +197,11 @@ class MambasWebserver(bottle.Bottle):
         project = self.db.increment_project_session_counter(id_project)
         session_index = project.session_counter
 
+        # Get host ip address
+        host = bottle.request.environ.get('HTTP_X_FORWARDED_FOR') or bottle.request.environ.get('REMOTE_ADDR')
+
         # Create session
-        session = self.db.create_session_for_project(session_index, id_project)
+        session = self.db.create_session_for_project(session_index, host, id_project)
 
         # Prepare answer
         answer = {"id_session": session.id_session}
