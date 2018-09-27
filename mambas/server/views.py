@@ -6,11 +6,11 @@ class BaseView():
     def __init__(self):
         self.view_model = {}
         self.view_model["navigation_projects"] = []
-        header_path = pkg_resources.resource_filename(__package__, self.template_path("header"))
-        self.view_model["header_path"] = header_path
-        footer_path = pkg_resources.resource_filename(__package__, self.template_path("footer"))
-        self.view_model["footer_path"] = footer_path
         self.view_model["icons"] = []
+        self.set_header_footer()
+
+    def set_title(self, title):
+        self.view_model["title"] = title
 
     def set_navigation_projects(self, projects):
         for project in projects:
@@ -19,10 +19,27 @@ class BaseView():
             navigation_project["id"] = project.id_project
             self.view_model["navigation_projects"].append(navigation_project)
 
+    def add_icon(self, icon):
+        self.view_model["icons"].append(icon)
+
+    def set_header_footer(self):
+        header_path = pkg_resources.resource_filename(__package__, self.template_path("header"))
+        self.view_model["header_path"] = header_path
+        footer_path = pkg_resources.resource_filename(__package__, self.template_path("footer"))
+        self.view_model["footer_path"] = footer_path
+
     def template_path(self, type):
         # TODO: check if template file exists otherwise raise error
         return "components/html/{}.tpl.html".format(type)
 
+    def render(self):
+        pass
+
+    def create(self):
+        self.render()
+        template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
+        view = bottle.template(template_path, self.view_model)
+        return view
 
 class DashboardView(BaseView):
 
@@ -30,77 +47,52 @@ class DashboardView(BaseView):
         super().__init__()
         self.type = "dashboard"
 
-    def create(self):
-        template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
+    def render(self):
+        self.set_title("Dashboard")
+        self.add_icon({"type": "create_project"})
 
-        self.view_model["title"] = "Dashboard"
+class ProjectView(BaseView):
 
-        icon_create_project = {}
-        icon_create_project["type"] = "create_project"
-        self.view_model["icons"].append(icon_create_project)
-
-        view = bottle.template(template_path, self.view_model)
-        return view
-
-
-class ProjectDashboardView(BaseView):
-
-    def __init__(self):
-        super().__init__()
-        self.type = "project_dashboard"
-        
     def set_project(self, project):
         self.project = project
-
+        
     def set_project_sessions(self, sessions):
         self.sessions = sessions
 
-    def create(self):
-        template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
-
-        # Set view model
-        self.view_model["title"] = self.project.name
-        # TODO: change to token
-        self.view_model["token"] = self.project.id_project
-        self.view_model["delete_url"] = "/projects/{}".format(self.project.id_project)
-        self.view_model["number_sessions"] = len(self.sessions)
+    def render(self):
+        self.set_title(self.project.name)
 
         icon_display_token = {}
         icon_display_token["type"] = "display_token"
         icon_display_token["token"] = self.project.token
-        self.view_model["icons"].append(icon_display_token)
+        self.add_icon(icon_display_token)
 
         icon_delete_project = {}
         icon_delete_project["type"] = "delete_project"
         icon_delete_project["project_name"] = self.project.name
         icon_delete_project["id_project"] = self.project.id_project
-        self.view_model["icons"].append(icon_delete_project)
+        self.add_icon(icon_delete_project)
 
-        view = bottle.template(template_path, self.view_model)
-        return view
+        self.view_model["number_sessions"] = len(self.sessions)
 
+class ProjectDashboardView(ProjectView):
 
-class ProjectSessionsView(BaseView):
+    def __init__(self):
+        super().__init__()
+        self.type = "project_dashboard"
+
+    def render(self):
+        super().render()
+
+class ProjectSessionsView(ProjectView):
 
     def __init__(self):
         super().__init__()
         self.type = "project_sessions"
-        
-    def set_project(self, project):
-        self.project = project
 
-    def set_project_sessions(self, sessions):
-        self.sessions = sessions
+    def render(self):
+        super().render()
 
-    def create(self):
-        template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
-
-        # Set view model
-        self.view_model["title"] = self.project.name
-        # TODO: change to token
-        self.view_model["token"] = self.project.id_project
-        self.view_model["delete_url"] = "/projects/{}".format(self.project.id_project)
-        
         self.view_model["list_sessions"] = []
         for session in self.sessions:
             list_session = {}
@@ -114,21 +106,6 @@ class ProjectSessionsView(BaseView):
             list_session["id_project"] = self.project.id_project
             list_session["session_name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
-
-        icon_display_token = {}
-        icon_display_token["type"] = "display_token"
-        icon_display_token["token"] = self.project.token
-        self.view_model["icons"].append(icon_display_token)
-
-        icon_delete_project = {}
-        icon_delete_project["type"] = "delete_project"
-        icon_delete_project["project_name"] = self.project.name
-        icon_delete_project["id_project"] = self.project.id_project
-        self.view_model["icons"].append(icon_delete_project)
-
-        view = bottle.template(template_path, self.view_model)
-        return view
-
 
 class SessionView(BaseView):
 
@@ -145,15 +122,9 @@ class SessionView(BaseView):
     def set_session_epochs(self, epochs):
         self.epochs = epochs
 
-    def create(self):
-        template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
+    def render(self):
+        self.set_title("{}: Session {}".format(self.project.name, self.session.index))
 
-        # Set view model
-        self.view_model["title"] = "{}: Session {}".format(self.project.name, self.session.index)
-        self.view_model["delete_url"] = "/projects/{}/sessions/{}".format(
-            self.project.id_project, self.session.id_session)
-
-        # Dictionary to store all graphs
         self.view_model["graphs"] = {}
 
         for epoch in self.epochs:
@@ -180,7 +151,6 @@ class SessionView(BaseView):
                         self.view_model["graphs"][graph_name].append({"epoch": epoch.index})
                     next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
 
-
         self.view_model["is_active"] = self.session.is_active
         self.view_model["number_epochs"] = len(self.epochs)
         if self.session.dt_start is not None and self.session.dt_end is not None:
@@ -191,7 +161,4 @@ class SessionView(BaseView):
         icon_delete_session["session_name"] = "{}: {}".format(self.project.name, self.session.index)
         icon_delete_session["id_session"] = self.session.id_session
         icon_delete_session["id_project"] = self.session.id_project
-        self.view_model["icons"].append(icon_delete_session)
-
-        view = bottle.template(template_path, self.view_model)
-        return view
+        self.add_icon(icon_delete_session)
