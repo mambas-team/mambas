@@ -7,6 +7,7 @@ class BaseView():
         self.view_model = {}
         self.view_model["navigation_projects"] = []
         self.view_model["icons"] = []
+        self.view_model["breadcrumbs"] = []
         self.set_header_footer()
 
     def set_title(self, title):
@@ -21,6 +22,9 @@ class BaseView():
 
     def add_icon(self, icon):
         self.view_model["icons"].append(icon)
+
+    def add_breadcrumb(self, label, url):
+        self.view_model["breadcrumbs"].append({"label": label, "url": url})
 
     def set_header_footer(self):
         header_path = pkg_resources.resource_filename(__package__, self.template_path("header"))
@@ -50,6 +54,7 @@ class DashboardView(BaseView):
     def render(self):
         self.set_title("Dashboard")
         self.add_icon({"type": "create_project"})
+        self.add_breadcrumb("Dashboard", "/")
 
 class ProjectView(BaseView):
 
@@ -72,6 +77,8 @@ class ProjectView(BaseView):
         icon_delete_project["project_name"] = self.project.name
         icon_delete_project["id_project"] = self.project.id_project
         self.add_icon(icon_delete_project)
+
+        self.add_breadcrumb(self.project.name, "/projects/{}".format(self.project.id_project))
 
         self.view_model["number_sessions"] = len(self.sessions)
 
@@ -124,6 +131,9 @@ class SessionView(BaseView):
 
     def render(self):
         self.set_title("{}: Session {}".format(self.project.name, self.session.index))
+        self.add_breadcrumb(self.project.name, "/projects/{}".format(self.project.id_project))
+        self.add_breadcrumb("Session {}".format(self.session.index),
+            "/projects/{}/sessions/{}".format(self.project.id_project, self.session.id_session))
 
         self.view_model["graphs"] = {}
 
