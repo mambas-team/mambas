@@ -39,6 +39,19 @@
             <a href="/" class="simple-text logo-normal">Mambas</a>
         </div>
         <div class="sidebar-wrapper">
+            <nav class="navbar navbar-sidebar navbar-expand-lg navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">Projects</div>
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <ul class="navbar-nav">
+                            <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Create a new Project" onclick="mambas.createProject()">
+                                <i class="material-icons">add</i>
+                                <div class="ripple-container"></div>
+                            </button>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
             <ul class="nav">
                 % for project in navigation_projects:
                 <li class="nav-item ">

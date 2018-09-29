@@ -13,5 +13,13 @@ tr.clickable-row:hover {
 }
 
 .spin {
-    animation: spin 1000ms linear infinite;
+    animation: spin 2000ms linear infinite;
+}
+
+.sidebar .navbar {
+    margin-bottom: 0;
+}
+
+.sidebar .nav {
+    margin-top: 0;
 }

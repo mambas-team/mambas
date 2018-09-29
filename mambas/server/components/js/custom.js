@@ -1,4 +1,6 @@
 mambas = {
+    graphs: {},
+
     createProject: function() {
         swal({
             title: "Create a new Project",
@@ -129,12 +131,12 @@ mambas = {
         });
     },
 
-    setChart: function(idElement, data, key) {
-        if(!idElement in graphs) {
+    initChart: function(idElement, yKey) {
+        if(!(idElement in mambas.graphs)) {
             var graph = Morris.Area({
                 element: idElement,
                 xkey: "epoch",
-                ykeys: [key],
+                ykeys: [yKey],
                 parseTime: false,
                 pointSize: 3,
                 fillOpacity: 0,
@@ -146,18 +148,18 @@ mambas = {
                 lineColors: ["#4680ff"],
                 resize: true
             });
-
-            graphs[idElement] = graph;
+            mambas.graphs[idElement] = graph;
         }
+    },
 
-        graphs[idElement].setData(data);
+    setChartData: function(idElement, data) {
+        graph = mambas.graphs[idElement];
+        graph.setData(data);
     }
 };
 
 $(function() {
     "use strict";
-
-    var graphs = {};
 
     $(".clickable-row").click(function(event) {
         var elem = $(event.target);
