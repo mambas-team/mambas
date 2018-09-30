@@ -161,6 +161,7 @@ mambas = {
 $(function() {
     "use strict";
 
+    // Move into mambas Object
     $(".clickable-row").click(function(event) {
         var elem = $(event.target);
         if(elem.parents("button").length < 1 && !elem.is("button") &&
@@ -168,4 +169,30 @@ $(function() {
             window.location = $(this).data("href");
         }
     });
+
+    $(".tab-pane-chart").hideShow().on("visibilityChanged", function(event, visibility) {
+        if(visibility == "shown") {
+            var chartElem = $(this).find(".chart");
+            chartElem.empty();
+            var data = JSON.parse(chartElem.data("data").replace(new RegExp("'", 'g'), '"'));
+
+            Morris.Area({
+                element: chartElem.attr("id"),
+                data: data,
+                xkey: "epoch",
+                ykeys: [chartElem.data("key")],
+                labels: [chartElem.data("key")],
+                parseTime: false,
+                pointSize: 3,
+                fillOpacity: 0,
+                pointStrokeColors: ["#4680ff"],
+                behaveLikeLine: true,
+                gridLineColor: "#e0e0e0",
+                lineWidth: 3,
+                hideHover: "auto",
+                lineColors: ["#4680ff"],
+                resize: true
+            });
+        }
+    });  
 });

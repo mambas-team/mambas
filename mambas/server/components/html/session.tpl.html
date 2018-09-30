@@ -58,7 +58,7 @@
         </div>
         <!-- End dashboard tiles -->
 
-        <div class="row">
+        <!--<div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-icon card-header-info">
@@ -69,9 +69,11 @@
                     </div>
                     <div class="card-body ">
                         <ul class="nav nav-pills nav-pills-warning" role="tablist">
-                            % for k, v in graphs.items():
+                            % for i, k in enumerate(graphs):
+                            % graph = graphs[k]
+                            % active = "active show" if i < 1 else ""
                             <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
+                            <a class="nav-link {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
                                 {{ k }}
                             </a>
                             </li>
@@ -79,15 +81,15 @@
                         </ul>
                         <div class="tab-content tab-space">
                             % for k, v in graphs.items():
-                            <div class="tab-pane" id="tab-{{ k }}">
-                                <div id="chart-{{ k }}" class="chart"></div>
+                            <div class="tab-pane tab-pane-chart" id="tab-{{ k }}">
+                                <div id="chart-{{ k }}" class="chart" data-key="{{ k }}" data-data="{{ !v }}"></div>
                             </div>
                             % end
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!-- Loss graph -->
         % if 'loss' in graphs.keys():
@@ -99,7 +101,6 @@
                             <i class="material-icons">timeline</i>
                         </div>
                         <h4 class="card-title">Loss
-                            <small> - Rounded</small>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -142,7 +143,6 @@
                             <i class="material-icons">timeline</i>
                         </div>
                         <h4 class="card-title">Accuracy
-                            <small> - Rounded</small>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -186,33 +186,28 @@
                                 <i class="material-icons">timeline</i>
                             </div>
                             <h4 class="card-title">{{ k }}
-                                <small> - Rounded</small>
                             </h4>
                         </div>
-                        <div class="card-body">
-                            <div id="{{ k }}-chart"></div>
-                            <script>
-                                $(function() {
-                                    "use strict";
-                                    Morris.Area({
-                                        element: '{{k}}-chart',
-                                        data: {{ !v }},
-                                        xkey: 'epoch',
-                                        ykeys: [ '{{ k }}' ],
-                                        labels: [ '{{ k }}' ],
-                                        parseTime: false,
-                                        pointSize: 3,
-                                        fillOpacity: 0,
-                                        pointStrokeColors: [ '#4680ff' ],
-                                        behaveLikeLine: true,
-                                        gridLineColor: '#e0e0e0',
-                                        lineWidth: 3,
-                                        hideHover: 'auto',
-                                        lineColors: [ '#4680ff' ],
-                                        resize: true
-                                    });
-                                });
-                            </script>
+                        <div class="card-body ">
+                            % custom_graphs = { k:v for k, v in graphs.items() if not k in ['loss', 'acc'] }
+                            <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                                % for i, k in enumerate(custom_graphs):
+                                % graph = graphs[k]
+                                % active = 'active' if i < 1 else ''
+                                <li class="nav-item">
+                                <a class="nav-link {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
+                                    {{ k }}
+                                </a>
+                                </li>
+                                % end
+                            </ul>
+                            <div class="tab-content tab-space">
+                                % for k, v in custom_graphs.items():
+                                <div class="tab-pane tab-pane-chart" id="tab-{{ k }}">
+                                    <div id="chart-{{ k }}" class="chart" data-key="{{ k }}" data-data="{{ !v }}"></div>
+                                </div>
+                                % end
+                            </div>
                         </div>
                     </div>
                 </div>
