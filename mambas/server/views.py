@@ -144,21 +144,21 @@ class SessionView(BaseView):
                     if not graph_name in self.view_model["graphs"].keys():
                         self.view_model["graphs"][graph_name] = []
                     if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]):
-                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index})
+                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
                     next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
                 elif "acc" in k:
                     graph_name = "acc"
                     if not graph_name in self.view_model["graphs"].keys():
                         self.view_model["graphs"][graph_name] = []
                     if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]):
-                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index})
+                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
                     next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
                 else:
                     graph_name = k
                     if not graph_name in self.view_model["graphs"].keys():
                         self.view_model["graphs"][graph_name] = []
                     if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]):
-                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index})
+                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
                     next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
 
         self.view_model["is_active"] = self.session.is_active

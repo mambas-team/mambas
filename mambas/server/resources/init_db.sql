@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS epochs (
     id_epoch INTEGER PRIMARY KEY AUTOINCREMENT,
     epoch_index INTEGER NOT NULL,
     metrics VARCHAR(256) NOT NULL,
+    time TIMESTAMP NOT NULL,
     id_session INTEGER NOT NULL,
     FOREIGN KEY(id_session) REFERENCES sessions(id_session)
 );

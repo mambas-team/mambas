@@ -156,10 +156,10 @@ class MambasDatabase():
 
     # EPOCHS ----------------------------------------------------------------------------
 
-    def create_epoch_for_session(self, index, metrics, id_session):
+    def create_epoch_for_session(self, index, metrics, time, id_session):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO epochs (epoch_index, metrics, id_session) VALUES (?, ?, ?)",
-            (index, json.dumps(metrics), id_session))
+        cursor.execute("INSERT INTO epochs (epoch_index, metrics, time, id_session) VALUES (?, ?, ?, ?)",
+            (index, json.dumps(metrics), time.strftime("%Y-%m-%d %H:%M:%S"), id_session))
         id_epoch = cursor.lastrowid
         self.conn.commit()
         epoch = self.get_epoch(id_epoch)
@@ -167,7 +167,7 @@ class MambasDatabase():
 
     def get_epoch(self, id_epoch):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id_epoch, epoch_index, metrics, id_session FROM epochs WHERE id_epoch = ?", [id_epoch])
+        cursor.execute("SELECT id_epoch, epoch_index, metrics, time, id_session FROM epochs WHERE id_epoch = ?", [id_epoch])
         rows = cursor.fetchall()
         epoch = None
         if len(rows) > 0:
@@ -175,21 +175,23 @@ class MambasDatabase():
             id_epoch = row[0]
             index = row[1]
             metrics = json.loads(row[2].replace("'", '"'))
-            id_session = row[3]
-            epoch = models.Epoch(id_epoch, index, metrics, id_session)
+            time = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S")
+            id_session = row[4]
+            epoch = models.Epoch(id_epoch, index, metrics, time, id_session)
         return epoch
 
     def get_epochs_for_session(self, id_session):
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id_epoch, epoch_index, metrics, id_session FROM epochs WHERE id_session = ?", [id_session])
+        cursor.execute("SELECT id_epoch, epoch_index, metrics, time, id_session FROM epochs WHERE id_session = ?", [id_session])
         rows = cursor.fetchall()
         epochs = []
         for row in rows:
             id_epoch = row[0]
             index = row[1]
             metrics = json.loads(row[2].replace("'", '"'))
-            id_session = row[3]
-            epochs.append(models.Epoch(id_epoch, index, metrics, id_session))
+            time = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S")
+            id_session = row[4]
+            epochs.append(models.Epoch(id_epoch, index, metrics, time, id_session))
         return epochs
 
     def delete_epoch(self, id_epoch):

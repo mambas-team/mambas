@@ -129,18 +129,20 @@ mambas = {
         });
     },
 
-    showChart: function(elem) {
+    showChart: function(elem, mode="epoch") {
         elem.empty();
         var id = elem.attr("id");
+        alert(elem.data("data"));
         var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
         var key = elem.data("key");
+        var parseTime = mode == "time";
         Morris.Area({
             element: id,
             data: data,
-            xkey: "epoch",
+            xkey: mode,
             ykeys: [key],
             labels: [key],
-            parseTime: false,
+            parseTime: parseTime,
             fillOpacity: 0,
             behaveLikeLine: true,
             gridLineColor: "#e0e0e0",
@@ -165,11 +167,13 @@ $(function() {
     });
 
     $(".chart").each(function() {
+        // TODO: read out mode and pass param
         mambas.showChart($(this));
     });
 
     $(".chart").hideShow().on("visibilityChanged", function(event, visibility) {
         if(visibility == "shown") {
+            // TODO: read out mode and pass param
             mambas.showChart($(this));
         }
     });  

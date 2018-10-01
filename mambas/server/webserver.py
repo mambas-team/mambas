@@ -256,7 +256,8 @@ class MambasWebserver(bottle.Bottle):
         metrics = message["metrics"]
 
         # Store data
-        epoch = self.db.create_epoch_for_session(epoch_index, metrics, session.id_session)
+        epoch = self.db.create_epoch_for_session(
+            epoch_index, metrics, datetime.datetime.now(), session.id_session)
 
         # Prepare answer
         answer = {"id_epoch": epoch.id_epoch}
