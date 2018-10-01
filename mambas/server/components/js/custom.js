@@ -1,6 +1,4 @@
 mambas = {
-    graphs: {},
-
     createProject: function() {
         swal({
             title: "Create a new Project",
@@ -131,37 +129,33 @@ mambas = {
         });
     },
 
-    initChart: function(idElement, yKey) {
-        if(!(idElement in mambas.graphs)) {
-            var graph = Morris.Area({
-                element: idElement,
-                xkey: "epoch",
-                ykeys: [yKey],
-                parseTime: false,
-                pointSize: 3,
-                fillOpacity: 0,
-                pointStrokeColors: ["#4680ff"],
-                behaveLikeLine: true,
-                gridLineColor: "#e0e0e0",
-                lineWidth: 3,
-                hideHover: "auto",
-                lineColors: ["#4680ff"],
-                resize: true
-            });
-            mambas.graphs[idElement] = graph;
-        }
-    },
-
-    setChartData: function(idElement, data) {
-        graph = mambas.graphs[idElement];
-        graph.setData(data);
+    showChart: function(elem) {
+        elem.empty();
+        var id = elem.attr("id");
+        var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
+        var key = elem.data("key");
+        Morris.Area({
+            element: id,
+            data: data,
+            xkey: "epoch",
+            ykeys: [key],
+            labels: [key],
+            parseTime: false,
+            fillOpacity: 0,
+            behaveLikeLine: true,
+            gridLineColor: "#e0e0e0",
+            lineWidth: 3,
+            hideHover: "auto",
+            lineColors: ["#00bcd4", "#9c27b0", "#f44336", "#ff9800", "#4caf50"],
+            resize: true
+        });
     }
 };
 
 $(function() {
     "use strict";
 
-    // Move into mambas Object
+    // TODO: Move into mambas Object
     $(".clickable-row").click(function(event) {
         var elem = $(event.target);
         if(elem.parents("button").length < 1 && !elem.is("button") &&
@@ -170,29 +164,13 @@ $(function() {
         }
     });
 
-    $(".tab-pane-chart").hideShow().on("visibilityChanged", function(event, visibility) {
-        if(visibility == "shown") {
-            var chartElem = $(this).find(".chart");
-            chartElem.empty();
-            var data = JSON.parse(chartElem.data("data").replace(new RegExp("'", 'g'), '"'));
+    $(".chart").each(function() {
+        mambas.showChart($(this));
+    });
 
-            Morris.Area({
-                element: chartElem.attr("id"),
-                data: data,
-                xkey: "epoch",
-                ykeys: [chartElem.data("key")],
-                labels: [chartElem.data("key")],
-                parseTime: false,
-                pointSize: 3,
-                fillOpacity: 0,
-                pointStrokeColors: ["#4680ff"],
-                behaveLikeLine: true,
-                gridLineColor: "#e0e0e0",
-                lineWidth: 3,
-                hideHover: "auto",
-                lineColors: ["#4680ff"],
-                resize: true
-            });
+    $(".chart").hideShow().on("visibilityChanged", function(event, visibility) {
+        if(visibility == "shown") {
+            mambas.showChart($(this));
         }
     });  
 });

@@ -58,39 +58,6 @@
         </div>
         <!-- End dashboard tiles -->
 
-        <!--<div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-icon card-header-info">
-                        <div class="card-icon">
-                            <i class="material-icons">timeline</i>
-                        </div>
-                        <h4 class="card-title">Loss</h4>
-                    </div>
-                    <div class="card-body ">
-                        <ul class="nav nav-pills nav-pills-warning" role="tablist">
-                            % for i, k in enumerate(graphs):
-                            % graph = graphs[k]
-                            % active = "active show" if i < 1 else ""
-                            <li class="nav-item">
-                            <a class="nav-link {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
-                                {{ k }}
-                            </a>
-                            </li>
-                            % end
-                        </ul>
-                        <div class="tab-content tab-space">
-                            % for k, v in graphs.items():
-                            <div class="tab-pane tab-pane-chart" id="tab-{{ k }}">
-                                <div id="chart-{{ k }}" class="chart" data-key="{{ k }}" data-data="{{ !v }}"></div>
-                            </div>
-                            % end
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
-
         <!-- Loss graph -->
         % if 'loss' in graphs.keys():
         <div class="row">
@@ -104,35 +71,14 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <div id="loss-chart"></div>
-                        <script>
-                            $(function() {
-                                "use strict";
-                                Morris.Area({
-                                    element: 'loss-chart',
-                                    data: {{ !graphs["loss"] }},
-                                    xkey: 'epoch',
-                                    ykeys: [ 'loss', 'val_loss' ],
-                                    labels: [ 'Loss', 'Validation loss' ],
-                                    parseTime: false,
-                                    pointSize: 3,
-                                    fillOpacity: 0,
-                                    pointStrokeColors: [ '#26DAD2', '#fc6180' ],
-                                    behaveLikeLine: true,
-                                    gridLineColor: '#e0e0e0',
-                                    lineWidth: 3,
-                                    hideHover: 'auto',
-                                    lineColors: [ '#26DAD2', '#fc6180' ],
-                                    resize: true
-                                });
-                            });
-                        </script>
+                        <div id="chart-loss" class="chart" data-key="loss" data-data="{{ !graphs['loss'] }}"></div>
                     </div>
                 </div>
             </div>
         </div>
         % end
         <!-- End loss graph -->
+
         <!-- Accuracy graph -->
         % if 'acc' in graphs.keys():
         <div class="row">
@@ -146,75 +92,50 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <div id="acc-chart"></div>
-                        <script>
-                            $(function() {
-                                "use strict";
-                                Morris.Area({
-                                    element: 'acc-chart',
-                                    data: {{ !graphs["acc"] }},
-                                    xkey: 'epoch',
-                                    ykeys: [ 'acc', 'val_acc' ],
-                                    labels: [ 'Accuracy', 'Validation accuracy' ],
-                                    parseTime: false,
-                                    pointSize: 3,
-                                    fillOpacity: 0,
-                                    pointStrokeColors: [ '#26DAD2', '#fc6180' ],
-                                    behaveLikeLine: true,
-                                    gridLineColor: '#e0e0e0',
-                                    lineWidth: 3,
-                                    hideHover: 'auto',
-                                    lineColors: [ '#26DAD2', '#fc6180' ],
-                                    resize: true
-                                });
-                            });
-                        </script>
+                        <div id="chart-acc" class="chart" data-key="acc" data-data="{{ !graphs['acc'] }}"></div>
                     </div>
                 </div>
             </div>
         </div>
         % end
         <!-- End accuracy graph -->
-        <!-- Additional rows for custom metric graphs -->
-        % for k, v in graphs.items():
-            % if not k in ['loss', 'acc']:
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header card-header-icon card-header-info">
-                            <div class="card-icon">
-                                <i class="material-icons">timeline</i>
-                            </div>
-                            <h4 class="card-title">{{ k }}
-                            </h4>
+
+        <!-- Additional row for custom metric graphs -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-icon card-header-info">
+                        <div class="card-icon">
+                            <i class="material-icons">timeline</i>
                         </div>
-                        <div class="card-body ">
-                            % custom_graphs = { k:v for k, v in graphs.items() if not k in ['loss', 'acc'] }
-                            <ul class="nav nav-pills nav-pills-warning" role="tablist">
-                                % for i, k in enumerate(custom_graphs):
-                                % graph = graphs[k]
-                                % active = 'active' if i < 1 else ''
-                                <li class="nav-item">
-                                <a class="nav-link {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
-                                    {{ k }}
-                                </a>
-                                </li>
-                                % end
-                            </ul>
-                            <div class="tab-content tab-space">
-                                % for k, v in custom_graphs.items():
-                                <div class="tab-pane tab-pane-chart" id="tab-{{ k }}">
-                                    <div id="chart-{{ k }}" class="chart" data-key="{{ k }}" data-data="{{ !v }}"></div>
-                                </div>
-                                % end
+                        <h4 class="card-title">Custom metrics</h4>
+                    </div>
+                    <div class="card-body ">
+                        % custom_graphs = { k:v for k, v in graphs.items() if not k in ['loss', 'acc'] }
+                        <ul class="nav nav-pills nav-pills-info" role="tablist">
+                            % for i, k in enumerate(custom_graphs):
+                            % active = 'active' if i < 1 else ''
+                            <li class="nav-item">
+                            <button class="nav-link btn btn-info btn-sm {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
+                                {{ k }}
+                            </button>
+                            </li>
+                            % end
+                        </ul>
+                        <div class="tab-content tab-space">
+                            % for i, k in enumerate(custom_graphs):
+                            % v = custom_graphs[k]
+                            % active = 'active' if i < 1 else ''
+                            <div class="tab-pane {{ active }}" id="tab-{{ k }}">
+                                <div id="chart-{{ k }}" class="chart" data-key="{{ k }}" data-data="{{ !v }}"></div>
                             </div>
+                            % end
                         </div>
                     </div>
                 </div>
             </div>
-            % end
-        % end
-        <!-- End additional rows for custom metric graphs -->
+        </div>
+        <!-- End additional row for custom metric graphs -->
     </div>
 </div>
 

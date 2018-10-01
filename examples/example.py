@@ -59,7 +59,10 @@ model.compile(loss='categorical_crossentropy',
 def custom_metric(epoch):
     return time.time()
 
-callback = MambasCallback("86b6539c9109a712a2ad6bd8dec3e71b", custom_metrics=[custom_metric])
+def custom_metric2(epoch):
+    return 1
+
+callback = MambasCallback("86b6539c9109a712a2ad6bd8dec3e71b", custom_metrics=[custom_metric, custom_metric2])
 
 history = model.fit(x_train, y_train,
                     batch_size=batch_size,
