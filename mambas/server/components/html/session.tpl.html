@@ -67,8 +67,27 @@
                         <div class="card-icon">
                             <i class="material-icons">timeline</i>
                         </div>
-                        <h4 class="card-title">Loss
-                        </h4>
+                        <nav class="navbar navbar-sidebar navbar-expand-lg navbar-transparent">
+                        <div class="container-fluid">
+                            <div class="navbar-wrapper">
+                                <h4>Loss</h4>
+                            </div>
+                            <div class="justify-content-end">
+                                <ul class="navbar-nav">
+                                    <div class="togglebutton">
+                                        <label>
+                                            <input type="checkbox" class="chart-toggle" data-chart-id="chart-loss">
+                                            <span class="toggle"></span>
+                                        </label>
+                                    </div>
+                                    <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
+                                        <i class="material-icons">save_alt</i>
+                                        <div class="ripple-container"></div>
+                                    </button>
+                                </ul>
+                            </div>
+                        </div>
+                        </nav>
                     </div>
                     <div class="card-body">
                         <div id="chart-loss" class="chart" data-key="loss" data-data="{{ !graphs['loss'] }}"></div>
@@ -88,8 +107,23 @@
                         <div class="card-icon">
                             <i class="material-icons">timeline</i>
                         </div>
-                        <h4 class="card-title">Accuracy
-                        </h4>
+                        <nav class="navbar navbar-sidebar navbar-expand-lg navbar-transparent">
+                            <div class="container-fluid">
+                                <div class="navbar-wrapper">
+                                    <h4>Accuracy</h4>
+                                </div>
+                                <div class="justify-content-end">
+                                    <ul class="navbar-nav">
+                                        <div class="togglebutton">
+                                            <label>
+                                                <input type="checkbox" class="chart-toggle" data-chart-id="chart-acc">
+                                                <span class="toggle"></span>
+                                            </label>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
                     </div>
                     <div class="card-body">
                         <div id="chart-acc" class="chart" data-key="acc" data-data="{{ !graphs['acc'] }}"></div>

@@ -132,7 +132,6 @@ mambas = {
     showChart: function(elem, mode="epoch") {
         elem.empty();
         var id = elem.attr("id");
-        alert(elem.data("data"));
         var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
         var key = elem.data("key");
         var parseTime = mode == "time";
@@ -166,14 +165,24 @@ $(function() {
         }
     });
 
+    $(".chart-toggle").click(function(event) {
+        var idElem = $(this).data("chart-id");
+        var elem = $("#" + idElem);
+        var checked = $(this).is(":checked");
+        if(checked) {
+            mambas.showChart(elem, "time");
+        }
+        else {
+            mambas.showChart(elem);
+        }
+    });
+
     $(".chart").each(function() {
-        // TODO: read out mode and pass param
         mambas.showChart($(this));
     });
 
     $(".chart").hideShow().on("visibilityChanged", function(event, visibility) {
         if(visibility == "shown") {
-            // TODO: read out mode and pass param
             mambas.showChart($(this));
         }
     });  

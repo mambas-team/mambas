@@ -23,3 +23,19 @@ tr.clickable-row:hover {
 .sidebar .nav {
     margin-top: 0;
 }
+
+@keyframes to-left {
+    to {width: 0;}
+}
+
+@keyframes to-right {
+    to {width: 100%;}
+}
+
+.toggle-on {
+    animation: to-left 1000ms linear;
+}
+
+.toggle-off {
+    animation: to-right 1000ms linear;
+}
