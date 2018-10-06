@@ -111,7 +111,7 @@ class ProjectSessionsView(ProjectView):
             list_session["is_active"] = session.is_active
             list_session["host"] = session.host
             list_session["id_project"] = self.project.id_project
-            list_session["session_name"] = "{}: {}".format(self.project.name, session.index)
+            list_session["name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
 
 class SessionView(BaseView):

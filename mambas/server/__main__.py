@@ -7,7 +7,7 @@ def main():
     args = parse_args()
     database = MambasDatabase()
     webserver = MambasWebserver(database)
-    webserver.run(host="0.0.0.0", port=args.port, debug=args.debug)
+    webserver.run(server="paste", host="0.0.0.0", port=args.port, debug=args.debug)
 
 def parse_args():
     parser = argparse.ArgumentParser()

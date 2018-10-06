@@ -21,7 +21,8 @@
                         <tbody>
                         % for session in list_sessions:
                         % id, index, start_date = session['id'], session['index'], session['start_date']
-                        % host, is_active = session['host'], session['is_active']
+                        % host, is_active, id_project = session['host'], session['is_active'], session['id_project']
+                        % name = session['name']
                         <tr class="clickable-row" data-href="sessions/{{ id }}">
                             <th class="text-center">{{ index }}</th>
                             <td>{{ start_date }}</td>
@@ -37,14 +38,14 @@
                                 {{ host }}
                             </td>
                             <td>
-                                % if is_active]:
+                                % if is_active:
                                 <i class="fa fa-spinner spin text-info" rel="tooltip" title="Running"></i>
                                 % else:
                                 <i class="material-icons text-success" rel="tooltip" title="Finished">check</i>
                                 % end
                             </td>
                             <td class="td-actions text-right">
-                                <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ session_name }}" onclick="mambas.deleteSession('{{ session_name }}', '{{ id_project }}', '{{ id }}')">
+                                <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ name }}" onclick="mambas.deleteSession('{{ name }}', '{{ id_project }}', '{{ id }}')">
                                     <i class="material-icons">delete</i>
                                 </button>
                             </td>
