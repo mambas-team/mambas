@@ -56,22 +56,23 @@
             </nav>
             <ul class="nav">
                 % for project in navigation_projects:
+                % id, name = project['id'], project['name']
                 <li class="nav-item ">
-                    <a class="nav-link collapsed" data-toggle="collapse" href="#project-{{ project['id'] }}" aria-expanded="false">
-                        <p> {{ project['name'] }} 
+                    <a class="nav-link collapsed" data-toggle="collapse" href="#project-{{ id }}" aria-expanded="false">
+                        <p> {{ name }} 
                             <b class="caret"></b>
                         </p>
                     </a>
-                    <div class="collapse" id="project-{{ project['id'] }}">
+                    <div class="collapse" id="project-{{ id }}">
                         <ul class="nav">
                             <li class="nav-item ">
-                                <a class="nav-link" href="/projects/{{ project['id'] }}/dashboard">
+                                <a class="nav-link" href="/projects/{{ id }}/dashboard">
                                     <i class="material-icons">dashboard</i>
                                     <span class="sidebar-normal"> Dashboard </span>
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="/projects/{{ project['id'] }}/sessions">
+                                <a class="nav-link" href="/projects/{{ id }}/sessions">
                                     <i class="material-icons">view_list</i>
                                     <span class="sidebar-normal"> Sessions </span>
                                 </a>
@@ -90,7 +91,8 @@
                 <div class="navbar-wrapper">
                     % for i in range(0, len(breadcrumbs)):
                     % breadcrumb = breadcrumbs[i]
-                    <a href="{{ breadcrumb['url'] }}" class="navbar-brand">{{ breadcrumb['label'] }}</a>
+                    % url, label = breadcrumb['url'], breadcrumb['label']
+                    <a href="{{ url }}" class="navbar-brand">{{ label }}</a>
                     % if i < len(breadcrumbs) - 1:
                     <div> &gt; </div>
                     % end
@@ -111,17 +113,20 @@
                             <div class="ripple-container"></div>
                         </button>
                         % elif icon['type'] == 'display_token':
-                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Display Token" onclick="mambas.displayToken(&quot;{{ icon['token'] }}&quot;)">
+                        % token = icon['token']
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Display Token" onclick="mambas.displayToken('{{ token }}')">
                             <i class="material-icons">info</i>
                             <div class="ripple-container"></div>
                         </button>
                         % elif icon['type'] == 'delete_project':
-                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Project {{ icon['project_name'] }}" onclick="mambas.deleteProject(&quot;{{ icon['project_name'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
+                        % project_name, id_project = icon['project_name'], icon['id_project']
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Project {{ project_name }}" onclick="mambas.deleteProject('{{ project_name }}', '{{ id_project }}')">
                             <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>
                         </button>
                         % elif icon['type'] == 'delete_session':
-                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ icon['session_name'] }}" onclick="mambas.deleteSession(&quot;{{ icon['session_name'] }}&quot;, &quot;{{ icon['id_session'] }}&quot;, &quot;{{ icon['id_project'] }}&quot;)">
+                        % session_name, id_project, id_session = icon['session_name'], icon['id_project'], icon['id_session']
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ session_name }}" onclick="mambas.deleteSession('{{ session_name }}', '{{ id_project }}', '{{ id_session }}')">
                             <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>
                         </button>
