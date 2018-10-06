@@ -39,3 +39,20 @@ tr.clickable-row:hover {
 .toggle-off {
     animation: to-right 1000ms linear;
 }
+
+.footer ul li .btn {
+    margin: 0.3125rem 1px;
+}
+
+.footer ul li .version {
+    color: inherit;
+    padding: .9375rem;
+    border-radius: 3px;
+    text-decoration: none;
+    position: relative;
+    display: block;
+    margin: 0;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #999999;
+}
