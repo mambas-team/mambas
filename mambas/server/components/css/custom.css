@@ -3,10 +3,10 @@ tr.clickable-row:hover {
 }
 
 @-moz-keyframes spin {
-    to { -moz-transform: rotate(360deg); }
+    to {-moz-transform: rotate(360deg);}
 }
 @-webkit-keyframes spin {
-    to { -webkit-transform: rotate(360deg); }
+    to {-webkit-transform: rotate(360deg);}
 }
 @keyframes spin {
     to {transform:rotate(360deg);}
@@ -24,22 +24,6 @@ tr.clickable-row:hover {
     margin-top: 0;
 }
 
-@keyframes to-left {
-    to {width: 0;}
-}
-
-@keyframes to-right {
-    to {width: 100%;}
-}
-
-.toggle-on {
-    animation: to-left 1000ms linear;
-}
-
-.toggle-off {
-    animation: to-right 1000ms linear;
-}
-
 .footer ul li .btn {
     margin: 0.3125rem 1px;
 }
@@ -55,4 +39,33 @@ tr.clickable-row:hover {
     font-weight: 500;
     text-transform: uppercase;
     color: #999999;
+}
+
+.btn-toggle input[type=checkbox] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.btn-toggle .icons i {
+    -webkit-transition: all .2s cubic-bezier(.4, 0, .2, 1);
+    transition: all .2s cubic-bezier(.4, 0, .2, 1);
+}
+
+.btn-toggle .icons i:last-child {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.btn-toggle .icons.checked i:first-child {
+    opacity: 0;
+    -webkit-transform: rotate(225deg);
+    transform: rotate(225deg);
+}
+
+.btn-toggle .icons.checked i:last-child {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }

@@ -74,15 +74,15 @@
                             </div>
                             <div class="justify-content-end">
                                 <ul class="navbar-nav">
-                                    <div class="togglebutton">
-                                        <label>
-                                            <input type="checkbox" class="chart-toggle" data-chart-id="chart-loss">
-                                            <span class="toggle"></span>
-                                        </label>
-                                    </div>
+                                    <button class="btn btn-link btn-just-icon btn-toggle">
+                                        <input type="checkbox" class="chart-toggle" data-chart-id="chart-loss">
+                                        <span class="icons">
+                                            <i rel="tooltip" class="material-icons" title="Show time on x-axis">access_time</i>
+                                            <i rel="tooltip" class="material-icons" title="Show epochs on x-axis">equalizer</i>
+                                        </span>
+                                    </button>
                                     <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
                                         <i class="material-icons">save_alt</i>
-                                        <div class="ripple-container"></div>
                                     </button>
                                 </ul>
                             </div>
@@ -114,12 +114,16 @@
                                 </div>
                                 <div class="justify-content-end">
                                     <ul class="navbar-nav">
-                                        <div class="togglebutton">
+                                        <div rel="tooltip" class="togglebutton" title="Show time on x-axis">
                                             <label>
                                                 <input type="checkbox" class="chart-toggle" data-chart-id="chart-acc">
                                                 <span class="toggle"></span>
                                             </label>
                                         </div>
+                                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
+                                            <i class="material-icons">save_alt</i>
+                                            <div class="ripple-container"></div>
+                                        </button>
                                     </ul>
                                 </div>
                             </div>

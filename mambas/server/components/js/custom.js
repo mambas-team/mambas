@@ -165,6 +165,18 @@ $(function() {
         }
     });
 
+    $(".btn-toggle").click(function(event) {
+        var cb = $(this).find("input:checkbox");
+        cb.trigger("click");
+        var state = cb.is(":checked");
+        var icons = $(this).find(".icons");
+        if(state) {
+            icons.addClass("checked");
+        } else {
+            icons.removeClass("checked");
+        }
+    });
+
     $(".chart-toggle").click(function(event) {
         var idElem = $(this).data("chart-id");
         var elem = $("#" + idElem);
