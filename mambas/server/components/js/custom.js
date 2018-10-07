@@ -142,13 +142,17 @@ mambas = {
             ykeys: [key],
             labels: [key],
             parseTime: parseTime,
+            pointSize: 0,
             fillOpacity: 0,
             behaveLikeLine: true,
             gridLineColor: "#e0e0e0",
             lineWidth: 3,
             hideHover: "auto",
             lineColors: ["#00bcd4", "#9c27b0", "#f44336", "#ff9800", "#4caf50"],
-            resize: true
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                return "Epoch " + content;
+              }
         });
     }
 };

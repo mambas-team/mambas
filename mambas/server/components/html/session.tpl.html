@@ -67,14 +67,14 @@
                         <div class="card-icon">
                             <i class="material-icons">timeline</i>
                         </div>
-                        <nav class="navbar navbar-sidebar navbar-expand-lg navbar-transparent">
+                        <nav class="navbar navbar-expand-lg navbar-transparent">
                         <div class="container-fluid">
                             <div class="navbar-wrapper">
                                 <h4>Loss</h4>
                             </div>
                             <div class="justify-content-end">
                                 <ul class="navbar-nav">
-                                    <button class="btn btn-link btn-just-icon btn-toggle">
+                                    <button type="button" class="btn btn-link btn-just-icon btn-toggle">
                                         <input type="checkbox" class="chart-toggle" data-chart-id="chart-loss">
                                         <span class="icons">
                                             <i rel="tooltip" class="material-icons" title="Show time on x-axis">access_time</i>
@@ -107,22 +107,22 @@
                         <div class="card-icon">
                             <i class="material-icons">timeline</i>
                         </div>
-                        <nav class="navbar navbar-sidebar navbar-expand-lg navbar-transparent">
+                        <nav class="navbar navbar-expand-lg navbar-transparent">
                             <div class="container-fluid">
                                 <div class="navbar-wrapper">
                                     <h4>Accuracy</h4>
                                 </div>
                                 <div class="justify-content-end">
                                     <ul class="navbar-nav">
-                                        <div rel="tooltip" class="togglebutton" title="Show time on x-axis">
-                                            <label>
-                                                <input type="checkbox" class="chart-toggle" data-chart-id="chart-acc">
-                                                <span class="toggle"></span>
-                                            </label>
-                                        </div>
+                                        <button type="button" class="btn btn-link btn-just-icon btn-toggle">
+                                            <input type="checkbox" class="chart-toggle" data-chart-id="chart-acc">
+                                            <span class="icons">
+                                                <i rel="tooltip" class="material-icons" title="Show time on x-axis">access_time</i>
+                                                <i rel="tooltip" class="material-icons" title="Show epochs on x-axis">equalizer</i>
+                                            </span>
+                                        </button>
                                         <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
                                             <i class="material-icons">save_alt</i>
-                                            <div class="ripple-container"></div>
                                         </button>
                                     </ul>
                                 </div>
@@ -146,7 +146,27 @@
                         <div class="card-icon">
                             <i class="material-icons">timeline</i>
                         </div>
-                        <h4 class="card-title">Custom metrics</h4>
+                        <nav class="navbar navbar-expand-lg navbar-transparent">
+                            <div class="container-fluid">
+                                <div class="navbar-wrapper">
+                                    <h4>Custom metrics</h4>
+                                </div>
+                                <div class="justify-content-end">
+                                    <ul class="navbar-nav">
+                                        <button type="button" class="btn btn-link btn-just-icon btn-toggle">
+                                            <input type="checkbox" class="chart-toggle" data-chart-id="chart-acc">
+                                            <span class="icons">
+                                                <i rel="tooltip" class="material-icons" title="Show time on x-axis">access_time</i>
+                                                <i rel="tooltip" class="material-icons" title="Show epochs on x-axis">equalizer</i>
+                                            </span>
+                                        </button>
+                                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
+                                            <i class="material-icons">save_alt</i>
+                                        </button>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
                     </div>
                     <div class="card-body ">
                         % custom_graphs = { k:v for k, v in graphs.items() if not k in ['loss', 'acc'] }
