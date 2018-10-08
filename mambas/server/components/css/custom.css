@@ -87,3 +87,12 @@
 .btn.btn-just-icon .material-icons {
     font-size: 24px;
 }
+
+.morris-hover.morris-default-style {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    border: 0;
+    border-radius: 6px;
+    color: #333333;
+    -webkit-transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    transition: all .1s cubic-bezier(.4, 0, .2, 1);
+}

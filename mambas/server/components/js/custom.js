@@ -181,25 +181,34 @@ $(function() {
         }
     });
 
-    $(".chart-toggle").click(function(event) {
-        var idElem = $(this).data("chart-id");
-        var elem = $("#" + idElem);
-        var checked = $(this).is(":checked");
-        if(checked) {
-            mambas.showChart(elem, "time");
-        }
-        else {
-            mambas.showChart(elem);
-        }
-    });
-
     $(".chart").each(function() {
-        mambas.showChart($(this));
+        var chart = $(this);
+        var idToggle = chart.data("toggle-id");
+        var toggle = $("#" + idToggle);
+        if(toggle.is(":checked")) {
+            mambas.showChart(chart, "time");
+        } else {
+            mambas.showChart(chart);
+        }
+        toggle.on("click", function(event) {
+            if($(this).is(":checked")) {
+                mambas.showChart(chart, "time");
+            } else {
+                mambas.showChart(chart);
+            }
+        });
     });
 
     $(".chart").hideShow().on("visibilityChanged", function(event, visibility) {
         if(visibility == "shown") {
-            mambas.showChart($(this));
+            var chart = $(this);
+            var idToggle = chart.data("toggle-id");
+            var toggle = $("#" + idToggle);
+            if(toggle.is(":checked")) {
+                mambas.showChart(chart, "time");
+            } else {
+                mambas.showChart(chart);
+            }
         }
     });  
 });
