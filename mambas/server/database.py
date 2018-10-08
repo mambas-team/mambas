@@ -17,7 +17,6 @@ class MambasDatabase():
         query = "INSERT INTO projects (name, token) VALUES (?, ?)"
         vars = (name, token)
         id_project = self.query(query, vars).lastrowid
-        self.conn.commit()
         project = self.get_project(id_project)
         return project
 

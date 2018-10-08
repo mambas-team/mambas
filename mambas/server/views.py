@@ -9,6 +9,7 @@ class BaseView():
         self.view_model["icons"] = []
         self.view_model["breadcrumbs"] = []
         self.set_header_footer()
+        self.custom_template = None
 
     def set_title(self, title):
         self.view_model["title"] = title
@@ -41,7 +42,8 @@ class BaseView():
 
     def create(self):
         self.render()
-        template_path = pkg_resources.resource_filename(__package__, self.template_path(self.type))
+        template = self.custom_template or self.type
+        template_path = pkg_resources.resource_filename(__package__, self.template_path(template))
         view = bottle.template(template_path, self.view_model)
         return view
 
@@ -81,6 +83,9 @@ class ProjectView(BaseView):
         self.add_breadcrumb(self.project.name, "/projects/{}".format(self.project.id_project))
 
         self.view_model["number_sessions"] = len(self.sessions)
+
+        if len(self.sessions) < 1:
+            self.custom_template = "instructions"
 
 class ProjectDashboardView(ProjectView):
 
