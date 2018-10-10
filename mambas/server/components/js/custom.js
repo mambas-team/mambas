@@ -210,5 +210,15 @@ $(function() {
                 mambas.showChart(chart);
             }
         }
-    });  
+    });
+    
+    $(function() {
+        var path = window.location.pathname;
+        $(".nav li a").each(function() {
+            if($(this).attr("href") === path) {
+                $(this).parents("li").addClass("active");
+                $(this).parents(".collapse").addClass("show");
+            }
+        })
+    })
 });
