@@ -4,13 +4,15 @@
 # Allow this file
 !.gitignore
 
-# Allow mambas, tests and examples folder
+# Allow mambas, tests, examples and assets folder
 !mambas
 !mambas/**
 !tests
 !tests/**
 !examples
 !examples/**
+!assets
+!assets/**
 
 # Ignore Mambas database file
 mambas/server/resources/database.db
