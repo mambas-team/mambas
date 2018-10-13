@@ -56,7 +56,7 @@ class DashboardView(BaseView):
     def render(self):
         self.set_title("Dashboard")
         self.add_icon({"type": "create_project"})
-        self.add_breadcrumb("Dashboard", "/")
+        self.add_breadcrumb("Dashboard", "/dashboard")
 
 class ProjectView(BaseView):
 
@@ -119,6 +119,8 @@ class ProjectSessionsView(ProjectView):
             list_session["name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
 
+        self.add_breadcrumb("Sessions", "/projects/{}/sessions".format(self.project.id_project))
+
 class SessionView(BaseView):
 
     def __init__(self):
@@ -137,6 +139,7 @@ class SessionView(BaseView):
     def render(self):
         self.set_title("{}: Session {}".format(self.project.name, self.session.index))
         self.add_breadcrumb(self.project.name, "/projects/{}".format(self.project.id_project))
+        self.add_breadcrumb("Sessions", "/projects/{}/sessions".format(self.project.id_project))
         self.add_breadcrumb("Session {}".format(self.session.index),
             "/projects/{}/sessions/{}".format(self.project.id_project, self.session.id_session))
 

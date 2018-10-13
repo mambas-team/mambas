@@ -2,11 +2,11 @@ mambas = {
     createProject: function() {
         swal({
             title: "Create a new Project",
-            html: "<div class='form-group'>" +
+            html: "<div class='form-group has-info'>" +
                 "<input id='input-create-project' type='text' class='form-control' placeholder='Enter a project name' />" +
                 "</div>",
             showCancelButton: true,
-            confirmButtonClass: "btn btn-primary",
+            confirmButtonClass: "btn btn-info",
             cancelButtonClass: "btn",
             confirmButtonText: "Create",
             buttonsStyling: false
@@ -159,6 +159,19 @@ mambas = {
 
 $(function() {
     "use strict";
+    
+    $(function() {
+        var path = window.location.pathname;
+        path = path.replace(/\/$/, "");
+        path = decodeURIComponent(path);
+        $(".nav li a").each(function() {
+            var href = $(this).attr("href");
+            if(path.substring(0, href.length) === href) {
+                $(this).parents("li").addClass("active");
+                $(this).parents(".collapse").addClass("show");
+            }
+        })
+    });
 
     // TODO: Move into mambas Object
     $(".clickable-row").click(function(event) {
@@ -211,14 +224,4 @@ $(function() {
             }
         }
     });
-    
-    $(function() {
-        var path = window.location.pathname;
-        $(".nav li a").each(function() {
-            if($(this).attr("href") === path) {
-                $(this).parents("li").addClass("active");
-                $(this).parents(".collapse").addClass("show");
-            }
-        })
-    })
 });
