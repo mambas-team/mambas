@@ -1,4 +1,6 @@
 mambas = {
+    colors: ["#63CAC6", "#88D597", "#84D8BA", "#B4E69E", "#93D8E4"],
+
     createProject: function() {
         swal({
             title: "Create a new Project",
@@ -133,33 +135,63 @@ mambas = {
         elem.empty();
         var id = elem.attr("id");
         var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
-        var key = elem.data("key");
+        var keys = [], labels = [];
+        for(key in data[0]) {
+            if(key != "epoch" && key != "time") {
+                keys.push(key);
+            }
+        }
+        for(var i = 0; i < keys.length; i++) {
+            var key = keys[i]; 
+            if(key == "loss") {
+                labels.push("Loss");
+            } else if(key == "val_loss") {
+                labels.push("Validation loss");
+            } else if(key == "acc") {
+                labels.push("Accuracy");
+            } else if(key == "val_acc") {
+                labels.push("Validation accuracy");
+            } else {
+                labels.push(key);
+            }
+        }
         var parseTime = mode == "time";
         Morris.Area({
             element: id,
             data: data,
             xkey: mode,
-            ykeys: [key],
-            labels: [key],
+            ykeys: keys,
+            labels: labels,
             parseTime: parseTime,
             pointSize: 0,
             fillOpacity: 0,
             behaveLikeLine: true,
             gridLineColor: "#e0e0e0",
-            lineWidth: 3,
+            lineWidth: 4,
             hideHover: "auto",
-            lineColors: ["#00bcd4", "#9c27b0", "#f44336", "#ff9800", "#4caf50"],
+            lineColors: mambas.colors,
             resize: true,
             hoverCallback: function (index, options, content, row) {
-                return "Epoch " + content;
-              }
+                var result = "";
+                result += "Epoch " + data[index].epoch;
+                result += "<br>" + data[index].time;
+                for(var i = 0; i < keys.length; i++) {
+                    var key = keys[i];
+                    var label = labels[i];
+                    var color = mambas.colors[i];
+                    result += "<br>" + "<span style='color: " + color + "'>&#x25cf;</span> ";
+                    result += label + ": ";
+                    result += data[index][key].toPrecision(5);
+                }
+                return result;
+            }
         });
     }
 };
 
 $(function() {
     "use strict";
-    
+
     $(function() {
         var path = window.location.pathname;
         path = path.replace(/\/$/, "");
@@ -167,7 +199,7 @@ $(function() {
         $(".nav li a").each(function() {
             var href = $(this).attr("href");
             if(path.substring(0, href.length) === href) {
-                $(this).parents("li").addClass("active");
+                $(this).parent("li").addClass("active");
                 $(this).parents(".collapse").addClass("show");
             }
         })

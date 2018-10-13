@@ -1,3 +1,20 @@
+/* Colors */
+.card .card-header-success .card-icon, .card .card-header-success .card-text, .card .card-header-success:not(.card-header-icon):not(.card-header-text), .card.bg-success, .card.card-rotate.bg-success .front, .card.card-rotate.bg-success .back {
+    background: linear-gradient(60deg,  #B4E69E, #88D597);
+}
+
+.card .card-header-info .card-icon, .card .card-header-info .card-text, .card .card-header-info:not(.card-header-icon):not(.card-header-text), .card.bg-info, .card.card-rotate.bg-info .front, .card.card-rotate.bg-info .back {
+    background: linear-gradient(60deg, #93D8E4, #63CAC6);
+}
+
+.btn.btn-info {
+    background: linear-gradient(60deg, #93D8E4, #63CAC6);
+}
+
+.sidebar[data-color="azure"] li.active > a {
+    background: linear-gradient(60deg, #93D8E4, #63CAC6);
+}
+
 .clickable-row:hover {
     cursor: pointer;
 }
@@ -95,4 +112,5 @@
     color: #333333;
     -webkit-transition: all .1s cubic-bezier(.4, 0, .2, 1);
     transition: all .1s cubic-bezier(.4, 0, .2, 1);
+    font-size: 0.8625rem;
 }
