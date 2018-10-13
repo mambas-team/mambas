@@ -14,7 +14,7 @@ mambas = {
             if (result.value) {
                 var projectName = $("#input-create-project").val()
                 var json = JSON.stringify({"name": projectName});
-                $.post("/projects", json).done((data) => {
+                $.post("/api/projects", json).done((data) => {
                     swal({
                         title: "Created",
                         html: "The Project <b>" + projectName + "</b> was created.",
@@ -63,7 +63,7 @@ mambas = {
             buttonsStyling: false
         }).then((result) => {
             if(result.value) {
-                var url = "/projects/" + idProject + "/sessions/" + idSession;
+                var url = "/api/projects/" + idProject + "/sessions/" + idSession;
                 $.ajax({
                     url: url,
                     type: "DELETE"
@@ -102,7 +102,7 @@ mambas = {
             buttonsStyling: false
         }).then((result) => {
             if(result.value) {
-                var url = "/projects/" + idProject;
+                var url = "/api/projects/" + idProject;
                 $.ajax({
                     url: url,
                     type: "DELETE"

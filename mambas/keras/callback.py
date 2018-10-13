@@ -16,7 +16,7 @@ class MambasCallback(Callback):
         self.id_project = self.__request_id_project()
 
     def on_train_begin(self, logs=None):
-        path = "{}/projects/{}/sessions".format(self.root, self.id_project)
+        path = "{}/api/projects/{}/sessions".format(self.root, self.id_project)
         answer = self.__send("post", path)
 
         message = {}
@@ -24,7 +24,7 @@ class MambasCallback(Callback):
 
         if answer is not None:
             self.id_session = answer["id_session"]
-            path = "{}/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)
+            path = "{}/api/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)
             self.__send("put", path, message)
         else:
             warnings.warn("Could not set session id")
@@ -56,7 +56,7 @@ class MambasCallback(Callback):
         message["metrics"] = metrics
 
         if self.id_session is not None:
-            path = "{}/projects/{}/sessions/{}/epochs".format(self.root, self.id_project, self.id_session)
+            path = "{}/api/projects/{}/sessions/{}/epochs".format(self.root, self.id_project, self.id_session)
             self.__send("post", path, message)
         else:
             warnings.warn("Could not send epoch information because session id is not set")
@@ -66,7 +66,7 @@ class MambasCallback(Callback):
         message["end"] = "True"
 
         if self.id_session is not None:
-            path = "{}/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)
+            path = "{}/api/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)
             self.__send("put", path, message)
         else:
             warnings.warn("Could not send epoch information because session id is not set")

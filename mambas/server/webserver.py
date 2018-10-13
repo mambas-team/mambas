@@ -14,35 +14,28 @@ class MambasWebserver(bottle.Bottle):
         super().__init__()
         self.db = database
 
-        # Gets for component styles
+        # Routes for component styles
         self.get("/css/<filepath:re:.*\.css>", callback=self.get_css)
         self.get("/img/<filepath:re:.*\.(jpg|png|gif|ico|svg)>", callback=self.get_images)
         self.get("/icons/<filepath:re:.*\.(css|svg|woff|woff2|ttf)>", callback=self.get_icons)
         self.get("/js/<filepath:re:.*\.js>", callback=self.get_js)
 
-        # Gets for dashboard
-        self.get("/", callback=self.get_index)
-
-        # Gets for projects
+        # Routes for web user interface
+        self.get("/", callback=self.redirect_dashboard)
+        self.get("/dashboard", callback=self.get_dashboard)
         self.get("/projects/<id_project>", callback=self.redirect_project_dashboard)
         self.get("/projects/<id_project>/", callback=self.redirect_project_dashboard)
         self.get("/projects/<id_project>/dashboard", callback=self.get_project_dashboard)
         self.get("/projects/<id_project>/sessions", callback=self.get_project_sessions)
         self.get("/projects/<id_project>/sessions/<id_session>", callback=self.get_session)
 
-        # Posts
-        self.post("/projects", callback=self.post_project)
-        self.post("/projects/<id_project>/sessions", callback=self.post_session)
-        self.post("/projects/<id_project>/sessions/<id_session>/epochs", callback=self.post_epoch)
-
-        # Puts
-        self.put("/projects/<id_project>/sessions/<id_session>", callback=self.put_session)
-
-        # Deletes
-        self.delete("/projects/<id_project>", callback=self.delete_project)
-        self.delete("/projects/<id_project>/sessions/<id_session>", callback=self.delete_session)
-
-        # Gets for api
+        # Routes for API
+        self.post("/api/projects", callback=self.post_project)
+        self.post("/api/projects/<id_project>/sessions", callback=self.post_session)
+        self.post("/api/projects/<id_project>/sessions/<id_session>/epochs", callback=self.post_epoch)
+        self.put("/api/projects/<id_project>/sessions/<id_session>", callback=self.put_session)
+        self.delete("/api/projects/<id_project>", callback=self.delete_project)
+        self.delete("/api/projects/<id_project>/sessions/<id_session>", callback=self.delete_session)
         self.get("/api/id-for-token", callback=self.api_get_id_project)
     
 
@@ -63,7 +56,11 @@ class MambasWebserver(bottle.Bottle):
         return bottle.static_file(filepath, root=js_path)
 
 
-    def get_index(self):
+    def redirect_dashboard(self):
+        bottle.redirect("/dashboard")
+
+
+    def get_dashboard(self):
 
         view = views.DashboardView()
 
