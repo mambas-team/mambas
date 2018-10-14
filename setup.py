@@ -9,7 +9,7 @@ setup(name="mambas",
       url="https://github.com/misterkevinski/mambas",
       license="MIT",
       include_package_data=True,
-      install_requires=["bottle", "keras"],
+      install_requires=["bottle", "paste", "keras"],
       packages=find_packages(),
       entry_points={"console_scripts": ["mambas = mambas.server.__main__:main"]}
-      )
+)

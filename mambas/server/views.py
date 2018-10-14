@@ -1,6 +1,8 @@
 import bottle
 import pkg_resources
 
+# BASE VIEW -----------------------------------------------------------------------------
+
 class BaseView():
 
     def __init__(self):
@@ -47,6 +49,8 @@ class BaseView():
         view = bottle.template(template_path, self.view_model)
         return view
 
+# DASHBOARD VIEW ------------------------------------------------------------------------
+
 class DashboardView(BaseView):
 
     def __init__(self):
@@ -57,6 +61,8 @@ class DashboardView(BaseView):
         self.set_title("Dashboard")
         self.add_icon({"type": "create_project"})
         self.add_breadcrumb("Dashboard", "/dashboard")
+
+# PROJECT VIEWS -------------------------------------------------------------------------
 
 class ProjectView(BaseView):
 
@@ -120,6 +126,8 @@ class ProjectSessionsView(ProjectView):
             self.view_model["list_sessions"].append(list_session)
 
         self.add_breadcrumb("Sessions", "/projects/{}/sessions".format(self.project.id_project))
+
+# SESSION VIEW --------------------------------------------------------------------------
 
 class SessionView(BaseView):
 
