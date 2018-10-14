@@ -16,8 +16,8 @@
 }
 
 .icon-lg-gray {
-    color: #999999;
-    font-size: 4rem;
+    color: #CCCCCC;
+    font-size: 5rem;
 }
 
 .clickable-row:hover {
@@ -118,4 +118,23 @@
     -webkit-transition: all .1s cubic-bezier(.4, 0, .2, 1);
     transition: all .1s cubic-bezier(.4, 0, .2, 1);
     font-size: 0.8625rem;
+}
+
+.code {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #63CAC6;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 1.6em auto;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 660px;
+    list-style: none;
 }
