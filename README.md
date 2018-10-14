@@ -9,5 +9,15 @@ Mambas is a web based visualization tool to monitor your Keras training metrics.
 ## What is included?
 
 ## Installation
+- Install Mambas from PyPI:
+```
+pip install mambas
+```
+- Install from Github source:
+```
+git clone https://github.com/misterkevinski/mambas.git
+cd mambas
+python setup.py install
+```
 
 ## Examples
