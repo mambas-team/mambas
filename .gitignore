@@ -20,8 +20,9 @@ mambas/server/resources/database.db
 # Ignore all __pycache__ directories
 __pycache__/
 
-# Allow setup.py file
+# Allow setup.py and setup.cfg files
 !setup.py
+!setup.cfg
 
 # Allow requirements.txt file
 !requirements.txt
