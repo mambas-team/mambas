@@ -45,7 +45,8 @@ mambas = {
             title: "Token",
             html: "<div class='form-group'>" +
                 "<input type='text' class='form-control text-center' value='" + token + "' readonly /><br>" +
-                "<p class='text-muted'>Need help? </p>" +
+                "<a class='btn btn-link btn-github' href='https://github.com/misterkevinski/mambas' target='_blank'>" +
+                "<i class='fa fa-github'></i> Need help?</a>" +
                 "</div>",
             type: "info",
             confirmButtonClass: "btn",
@@ -173,8 +174,8 @@ mambas = {
             resize: true,
             hoverCallback: function (index, options, content, row) {
                 var result = "";
-                result += "Epoch " + data[index].epoch;
-                result += "<br>" + data[index].time;
+                result += "<span style='font-weight: bold'>Epoch " + data[index].epoch;
+                result += "<br>" + data[index].time + "</span>";
                 for(var i = 0; i < keys.length; i++) {
                     var key = keys[i];
                     var label = labels[i];

@@ -15,6 +15,11 @@
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
 }
 
+.icon-lg-gray {
+    color: #999999;
+    font-size: 4rem;
+}
+
 .clickable-row:hover {
     cursor: pointer;
 }

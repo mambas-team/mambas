@@ -3,9 +3,28 @@
 <div class="content">
   <div class="container-fluid">
       <div class="header text-center">
-        <h3 class="title">No data yet</h3>
-        <p class="category">Need help?
-          <a target="_blank" href="https://design.google.com/icons/">Google</a>
+        <h3 class="title">No Sessions so far</h3>
+        <p><i class="material-icons icon-lg-gray">sentiment_very_dissatisfied</i></p>
+        <h6>1. Get the Project token</h6>
+        <p>Click on the button
+          <button type="button" class="btn btn-white btn-round btn-just-icon">
+              <i class="material-icons">confirmation_number</i>
+          </button>
+          in the upper right corner and copy the Project token.
+        </p>
+        <h6>2. Add Mambas Callback to your training</h6>
+        <pre class="brush: python">
+          from mambas.keras.callback import MambasCallback
+          token = project_token
+          callback = MambasCallback(token)
+          model.fit(x_train, y_train, callbacks=[callback])
+        </pre>
+        <h6>3. That's it!</h6>
+        <p><i class="material-icons text-success">check</i></p>
+        <p>
+          <a class="btn btn-link btn-github" href="https://github.com/misterkevinski/mambas" target="_blank">
+            <i class="fa fa-github"></i> Need help?
+          </a>
         </p>
       </div>
   </div>
