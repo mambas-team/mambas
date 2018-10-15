@@ -2,8 +2,8 @@ from setuptools import setup
 from setuptools import find_packages
 
 setup(name="mambas",
-      version="0.1",
-      description="Web based visualization tool to monitor your Keras training",
+      version="0.1.1",
+      description="Mambas is a web based visualization tool to manage your Keras projects and monitor your training sessions.",
       author="Kevin Beck",
       author_email="misterkevinski@gmail.com",
       url="https://github.com/misterkevinski/mambas",
