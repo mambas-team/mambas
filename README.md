@@ -8,9 +8,15 @@
 </p>
 
 ## What is it?
-Mambas is a web based visualization tool to monitor your Keras training metrics.
+Mambas is a web based visualization tool to manage your Keras projects and monitor your training sessions.
 
 ## What is included?
+As of today, the following functionalities have been implemented:
+- [x] Managing different Machine Learning projects
+- [x] Monitoring and managing training sessions of a single project
+- [x] Adding custom training metrics to monitor
+- [ ] Displaying training hyperparameters
+- [ ] Exploring Neural Network layers and weights
 
 ## Installation
 - Install Mambas from PyPI:
@@ -24,4 +30,45 @@ cd mambas
 python setup.py install
 ```
 
-## Examples
+## Getting started
+### Run Mambas
+```
+mambas --port 8080
+```
+
+### Create Mambas project and get token
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <b>First step</b>
+    </td>
+    <td width="50%" align="center">
+      <b>Second step</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">   
+      <img src="/assets/add_project.png?raw=true" />
+    </td>
+    <td align="center">
+      <img src="/assets/get_token.png?raw=true" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      Click on <i>ADD</i> button to create a new Mambas project and enter a project name.
+    </td>
+    <td align="center">
+      Click on <i>TOKEN</i> button to get project's token and copy it.
+    </td>
+  </tr>
+</table>
+
+### Add Mambas callback to Keras
+```
+mambas.keras.callback import MambasCallback
+...
+token = '<project_token>'
+callback = MambasCallback(token)
+model.fit(x_train, y_train, callbacks=[callback])
+```
