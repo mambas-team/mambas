@@ -1,5 +1,6 @@
 import datetime
 import json
+import os
 import pkg_resources
 import sqlite3
 
@@ -8,7 +9,8 @@ from mambas.server import models
 class MambasDatabase():
 
     def __init__(self):
-        self.db_path = pkg_resources.resource_filename(__package__, "resources/database.db")
+        mambas_path = self.create_and_get_home()
+        self.db_path = os.path.join(mambas_path, "database.db")
         self.init()
 
     # PROJECTS --------------------------------------------------------------------------
@@ -202,3 +204,10 @@ class MambasDatabase():
             cursor = conn.cursor()
             cursor.execute(query, vars)
             return cursor
+
+    def create_and_get_home(self):
+        home = os.path.expanduser("~")
+        mambas = os.path.join(home, ".mambas")
+        if not os.path.exists(mambas):
+            os.makedirs(mambas)
+        return mambas
