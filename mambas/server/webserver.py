@@ -12,7 +12,9 @@ class MambasWebserver(bottle.Bottle):
     def __init__(self, database):
         super().__init__()
         self.db = database
-
+        self.create_routes()
+        
+    def create_routes(self):
         # Routes for component styles
         self.get("/css/<filepath:re:.*\.css>", callback=self.get_css)
         self.get("/img/<filepath:re:.*\.(jpg|png|gif|ico|svg)>", callback=self.get_images)
