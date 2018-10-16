@@ -11,7 +11,7 @@ class MambasDatabase():
     def __init__(self):
         mambas_path = self.create_and_get_home()
         self.db_path = os.path.join(mambas_path, "database.db")
-        self.init()
+        self.init_tables()
 
     # PROJECTS --------------------------------------------------------------------------
 
@@ -190,7 +190,7 @@ class MambasDatabase():
 
     # UTILS ----------------------------------------------------------------------------
 
-    def init(self):
+    def init_tables(self):
         conn = sqlite3.connect(self.db_path)
         with conn:
             cursor = conn.cursor()
