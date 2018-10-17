@@ -20,7 +20,7 @@ class MambasCallback(Callback):
         answer = self.__send("post", path)
 
         message = {}
-        message["start"] = "True"
+        message["start"] = 1
 
         if answer is not None:
             self.id_session = answer["id_session"]
@@ -63,7 +63,7 @@ class MambasCallback(Callback):
 
     def on_train_end(self, logs=None):
         message = {}
-        message["end"] = "True"
+        message["end"] = 1
 
         if self.id_session is not None:
             path = "{}/api/projects/{}/sessions/{}".format(self.root, self.id_project, self.id_session)

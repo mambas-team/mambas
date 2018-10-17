@@ -85,7 +85,7 @@ class MambasDatabase():
         return session
 
     def get_session(self, id_session):
-        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, host, id_project FROM sessions WHERE id_session = ?"
+        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project FROM sessions WHERE id_session = ?"
         vars = [id_session]
         rows = self.query(query, vars).fetchall()
         session = None
@@ -96,13 +96,14 @@ class MambasDatabase():
             dt_start = datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") if row[2] is not None else None
             dt_end = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S") if row[3] is not None else None
             is_active = row[4]
-            host = row[5]
-            id_project = row[6]
-            session = models.Session(id_session, session_index, dt_start, dt_end, is_active, host, id_project)
+            is_favorite = row[5]
+            host = row[6]
+            id_project = row[7]
+            session = models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project)
         return session
 
     def get_sessions_for_project(self, id_project):
-        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, host, id_project FROM sessions WHERE id_project = ?"
+        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project FROM sessions WHERE id_project = ?"
         vars = [id_project]
         rows = self.query(query, vars).fetchall()
         sessions = []
@@ -112,9 +113,10 @@ class MambasDatabase():
             dt_start = datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") if row[2] is not None else None
             dt_end = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S") if row[3] is not None else None
             is_active = row[4]
-            host = row[5]
-            id_project = row[6]
-            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, host, id_project))
+            is_favorite = row[5]
+            host = row[6]
+            id_project = row[7]
+            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project))
         return sessions
 
     def set_session_inactive(self, id_session):
@@ -134,6 +136,13 @@ class MambasDatabase():
     def set_session_end_time(self, id_session, dt_end):
         query = "UPDATE sessions SET dt_end = ? WHERE id_session = ?"
         vars = (dt_end.strftime("%Y-%m-%d %H:%M:%S"), id_session)
+        self.query(query, vars)
+        session = self.get_session(id_session)
+        return session
+
+    def set_session_is_favorite(self, id_session, is_favorite):
+        query = "UPDATE sessions SET is_favorite = ? WHERE id_session = ?"
+        vars = (bool(is_favorite), id_session)
         self.query(query, vars)
         session = self.get_session(id_session)
         return session

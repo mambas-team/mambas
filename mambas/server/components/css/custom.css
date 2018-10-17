@@ -15,6 +15,12 @@
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
 }
 
+@media (max-width: 991px) {
+    .sidebar::before, .off-canvas-sidebar nav .navbar-collapse::before {
+        background-color: white;
+    }
+}
+
 .icon-lg-gray {
     color: #CCCCCC;
     font-size: 5rem;
@@ -69,7 +75,7 @@
     height: 0;
 }
 
-.btn-toggle .icons i {
+.btn-toggle .icons.animated i {
     -webkit-transition: all .2s cubic-bezier(.4, 0, .2, 1);
     transition: all .2s cubic-bezier(.4, 0, .2, 1);
 }
@@ -106,8 +112,16 @@
     display: inline-block;
 }
 
+.material-icons {
+    vertical-align: middle;
+}
+
 .btn.btn-just-icon .material-icons {
     font-size: 24px;
+}
+
+.btn.btn-just-icon .material-icons.icon-favorite {
+    color: #63CAC6;
 }
 
 .morris-hover.morris-default-style {

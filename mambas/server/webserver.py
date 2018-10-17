@@ -121,6 +121,9 @@ class MambasWebserver(bottle.Bottle):
         # Load message
         message = json.load(bottle.request.body)
         project_name = message["name"]
+        if len(project_name) < 1:
+            bottle.abort(400)
+        # Generate token
         time = datetime.datetime.now()
         time_str = str(time).encode("utf-8")
         hash = hashlib.md5(time_str)
@@ -142,6 +145,8 @@ class MambasWebserver(bottle.Bottle):
             self.delete_session(id_project, session.id_session)
         # Delete this project
         self.db.delete_project(project.id_project)
+        # Return empty answer
+        return {}
 
     def delete_session(self, id_project, id_session):
         # Get session
@@ -153,6 +158,8 @@ class MambasWebserver(bottle.Bottle):
             self.db.delete_epoch(epoch.id_epoch)
         # Delete this session
         self.db.delete_session(session.id_session)
+        # Return empty answer
+        return {}
 
     def post_session(self, id_project):
         # Check if project exists
@@ -163,7 +170,7 @@ class MambasWebserver(bottle.Bottle):
         project = self.db.increment_project_session_counter(id_project)
         session_index = project.session_counter
         # Get host ip address
-        host = bottle.request.environ.get('HTTP_X_FORWARDED_FOR') or bottle.request.environ.get('REMOTE_ADDR')
+        host = bottle.request.environ.get("HTTP_X_FORWARDED_FOR") or bottle.request.environ.get("REMOTE_ADDR")
         # Create session
         session = self.db.create_session_for_project(session_index, host, id_project)
         # Prepare answer
@@ -189,10 +196,14 @@ class MambasWebserver(bottle.Bottle):
             model = message["model"]
             # TODO: store model in database
         if "end" in message and bool(message["end"]):
-            # Set session is_active flag to False
+            # Set session end time and set it inactive
             self.db.set_session_end_time(session.id_session, datetime.datetime.now())
-            # Set session end time
             self.db.set_session_inactive(session.id_session)
+        if "is_favorite" in message:
+            self.db.set_session_is_favorite(session.id_session, message["is_favorite"])
+        # Return empty answer
+        #return {}
+        return bottle.abort()
 
     def post_epoch(self, id_project, id_session):
         # Check if project exists

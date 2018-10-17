@@ -120,6 +120,7 @@ class ProjectSessionsView(ProjectView):
             if session.dt_start is not None and session.dt_end is not None:
                 list_session["duration"] = session.dt_end - session.dt_start
             list_session["is_active"] = session.is_active
+            list_session["is_favorite"] = session.is_favorite
             list_session["host"] = session.host
             list_session["id_project"] = self.project.id_project
             list_session["name"] = "{}: {}".format(self.project.name, session.index)
@@ -181,6 +182,13 @@ class SessionView(BaseView):
         self.view_model["number_epochs"] = len(self.epochs)
         if self.session.dt_start is not None and self.session.dt_end is not None:
             self.view_model["duration"] = self.session.dt_end - self.session.dt_start
+
+        icon_mark_favorite = {}
+        icon_mark_favorite["type"] = "mark_favorite"
+        icon_mark_favorite["is_favorite"] = self.session.is_favorite
+        icon_mark_favorite["id_project"] = self.session.id_project
+        icon_mark_favorite["id_session"] = self.session.id_session
+        self.add_icon(icon_mark_favorite)
 
         icon_delete_session = {}
         icon_delete_session["type"] = "delete_session"

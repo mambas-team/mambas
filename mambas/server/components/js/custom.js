@@ -140,7 +140,31 @@ mambas = {
         });
     },
 
-    showChart: function(elem, mode="epoch") {
+    changeSessionFavorite: async function(idProject, idSession, isFavorite) {
+        var url = "/api/projects/" + idProject + "/sessions/" + idSession;
+        var json = JSON.stringify({"is_favorite": isFavorite ? 1 : 0});
+        var success = false;
+        await $.ajax({
+            url: url,
+            type: "PUT",
+            contentType: "application/json",
+            data: json
+        }).done(() => {
+            success = true;
+        }).fail((data) => {
+            var verb = isFavorite ? "mark" : "unmark";
+            swal({
+                title: "Error",
+                html: "Could not " + verb + " this Session as favorite.",
+                type: "error",
+                confirmButtonClass: "btn",
+                buttonsStyling: false
+            });
+        }).catch(() => {});
+        return success;
+    },
+
+    showChart: function(elem, mode = "epoch") {
         elem.empty();
         var id = elem.attr("id");
         var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
@@ -201,6 +225,9 @@ mambas = {
 $(function() {
     "use strict";
 
+    // NAVIGATION -----------------------------------------------------------------------
+
+    // Add 'active' and 'show' classes to current activated navigation items
     $(function() {
         var path = window.location.pathname;
         path = path.replace(/\/$/, "");
@@ -214,7 +241,8 @@ $(function() {
         })
     });
 
-    // TODO: Move into mambas Object
+    // TABLE ----------------------------------------------------------------------------
+
     $(".clickable-row").click(function(event) {
         var elem = $(event.target);
         if(elem.parents("button").length < 1 && !elem.is("button") &&
@@ -223,17 +251,34 @@ $(function() {
         }
     });
 
-    $(".btn-toggle").click(function(event) {
+    // TOGGLE BUTTON --------------------------------------------------------------------
+
+    // Add 'checked' class to icons on loading when checkbox is initial checked
+    $(".btn-toggle").each(function() {
         var cb = $(this).find("input:checkbox");
-        cb.trigger("click");
         var state = cb.is(":checked");
         var icons = $(this).find(".icons");
+        icons.removeClass("animated");
+        if(state) {
+            icons.addClass("checked");
+        }
+    });
+
+    // Trigger checkbox to handle click event and change icons
+    $(".btn-toggle").click(function(event) {
+        var cb = $(this).find("input:checkbox");
+        cb.click();
+        var state = cb.is(":checked");
+        var icons = $(this).find(".icons");
+        icons.addClass("animated");
         if(state) {
             icons.addClass("checked");
         } else {
             icons.removeClass("checked");
         }
     });
+
+    // CHART ----------------------------------------------------------------------------
 
     $(".chart").each(function() {
         var chart = $(this);
@@ -262,6 +307,27 @@ $(function() {
                 mambas.showChart(chart, "time");
             } else {
                 mambas.showChart(chart);
+            }
+        }
+    });
+
+    // MARK SESSION BUTTON --------------------------------------------------------------
+
+    $(".mark-session").on("click", async function() {
+        var idProject = $(this).data("id-project");
+        var idSession = $(this).data("id-session");
+        var isFavorite = $(this).is(":checked");
+        var successful = await mambas.changeSessionFavorite(idProject, idSession, isFavorite);
+        if(!successful) {
+            $(this).prop("checked", !isFavorite);
+            var button = $(this).parent(".btn-toggle");
+            var state = $(this).is(":checked");
+            var icons = button.find(".icons");
+            icons.removeClass("animated");
+            if(state) {
+                icons.addClass("checked");
+            } else {
+                icons.removeClass("checked");
             }
         }
     });

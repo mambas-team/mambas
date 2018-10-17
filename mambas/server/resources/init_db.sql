@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS sessions (
     dt_end TIMESTAMP,
     is_active BIT DEFAULT 1,
     host VARCHAR(30),
+    is_favorite BIT DEFAULT 0,
     id_project INTEGER NOT NULL,
     FOREIGN KEY(id_project) REFERENCES projects(id_project)
 );

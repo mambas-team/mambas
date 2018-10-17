@@ -64,7 +64,7 @@ class TestProjectView():
 
     def test_set_project_sessions(self):
         project_view = views.ProjectView()
-        sessions = [models.Session(1, 1, None, None, True, "127.0.0.1", 1)]
+        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
         project_view.set_project_sessions(sessions)
         assert project_view.sessions[0] == sessions[0]
 
@@ -72,7 +72,7 @@ class TestProjectView():
         project_view = views.ProjectView()
         project = models.Project(1, "Project1", 0, "token")
         project_view.set_project(project)
-        sessions = [models.Session(1, 1, None, None, True, "127.0.0.1", 1)]
+        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
         project_view.set_project_sessions(sessions)
         project_view.render()
         assert project_view.view_model["title"] == "Project1"
@@ -106,7 +106,7 @@ class TestProjectSessionView():
         project_sessions_view = views.ProjectSessionsView()
         project = models.Project(1, "Project1", 0, "token")
         project_sessions_view.set_project(project)
-        sessions = [models.Session(1, 1, None, None, True, "127.0.0.1", 1)]
+        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
         project_sessions_view.set_project_sessions(sessions)
         project_sessions_view.render()
         assert project_sessions_view.view_model["list_sessions"][0]["id"] == 1
@@ -129,7 +129,7 @@ class TestSessionView():
 
     def test_set_session(self):
         session_view = views.SessionView()
-        session = models.Session(1, 1, None, None, True, "127.0.0.1", 1)
+        session = models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)
         session_view.set_session(session)
         assert session_view.session == session
 
@@ -143,7 +143,7 @@ class TestSessionView():
         session_view = views.SessionView()
         project = models.Project(1, "Project1", 0, "token")
         session_view.set_project(project)
-        session = models.Session(1, 1, None, None, True, "127.0.0.1", 1)
+        session = models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)
         session_view.set_session(session)
         epochs = [models.Epoch(1, 0, {"loss": 0, "acc": 1, "custom": 2}, datetime.datetime.now(), 1)]
         session_view.set_session_epochs(epochs)

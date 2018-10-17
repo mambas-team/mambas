@@ -108,25 +108,35 @@
                     <ul class="navbar-nav">
                     % for icon in icons:
                         % if icon['type'] == 'create_project':
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Create a new Project" onclick="mambas.createProject()">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Create a new Project" onclick="mambas.createProject()">
                             <i class="material-icons">add</i>
                             <div class="ripple-container"></div>
                         </button>
                         % elif icon['type'] == 'display_token':
                         % token = icon['token']
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Display Token" onclick="mambas.displayToken('{{ token }}')">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Display Token" onclick="mambas.displayToken('{{ token }}')">
                             <i class="material-icons">confirmation_number</i>
                             <div class="ripple-container"></div>
                         </button>
                         % elif icon['type'] == 'delete_project':
                         % project_name, id_project = icon['project_name'], icon['id_project']
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Project {{ project_name }}" onclick="mambas.deleteProject('{{ project_name }}', '{{ id_project }}', '/')">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Project {{ project_name }}" onclick="mambas.deleteProject('{{ project_name }}', '{{ id_project }}', '/')">
                             <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>
                         </button>
+                        % elif icon['type'] == 'mark_favorite':
+                        % is_favorite, id_project, id_session = icon['is_favorite'], icon['id_project'], icon['id_session']
+                        <button type="button" class="btn btn-link btn-just-icon btn-toggle">
+                            % attr = 'checked' if is_favorite else ''
+                            <input type="checkbox" class="mark-session" data-id-project="{{ id_project }}" data-id-session="{{ id_session }}" {{ attr }}>
+                            <span class="icons">
+                                <i rel="tooltip" class="material-icons" title="Mark as favorite">favorite_border</i>
+                                <i rel="tooltip" class="material-icons icon-favorite" title="Unmark as favorite">favorite</i>
+                            </span>
+                        </button>
                         % elif icon['type'] == 'delete_session':
                         % session_name, id_project, id_session = icon['session_name'], icon['id_project'], icon['id_session']
-                        <button type="button" rel="tooltip" class="btn btn-white btn-round btn-just-icon" title="Delete Session {{ session_name }}" onclick="mambas.deleteSession('{{ session_name }}', '{{ id_project }}', '{{ id_session }}', '/projects/{{ id_project }}')">
+                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ session_name }}" onclick="mambas.deleteSession('{{ session_name }}', '{{ id_project }}', '{{ id_session }}', '/projects/{{ id_project }}')">
                             <i class="material-icons">delete</i>
                             <div class="ripple-container"></div>
                         </button>
