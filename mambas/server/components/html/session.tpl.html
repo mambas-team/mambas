@@ -81,7 +81,7 @@
                                             <i rel="tooltip" class="material-icons" title="Show epochs on x-axis">equalizer</i>
                                         </span>
                                     </button>
-                                    <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
+                                    <button type="button" id="chart-download-loss" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
                                         <i class="material-icons">save_alt</i>
                                     </button>
                                 </ul>
@@ -90,7 +90,7 @@
                         </nav>
                     </div>
                     <div class="card-body">
-                        <div id="chart-loss" class="chart" data-key="loss" data-data="{{ !graphs['loss'] }}" data-toggle-id="chart-toggle-loss"></div>
+                        <div id="chart-loss" class="chart" data-data="{{ !graphs['loss']['data'] }}" data-toggle-id="chart-toggle-loss" data-download-id="chart-download-loss" data-name="{{ !graphs['loss']['name'] }}"></div>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                                                 <i rel="tooltip" class="material-icons" title="Show epochs on x-axis">equalizer</i>
                                             </span>
                                         </button>
-                                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
+                                        <button type="button" id="chart-download-acc" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
                                             <i class="material-icons">save_alt</i>
                                         </button>
                                     </ul>
@@ -130,7 +130,7 @@
                         </nav>
                     </div>
                     <div class="card-body">
-                        <div id="chart-acc" class="chart" data-key="acc" data-data="{{ !graphs['acc'] }}" data-toggle-id="chart-toggle-acc"></div>
+                        <div id="chart-acc" class="chart" data-data="{{ !graphs['acc']['data'] }}" data-toggle-id="chart-toggle-acc" data-download-id="chart-download-acc" data-name="{{ !graphs['acc']['name'] }}"></div>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
                                                 <i rel="tooltip" class="material-icons" title="Show epochs on x-axis">equalizer</i>
                                             </span>
                                         </button>
-                                        <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
+                                        <button type="button" id="chart-download-custom" rel="tooltip" class="btn btn-link btn-just-icon" title="Download data">
                                             <i class="material-icons">save_alt</i>
                                         </button>
                                     </ul>
@@ -182,10 +182,10 @@
                         </ul>
                         <div class="tab-content tab-space">
                             % for i, k in enumerate(custom_graphs):
-                            % v = custom_graphs[k]
+                            % v, name = custom_graphs[k]['data'], custom_graphs[k]['name']
                             % active = 'active' if i < 1 else ''
                             <div class="tab-pane {{ active }}" id="tab-{{ k }}">
-                                <div id="chart-{{ k }}" class="chart" data-key="{{ k }}" data-data="{{ !v }}" data-toggle-id="chart-toggle-custom"></div>
+                                <div id="chart-{{ k }}" class="chart" data-data="{{ !v }}" data-toggle-id="chart-toggle-custom" data-download-id="chart-download-custom" data-name="{{ name }}"></div>
                             </div>
                             % end
                         </div>

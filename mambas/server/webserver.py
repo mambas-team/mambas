@@ -202,8 +202,7 @@ class MambasWebserver(bottle.Bottle):
         if "is_favorite" in message:
             self.db.set_session_is_favorite(session.id_session, message["is_favorite"])
         # Return empty answer
-        #return {}
-        return bottle.abort()
+        return {}
 
     def post_epoch(self, id_project, id_session):
         # Check if project exists

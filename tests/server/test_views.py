@@ -153,12 +153,12 @@ class TestSessionView():
         assert session_view.view_model["breadcrumbs"][1]["label"] == "Sessions"
         assert session_view.view_model["breadcrumbs"][1]["url"] == "/projects/1/sessions"
         assert session_view.view_model["breadcrumbs"][2]["url"] == "/projects/1/sessions/1"
-        assert session_view.view_model["graphs"]["loss"][0]["epoch"] == 0
-        assert session_view.view_model["graphs"]["loss"][0]["loss"] == 0
-        assert session_view.view_model["graphs"]["acc"][0]["epoch"] == 0
-        assert session_view.view_model["graphs"]["acc"][0]["acc"] == 1
-        assert session_view.view_model["graphs"]["custom"][0]["epoch"] == 0
-        assert session_view.view_model["graphs"]["custom"][0]["custom"] == 2
+        assert session_view.view_model["graphs"]["loss"]["data"][0]["epoch"] == 0
+        assert session_view.view_model["graphs"]["loss"]["data"][0]["loss"] == 0
+        assert session_view.view_model["graphs"]["acc"]["data"][0]["epoch"] == 0
+        assert session_view.view_model["graphs"]["acc"]["data"][0]["acc"] == 1
+        assert session_view.view_model["graphs"]["custom"]["data"][0]["epoch"] == 0
+        assert session_view.view_model["graphs"]["custom"]["data"][0]["custom"] == 2
         assert session_view.view_model["is_active"] == True
         assert session_view.view_model["number_epochs"] == 1
         assert any(d["type"] == "delete_session" for d in session_view.view_model["icons"])

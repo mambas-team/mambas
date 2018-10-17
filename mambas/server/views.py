@@ -159,24 +159,33 @@ class SessionView(BaseView):
                 if "loss" in k:
                     graph_name = "loss"
                     if not graph_name in self.view_model["graphs"].keys():
-                        self.view_model["graphs"][graph_name] = []
-                    if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]):
-                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
-                    next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
+                        self.view_model["graphs"][graph_name] = {}
+                        name = "{}-Session{}-{}".format(self.project.name, self.session.index, "loss")
+                        self.view_model["graphs"][graph_name]["name"] = name.lower()
+                        self.view_model["graphs"][graph_name]["data"] = []
+                    if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]["data"]):
+                        self.view_model["graphs"][graph_name]["data"].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
+                    next(d for d in self.view_model["graphs"][graph_name]["data"] if d["epoch"] == epoch.index)[k] = v
                 elif "acc" in k:
                     graph_name = "acc"
                     if not graph_name in self.view_model["graphs"].keys():
-                        self.view_model["graphs"][graph_name] = []
-                    if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]):
-                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
-                    next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
+                        self.view_model["graphs"][graph_name] = {}
+                        name = "{}-Session{}-{}".format(self.project.name, self.session.index, "accuracy")
+                        self.view_model["graphs"][graph_name]["name"] = name.lower()
+                        self.view_model["graphs"][graph_name]["data"] = []
+                    if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]["data"]):
+                        self.view_model["graphs"][graph_name]["data"].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
+                    next(d for d in self.view_model["graphs"][graph_name]["data"] if d["epoch"] == epoch.index)[k] = v
                 else:
                     graph_name = k
                     if not graph_name in self.view_model["graphs"].keys():
-                        self.view_model["graphs"][graph_name] = []
-                    if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]):
-                        self.view_model["graphs"][graph_name].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
-                    next(d for d in self.view_model["graphs"][graph_name] if d["epoch"] == epoch.index)[k] = v
+                        self.view_model["graphs"][graph_name] = {}
+                        name = "{}-Session{}-{}".format(self.project.name, self.session.index, graph_name)
+                        self.view_model["graphs"][graph_name]["name"] = name.lower()
+                        self.view_model["graphs"][graph_name]["data"] = []
+                    if not any(d["epoch"] == epoch.index for d in self.view_model["graphs"][graph_name]["data"]):
+                        self.view_model["graphs"][graph_name]["data"].append({"epoch": epoch.index, "time": epoch.time.strftime("%Y-%m-%d %H:%M:%S")})
+                    next(d for d in self.view_model["graphs"][graph_name]["data"] if d["epoch"] == epoch.index)[k] = v
 
         self.view_model["is_active"] = self.session.is_active
         self.view_model["number_epochs"] = len(self.epochs)

@@ -278,7 +278,7 @@ $(function() {
         }
     });
 
-    // CHART ----------------------------------------------------------------------------
+    // CHART TOGGLE ---------------------------------------------------------------------
 
     $(".chart").each(function() {
         var chart = $(this);
@@ -330,5 +330,30 @@ $(function() {
                 icons.removeClass("checked");
             }
         }
+    });
+
+    // CHART DOWNLOAD DATA --------------------------------------------------------------
+
+    function downloadObjectAsJson(exportObj, exportName) {
+        var json = JSON.stringify(exportObj);
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json);
+        var downloadAnchorNode = document.createElement("a");
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", exportName + ".json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
+
+    $(".chart").each(function() {
+        var chart = $(this);
+        var idDownload = chart.data("download-id");
+        var download = $("#" + idDownload);
+        var data = JSON.parse(chart.data("data").replace(new RegExp("'", "g"), '"'));
+        download.on("click", function() {
+            if(chart.is(":visible")) {
+                downloadObjectAsJson(data, chart.data("name"));
+            }
+        });
     });
 });
