@@ -72,6 +72,9 @@ class ProjectView(BaseView):
     def set_project_sessions(self, sessions):
         self.sessions = sessions
 
+    def set_project_sessions_epochs(self, sessions_epochs):
+        self.sessions_epochs = sessions_epochs
+
     def render(self):
         self.set_title(self.project.name)
 
@@ -112,7 +115,7 @@ class ProjectSessionsView(ProjectView):
         super().render()
 
         self.view_model["list_sessions"] = []
-        for session in self.sessions:
+        for i, session in enumerate(self.sessions):
             list_session = {}
             list_session["id"] = session.id_session
             list_session["index"] = session.index
@@ -121,7 +124,12 @@ class ProjectSessionsView(ProjectView):
                 list_session["duration"] = session.dt_end - session.dt_start
             list_session["is_active"] = session.is_active
             list_session["is_favorite"] = session.is_favorite
-            list_session["host"] = session.host
+            losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i] if "loss" in epoch.metrics]
+            if len(losses) > 0:
+                list_session["loss"] = round(min(losses), 2)
+            accs = [epoch.metrics["acc"] for epoch in self.sessions_epochs[i] if "acc" in epoch.metrics]
+            if len(accs) > 0:
+                list_session["acc"] = round(max(accs), 2)
             list_session["id_project"] = self.project.id_project
             list_session["name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)

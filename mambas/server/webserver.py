@@ -93,6 +93,8 @@ class MambasWebserver(bottle.Bottle):
         view.set_project(project)
         sessions = self.db.get_sessions_for_project(id_project)
         view.set_project_sessions(sessions)
+        sessions_epochs = [self.db.get_epochs_for_session(session.id_session) for session in sessions]
+        view.set_project_sessions_epochs(sessions_epochs)
         navigation_projects = self.db.get_all_projects()
         view.set_navigation_projects(navigation_projects)
         return view.create()

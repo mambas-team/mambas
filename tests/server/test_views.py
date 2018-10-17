@@ -108,10 +108,14 @@ class TestProjectSessionView():
         project_sessions_view.set_project(project)
         sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
         project_sessions_view.set_project_sessions(sessions)
+        sessions_epochs = [[models.Epoch(1, 0, {"loss": 0, "acc": 1, "custom": 2}, datetime.datetime.now(), 1)]]
+        project_sessions_view.set_project_sessions_epochs(sessions_epochs)
         project_sessions_view.render()
         assert project_sessions_view.view_model["list_sessions"][0]["id"] == 1
         assert project_sessions_view.view_model["list_sessions"][0]["index"] == 1
         assert project_sessions_view.view_model["list_sessions"][0]["is_active"] == True
+        assert project_sessions_view.view_model["list_sessions"][0]["loss"] == 0
+        assert project_sessions_view.view_model["list_sessions"][0]["acc"] == 1
         assert project_sessions_view.view_model["breadcrumbs"][1]["label"] == "Sessions"
         assert project_sessions_view.view_model["breadcrumbs"][1]["url"] == "/projects/1/sessions"
 

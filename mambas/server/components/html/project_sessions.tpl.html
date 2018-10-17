@@ -14,15 +14,16 @@
                             <th>Status</th>
                             <th>Start date</th>
                             <th>Duration</th>
-                            <th>Host</th>
+                            <th>Loss</th>
+                            <th>Accuracy</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         % for session in list_sessions:
                         % id, index, start_date = session['id'], session['index'], session['start_date']
-                        % host, is_active, is_favorite = session['host'], session['is_active'], session['is_favorite']
-                        % id_project = session['id_project']
+                        % is_active = session['is_active']
+                        % is_favorite, id_project = session['is_favorite'], session['id_project']
                         % name = session['name']
                         <tr class="clickable-row" data-href="sessions/{{ id }}">
                             <th class="text-center">{{ index }}</th>
@@ -43,7 +44,20 @@
                                 % end
                             </td>
                             <td>
-                                {{ host }}
+                                % if 'loss' in session.keys():
+                                % loss = session['loss']
+                                {{ loss }}
+                                % else:
+                                -
+                                % end
+                            </td>
+                            <td>
+                                % if 'acc' in session.keys():
+                                % acc = session['acc']
+                                {{ acc }}
+                                % else:
+                                -
+                                % end
                             </td>
                             <td class="text-right">
                                 <button type="button" class="btn btn-link btn-just-icon btn-toggle">
