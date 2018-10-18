@@ -162,63 +162,6 @@ mambas = {
             });
         }).catch(() => {});
         return success;
-    },
-
-    showChart: function(elem, mode = "epoch") {
-        elem.empty();
-        var id = elem.attr("id");
-        var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
-        var keys = [], labels = [];
-        for(key in data[0]) {
-            if(key != "epoch" && key != "time") {
-                keys.push(key);
-            }
-        }
-        for(var i = 0; i < keys.length; i++) {
-            var key = keys[i]; 
-            if(key == "loss") {
-                labels.push("Loss");
-            } else if(key == "val_loss") {
-                labels.push("Validation loss");
-            } else if(key == "acc") {
-                labels.push("Accuracy");
-            } else if(key == "val_acc") {
-                labels.push("Validation accuracy");
-            } else {
-                labels.push(key);
-            }
-        }
-        var parseTime = mode == "time";
-        Morris.Area({
-            element: id,
-            data: data,
-            xkey: mode,
-            ykeys: keys,
-            labels: labels,
-            parseTime: parseTime,
-            pointSize: 0,
-            fillOpacity: 0,
-            behaveLikeLine: true,
-            gridLineColor: "#e0e0e0",
-            lineWidth: 4,
-            hideHover: "auto",
-            lineColors: mambas.colors,
-            resize: true,
-            hoverCallback: function (index, options, content, row) {
-                var result = "";
-                result += "<span style='font-weight: bold'>Epoch " + data[index].epoch;
-                result += "<br>" + data[index].time + "</span>";
-                for(var i = 0; i < keys.length; i++) {
-                    var key = keys[i];
-                    var label = labels[i];
-                    var color = mambas.colors[i];
-                    result += "<br>" + "<span style='color: " + color + "'>&#x25cf;</span> ";
-                    result += label + ": ";
-                    result += data[index][key].toPrecision(5);
-                }
-                return result;
-            }
-        });
     }
 };
 
@@ -278,38 +221,132 @@ $(function() {
         }
     });
 
-    // CHART TOGGLE ---------------------------------------------------------------------
+    // PROJECT CHART --------------------------------------------------------------------
 
-    $(".chart").each(function() {
-        var chart = $(this);
-        var idToggle = chart.data("toggle-id");
-        var toggle = $("#" + idToggle);
-        if(toggle.is(":checked")) {
-            mambas.showChart(chart, "time");
-        } else {
-            mambas.showChart(chart);
-        }
-        toggle.on("click", function(event) {
-            if($(this).is(":checked")) {
-                mambas.showChart(chart, "time");
-            } else {
-                mambas.showChart(chart);
+    $(".project-chart").each(function() {
+        var data = JSON.parse($(this).data("data").replace(new RegExp("'", "g"), '"'));
+        var key = $(this).data("key");
+        var label = $(this).data("label");
+        Morris.Area({
+            element: $(this).attr("id"),
+            data: data,
+            xkey: "session",
+            ykeys: [key],
+            labels: [label],
+            parseTime: false,
+            pointSize: 0,
+            fillOpacity: 0,
+            behaveLikeLine: true,
+            gridLineColor: "#FFFFFF",
+            gridTextColor: "#FFFFFF",
+            lineWidth: 4,
+            hideHover: "auto",
+            lineColors: ["#FFFFFF"],
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                var value = data[index][key].toPrecision(3);
+                var session = data[index]["session"];
+                var result = "<span style='font-weight: bold'>Session " + session + "</span>";
+                result += "<br>" + label + ": " + value;
+                return result;
             }
         });
     });
 
-    $(".chart").hideShow().on("visibilityChanged", function(event, visibility) {
+    // SESSION CHART --------------------------------------------------------------------
+
+    // Show session in correct mode when loaded and add click handler to switch mode
+    $(".session-chart").each(function() {
+        var chart = $(this);
+        var idToggle = chart.data("toggle-id");
+        if(idToggle) {
+            var toggle = $("#" + idToggle);
+            if(toggle.is(":checked")) {
+                displaySessionChart(chart, "time");
+            } else {
+                displaySessionChart(chart);
+            }
+            toggle.on("click", function(event) {
+                if($(this).is(":checked")) {
+                    displaySessionChart(chart, "time");
+                } else {
+                    displaySessionChart(chart);
+                }
+            });
+        }
+    });
+
+    // Show session in correct mode when visibility changed
+    $(".session-chart").hideShow().on("visibilityChanged", function(event, visibility) {
         if(visibility == "shown") {
             var chart = $(this);
             var idToggle = chart.data("toggle-id");
             var toggle = $("#" + idToggle);
             if(toggle.is(":checked")) {
-                mambas.showChart(chart, "time");
+                displaySessionChart(chart, "time");
             } else {
-                mambas.showChart(chart);
+                displaySessionChart(chart);
             }
         }
     });
+
+    // Method to display a session chart in a given mode ('epoch' or 'time')
+    function displaySessionChart(elem, mode = "epoch") {
+        elem.empty();
+        var id = elem.attr("id");
+        var data = JSON.parse(elem.data("data").replace(new RegExp("'", "g"), '"'));
+        var keys = [], labels = [];
+        for(key in data[0]) {
+            if(key != "epoch" && key != "time") {
+                keys.push(key);
+            }
+        }
+        for(var i = 0; i < keys.length; i++) {
+            var key = keys[i]; 
+            if(key == "loss") {
+                labels.push("Loss");
+            } else if(key == "val_loss") {
+                labels.push("Validation loss");
+            } else if(key == "acc") {
+                labels.push("Accuracy");
+            } else if(key == "val_acc") {
+                labels.push("Validation accuracy");
+            } else {
+                labels.push(key);
+            }
+        }
+        var parseTime = mode == "time";
+        Morris.Area({
+            element: id,
+            data: data,
+            xkey: mode,
+            ykeys: keys,
+            labels: labels,
+            parseTime: parseTime,
+            pointSize: 0,
+            fillOpacity: 0,
+            behaveLikeLine: true,
+            gridLineColor: "#e0e0e0",
+            lineWidth: 4,
+            hideHover: "auto",
+            lineColors: mambas.colors,
+            resize: true,
+            hoverCallback: function (index, options, content, row) {
+                var result = "";
+                result += "<span style='font-weight: bold'>Epoch " + data[index].epoch;
+                result += "<br>" + data[index].time + "</span>";
+                for(var i = 0; i < keys.length; i++) {
+                    var key = keys[i];
+                    var label = labels[i];
+                    var color = mambas.colors[i];
+                    result += "<br>" + "<span style='color: " + color + "'>&#x25cf;</span> ";
+                    result += label + ": ";
+                    result += data[index][key].toPrecision(5);
+                }
+                return result;
+            }
+        });
+    };
 
     // MARK SESSION BUTTON --------------------------------------------------------------
 
@@ -345,15 +382,17 @@ $(function() {
         downloadAnchorNode.remove();
     };
 
-    $(".chart").each(function() {
+    $(".session-chart").each(function() {
         var chart = $(this);
         var idDownload = chart.data("download-id");
-        var download = $("#" + idDownload);
-        var data = JSON.parse(chart.data("data").replace(new RegExp("'", "g"), '"'));
-        download.on("click", function() {
-            if(chart.is(":visible")) {
-                downloadObjectAsJson(data, chart.data("name"));
-            }
-        });
+        if(idDownload) {
+            var download = $("#" + idDownload);
+            var data = JSON.parse(chart.data("data").replace(new RegExp("'", "g"), '"'));
+            download.on("click", function() {
+                if(chart.is(":visible")) {
+                    downloadObjectAsJson(data, chart.data("name"));
+                }
+            });
+        }
     });
 });

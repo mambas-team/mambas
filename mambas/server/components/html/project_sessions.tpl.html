@@ -3,6 +3,45 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-md-4 col-sm-12">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">view_list</i>
+                </div>
+                <p class="card-category">Total sessions</p>
+                <h3 class="card-title">{{ number_sessions }}</h3>
+                </div>
+                <br>
+            </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                        <i class="fa fa-spinner"></i>
+                </div>
+                <p class="card-category">Running sessions</p>
+                <h3 class="card-title">{{ number_running_sessions }}</h3>
+                </div>
+                <br>
+            </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">favorite</i>
+                </div>
+                <p class="card-category">Favorite sessions</p>
+                <h3 class="card-title">{{ number_favorite_sessions }}</h3>
+                </div>
+                <br>
+            </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-12">
                 <div class="card card-plain">
                 <div class="card-body">

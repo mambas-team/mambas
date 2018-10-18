@@ -7,8 +7,16 @@
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
 }
 
+.card .card-header-rose .card-icon, .card .card-header-rose .card-text, .card .card-header-rose:not(.card-header-icon):not(.card-header-text), .card.bg-rose, .card.card-rotate.bg-rose .front, .card.card-rotate.bg-rose .back {
+    background: linear-gradient(60deg, #FF695F, #FF878D);
+}
+
 .btn.btn-info {
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
+}
+
+.btn.btn-error {
+    background: linear-gradient(60deg, #FF695F, #FF878D);
 }
 
 .sidebar[data-color="azure"] li.active > a {
@@ -98,6 +106,10 @@
     transform: rotate(360deg);
 }
 
+.card.card-plain {
+    margin: 0;
+}
+
 .card .card-header .navbar {
     margin-bottom: 0;
 }
@@ -132,6 +144,11 @@
     -webkit-transition: all .1s cubic-bezier(.4, 0, .2, 1);
     transition: all .1s cubic-bezier(.4, 0, .2, 1);
     font-size: 0.8625rem;
+    cursor: pointer;
+}
+
+.project-chart {
+    height: 150px;
 }
 
 .code {

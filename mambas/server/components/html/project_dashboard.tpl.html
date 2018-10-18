@@ -3,19 +3,59 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-            <a href="sessions">
-            <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">view_list</i>
+            <div class="col-md-6 col-sm-12">
+            <div class="card card-chart">
+                % if 'sessions_loss_state' in locals():
+                % if sessions_loss_state == 'positive':
+                <div class="card-header card-header-success">
+                % elif sessions_loss_state == 'negative':
+                <div class="card-header card-header-rose">
+                % end
+                % else:
+                <div class="card-header card-header-info">
+                % end
+                    <div id="chart-loss" class="project-chart" data-data="{{ !graph_sessions_loss }}" data-key="loss" data-label="Loss"></div>
                 </div>
-                <p class="card-category">Total sessions</p>
-                <h3 class="card-title">{{ number_sessions }}</h3>
+                <div class="card-body">
+                    <h4 class="card-title">Loss
+                        % if 'sessions_loss_state' in locals():
+                        % if sessions_loss_state == 'positive':
+                        <i class="material-icons text-success">arrow_drop_down</i>
+                        % elif sessions_loss_state == 'negative':
+                        <i class="material-icons text-rose">arrow_drop_up</i>
+                        % end
+                        % end
+                    </h4>
+                    <p class="card-category">last {{ number_graph_sessions_loss }} sessions</p>
                 </div>
-                <br>
             </div>
-            </a>
+            </div>
+            <div class="col-md-6 col-sm-12">
+            <div class="card card-chart">
+                % if 'sessions_acc_state' in locals():
+                % if sessions_acc_state == 'positive':
+                <div class="card-header card-header-success">
+                % elif sessions_acc_state == 'negative':
+                <div class="card-header card-header-rose">
+                % end
+                % else:
+                <div class="card-header card-header-info">
+                % end
+                    <div id="chart-acc" class="project-chart" data-data="{{ !graph_sessions_acc }}" data-key="acc" data-label="Accuracy"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Accuracy
+                        % if 'sessions_acc_state' in locals():
+                        % if sessions_acc_state == 'positive':
+                        <i class="material-icons text-success">arrow_drop_up</i>
+                        % elif sessions_acc_state == 'negative':
+                        <i class="material-icons text-rose">arrow_drop_down</i>
+                        % end
+                        % end
+                    </h4>
+                    <p class="card-category">last {{ number_graph_sessions_acc }} sessions</p>
+                </div>
+            </div>
             </div>
         </div>
     </div>

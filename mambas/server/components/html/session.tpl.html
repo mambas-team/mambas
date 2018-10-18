@@ -58,6 +58,8 @@
         </div>
         <!-- End dashboard tiles -->
 
+        <h3>Metrics</h3>
+
         <!-- Loss graph -->
         % if 'loss' in graphs.keys():
         <div class="row">
@@ -90,7 +92,7 @@
                         </nav>
                     </div>
                     <div class="card-body">
-                        <div id="chart-loss" class="chart" data-data="{{ !graphs['loss']['data'] }}" data-toggle-id="chart-toggle-loss" data-download-id="chart-download-loss" data-name="{{ !graphs['loss']['name'] }}"></div>
+                        <div id="chart-loss" class="session-chart" data-data="{{ !graphs['loss']['data'] }}" data-toggle-id="chart-toggle-loss" data-download-id="chart-download-loss" data-name="{{ !graphs['loss']['name'] }}"></div>
                     </div>
                 </div>
             </div>
@@ -130,7 +132,7 @@
                         </nav>
                     </div>
                     <div class="card-body">
-                        <div id="chart-acc" class="chart" data-data="{{ !graphs['acc']['data'] }}" data-toggle-id="chart-toggle-acc" data-download-id="chart-download-acc" data-name="{{ !graphs['acc']['name'] }}"></div>
+                        <div id="chart-acc" class="session-chart" data-data="{{ !graphs['acc']['data'] }}" data-toggle-id="chart-toggle-acc" data-download-id="chart-download-acc" data-name="{{ !graphs['acc']['name'] }}"></div>
                     </div>
                 </div>
             </div>
@@ -185,7 +187,7 @@
                             % v, name = custom_graphs[k]['data'], custom_graphs[k]['name']
                             % active = 'active' if i < 1 else ''
                             <div class="tab-pane {{ active }}" id="tab-{{ k }}">
-                                <div id="chart-{{ k }}" class="chart" data-data="{{ !v }}" data-toggle-id="chart-toggle-custom" data-download-id="chart-download-custom" data-name="{{ name }}"></div>
+                                <div id="chart-{{ k }}" class="session-chart" data-data="{{ !v }}" data-toggle-id="chart-toggle-custom" data-download-id="chart-download-custom" data-name="{{ name }}"></div>
                             </div>
                             % end
                         </div>

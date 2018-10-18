@@ -91,8 +91,6 @@ class ProjectView(BaseView):
 
         self.add_breadcrumb(self.project.name, "/projects/{}".format(self.project.id_project))
 
-        self.view_model["number_sessions"] = len(self.sessions)
-
         if len(self.sessions) < 1:
             self.custom_template = "instructions"
 
@@ -105,6 +103,40 @@ class ProjectDashboardView(ProjectView):
     def render(self):
         super().render()
 
+        self.view_model["graph_sessions_loss"] = []
+        for i, session in enumerate(self.sessions[-10:]):
+            losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i] if "loss" in epoch.metrics]
+            if len(losses) > 0:
+                graph_sessions_loss_session = {}
+                graph_sessions_loss_session["session"] = session.index
+                graph_sessions_loss_session["loss"] = min(losses)
+                self.view_model["graph_sessions_loss"].append(graph_sessions_loss_session)
+        self.view_model["number_graph_sessions_loss"] = len(self.view_model["graph_sessions_loss"])
+
+        last_loss_sessions = self.view_model["graph_sessions_loss"][-2:]
+        if(len(last_loss_sessions) > 1):
+            if(last_loss_sessions[0]["loss"] - last_loss_sessions[1]["loss"] > 0):
+                self.view_model["sessions_loss_state"] = "positive"
+            if(last_loss_sessions[0]["loss"] - last_loss_sessions[1]["loss"] < 0):
+                self.view_model["sessions_loss_state"] = "negative"
+
+        self.view_model["graph_sessions_acc"] = []
+        for i, session in enumerate(self.sessions[-10:]):
+            accs = [epoch.metrics["acc"] for epoch in self.sessions_epochs[i] if "acc" in epoch.metrics]
+            if len(accs) > 0:
+                graph_sessions_acc_session = {}
+                graph_sessions_acc_session["session"] = session.index
+                graph_sessions_acc_session["acc"] = min(accs)
+                self.view_model["graph_sessions_acc"].append(graph_sessions_acc_session)
+        self.view_model["number_graph_sessions_acc"] = len(self.view_model["graph_sessions_acc"])
+
+        last_acc_sessions = self.view_model["graph_sessions_acc"][-2:]
+        if(len(last_acc_sessions) > 1):
+            if(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] > 0):
+                self.view_model["sessions_acc_state"] = "negative"
+            if(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] < 0):
+                self.view_model["sessions_acc_state"] = "positive"
+
 class ProjectSessionsView(ProjectView):
 
     def __init__(self):
@@ -113,6 +145,10 @@ class ProjectSessionsView(ProjectView):
 
     def render(self):
         super().render()
+
+        self.view_model["number_sessions"] = len(self.sessions)
+        self.view_model["number_running_sessions"] = sum([s.is_active for s in self.sessions])
+        self.view_model["number_favorite_sessions"] = sum([s.is_favorite for s in self.sessions])
 
         self.view_model["list_sessions"] = []
         for i, session in enumerate(self.sessions):

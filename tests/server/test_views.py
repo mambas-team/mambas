@@ -80,7 +80,6 @@ class TestProjectView():
         assert any(d["type"] == "delete_project" for d in project_view.view_model["icons"])
         assert project_view.view_model["breadcrumbs"][0]["label"] == "Project1"
         assert project_view.view_model["breadcrumbs"][0]["url"] == "/projects/1"
-        assert project_view.view_model["number_sessions"] == 1
 
     def test_render_instructions(self):
         project_view = views.ProjectView()
@@ -111,6 +110,7 @@ class TestProjectSessionView():
         sessions_epochs = [[models.Epoch(1, 0, {"loss": 0, "acc": 1, "custom": 2}, datetime.datetime.now(), 1)]]
         project_sessions_view.set_project_sessions_epochs(sessions_epochs)
         project_sessions_view.render()
+        assert project_sessions_view.view_model["number_sessions"] == 1
         assert project_sessions_view.view_model["list_sessions"][0]["id"] == 1
         assert project_sessions_view.view_model["list_sessions"][0]["index"] == 1
         assert project_sessions_view.view_model["list_sessions"][0]["is_active"] == True
