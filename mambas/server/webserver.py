@@ -64,8 +64,11 @@ class MambasWebserver(bottle.Bottle):
 
     def get_dashboard(self):
         view = views.DashboardView()
-        navigation_projects = self.db.get_all_projects()
-        view.set_navigation_projects(navigation_projects)
+        projects = self.db.get_all_projects()
+        view.set_projects(projects)
+        sessions = self.db.get_all_sessions()
+        view.set_sessions(sessions)
+        view.set_navigation_projects(projects)
         return view.create()
 
     def redirect_project_dashboard(self, id_project):

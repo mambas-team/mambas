@@ -119,6 +119,22 @@ class MambasDatabase():
             sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project))
         return sessions
 
+    def get_all_sessions(self):
+        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project FROM sessions"
+        rows = self.query(query).fetchall()
+        sessions = []
+        for row in rows:
+            id_session = row[0]
+            session_index = row[1]
+            dt_start = datetime.datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") if row[2] is not None else None
+            dt_end = datetime.datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S") if row[3] is not None else None
+            is_active = row[4]
+            is_favorite = row[5]
+            host = row[6]
+            id_project = row[7]
+            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project))
+        return sessions
+
     def set_session_inactive(self, id_session):
         query = "UPDATE sessions SET is_active = 0 WHERE id_session = ?"
         vars = [id_session]

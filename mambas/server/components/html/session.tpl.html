@@ -2,6 +2,9 @@
 
 <div class="content">
     <div class="container-fluid">
+        <div class="header text-center">
+            <h3 class="title">{{ title }}</h3>
+        </div>
         <!-- Dashboard tiles -->
         <div class="row">
             <div class="col-md-4 col-sm-12">
@@ -58,7 +61,7 @@
         </div>
         <!-- End dashboard tiles -->
 
-        <h3>Metrics</h3>
+        <h4>Metrics</h4>
 
         <!-- Loss graph -->
         % if 'loss' in graphs.keys():

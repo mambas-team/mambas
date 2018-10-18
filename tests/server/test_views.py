@@ -48,8 +48,12 @@ class TestDashboardView():
 
     def test_render(self):
         dashboard_view = views.DashboardView()
+        dashboard_view.set_projects([models.Project(1, "Project1", 0, "token")])
+        dashboard_view.set_sessions([models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)])
         dashboard_view.render()
         assert dashboard_view.view_model["title"] == "Dashboard"
+        assert dashboard_view.view_model["number_projects"] == 1
+        assert dashboard_view.view_model["number_running_sessions"] == 1
         assert dashboard_view.view_model["icons"][0]["type"] == "create_project"
         assert dashboard_view.view_model["breadcrumbs"][0]["label"] == "Dashboard"
         assert dashboard_view.view_model["breadcrumbs"][0]["url"] == "/dashboard"
@@ -75,7 +79,6 @@ class TestProjectView():
         sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
         project_view.set_project_sessions(sessions)
         project_view.render()
-        assert project_view.view_model["title"] == "Project1"
         assert any(d["type"] == "display_token" for d in project_view.view_model["icons"])
         assert any(d["type"] == "delete_project" for d in project_view.view_model["icons"])
         assert project_view.view_model["breadcrumbs"][0]["label"] == "Project1"

@@ -57,10 +57,19 @@ class DashboardView(BaseView):
         super().__init__()
         self.type = "dashboard"
 
+    def set_projects(self, projects):
+        self.projects = projects
+
+    def set_sessions(self, sessions):
+        self.sessions = sessions
+
     def render(self):
         self.set_title("Dashboard")
         self.add_icon({"type": "create_project"})
         self.add_breadcrumb("Dashboard", "/dashboard")
+
+        self.view_model["number_projects"] = len(self.projects)
+        self.view_model["number_running_sessions"] = sum([session.is_active for session in self.sessions])
 
 # PROJECT VIEWS -------------------------------------------------------------------------
 
@@ -76,8 +85,6 @@ class ProjectView(BaseView):
         self.sessions_epochs = sessions_epochs
 
     def render(self):
-        self.set_title(self.project.name)
-
         icon_display_token = {}
         icon_display_token["type"] = "display_token"
         icon_display_token["token"] = self.project.token
@@ -102,6 +109,8 @@ class ProjectDashboardView(ProjectView):
 
     def render(self):
         super().render()
+
+        self.set_title("{} Dashboard".format(self.project.name))
 
         self.view_model["graph_sessions_loss"] = []
         for i, session in enumerate(self.sessions[-10:]):
@@ -137,6 +146,26 @@ class ProjectDashboardView(ProjectView):
             if(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] < 0):
                 self.view_model["sessions_acc_state"] = "positive"
 
+        self.view_model["list_last_sessions"] = []
+        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[-5:]):
+            list_session = {}
+            list_session["id"] = session.id_session
+            list_session["index"] = session.index
+            list_session["start_date"] = session.dt_start
+            if session.dt_start is not None and session.dt_end is not None:
+                list_session["duration"] = session.dt_end - session.dt_start
+            list_session["is_active"] = session.is_active
+            list_session["is_favorite"] = session.is_favorite
+            losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i] if "loss" in epoch.metrics]
+            if len(losses) > 0:
+                list_session["loss"] = round(min(losses), 2)
+            accs = [epoch.metrics["acc"] for epoch in self.sessions_epochs[i] if "acc" in epoch.metrics]
+            if len(accs) > 0:
+                list_session["acc"] = round(max(accs), 2)
+            list_session["id_project"] = self.project.id_project
+            list_session["name"] = "{}: {}".format(self.project.name, session.index)
+            self.view_model["list_last_sessions"].append(list_session)
+
 class ProjectSessionsView(ProjectView):
 
     def __init__(self):
@@ -145,6 +174,8 @@ class ProjectSessionsView(ProjectView):
 
     def render(self):
         super().render()
+
+        self.set_title("{} Sessions".format(self.project.name))
 
         self.view_model["number_sessions"] = len(self.sessions)
         self.view_model["number_running_sessions"] = sum([s.is_active for s in self.sessions])
