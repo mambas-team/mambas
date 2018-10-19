@@ -2,12 +2,8 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="header text-center">
-            <h3 class="title">{{ title }}</h3>
-        </div>
-
         <div class="row">
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-6 col-sm-12">
             <div class="card card-stats">
                 <div class="card-header card-header-info card-header-icon">
                 <div class="card-icon">
@@ -19,29 +15,69 @@
                 <br>
             </div>
             </div>
-            <div class="col-md-4 col-sm-12">
+            <div class="col-md-6 col-sm-12">
             <div class="card card-stats">
+                % if number_running_sessions > 0:
                 <div class="card-header card-header-info card-header-icon">
                 <div class="card-icon">
-                    <i class="fa fa-spinner"></i>
+                    <i class="fa fa-spinner spin"></i>
                 </div>
+                % else:
+                <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                        <i class="material-icons">check</i>
+                </div>
+                % end
                 <p class="card-category">Running Sessions</p>
                 <h3 class="card-title">{{ number_running_sessions }}</h3>
                 </div>
                 <br>
             </div>
             </div>
-            <div class="col-md-4 col-sm-12">
-            <div class="card card-stats">
-                <div class="card-header card-header-info card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">favorite</i>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                <div class="card-header card-header-icon card-header-info">
+                    <div class="card-icon">
+                        <i class="material-icons">apps</i>
+                    </div>
+                    <h4 class="card-title ">Projects</h4>
                 </div>
-                <p class="card-category">Favorite Sessions</p>
-                <h3 class="card-title">{{ number_projects }}</h3>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sessions</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        % for project in list_projects:
+                        % name, number_sessions = project['name'], project['number_sessions']
+                        % id, token = project['id'], project['token']
+                        <tr class="clickable-row" data-href="projects/{{ id }}">
+                            <td>{{ name }}</td>
+                            <td>{{ number_sessions }}</td>
+                            <td class="text-right">
+                                <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Display Token" onclick="mambas.displayToken('{{ token }}')">
+                                    <i class="material-icons">confirmation_number</i>
+                                    <div class="ripple-container"></div>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Project {{ name }}" onclick="mambas.deleteProject('{{ name }}', '{{ id }}')">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                        % end
+                        </tbody>
+                    </table>
+                    </div>
                 </div>
-                <br>
-            </div>
+                </div>
             </div>
         </div>
     </div>

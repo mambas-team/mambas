@@ -71,6 +71,15 @@ class DashboardView(BaseView):
         self.view_model["number_projects"] = len(self.projects)
         self.view_model["number_running_sessions"] = sum([session.is_active for session in self.sessions])
 
+        self.view_model["list_projects"] = []
+        for project in self.projects:
+            list_project = {}
+            list_project["id"] = project.id_project
+            list_project["name"] = project.name
+            list_project["number_sessions"] = len([s for s in self.sessions if s.id_project == project.id_project])
+            list_project["token"] = project.token
+            self.view_model["list_projects"].append(list_project)
+
 # PROJECT VIEWS -------------------------------------------------------------------------
 
 class ProjectView(BaseView):
@@ -112,6 +121,8 @@ class ProjectDashboardView(ProjectView):
 
         self.set_title("{} Dashboard".format(self.project.name))
 
+        # Loss & Accuracy
+
         self.view_model["graph_sessions_loss"] = []
         for i, session in enumerate(self.sessions[-10:]):
             losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i] if "loss" in epoch.metrics]
@@ -146,6 +157,12 @@ class ProjectDashboardView(ProjectView):
             if(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] < 0):
                 self.view_model["sessions_acc_state"] = "positive"
 
+        # Sessions
+
+        self.view_model["number_sessions"] = len(self.sessions)
+        self.view_model["number_running_sessions"] = sum([s.is_active for s in self.sessions])
+        self.view_model["number_favorite_sessions"] = sum([s.is_favorite for s in self.sessions])
+
         self.view_model["list_last_sessions"] = []
         for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[-5:]):
             list_session = {}
@@ -176,10 +193,6 @@ class ProjectSessionsView(ProjectView):
         super().render()
 
         self.set_title("{} Sessions".format(self.project.name))
-
-        self.view_model["number_sessions"] = len(self.sessions)
-        self.view_model["number_running_sessions"] = sum([s.is_active for s in self.sessions])
-        self.view_model["number_favorite_sessions"] = sum([s.is_favorite for s in self.sessions])
 
         self.view_model["list_sessions"] = []
         for i, session in enumerate(self.sessions):
