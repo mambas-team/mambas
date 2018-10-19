@@ -66,7 +66,7 @@ mambas --port 8080
 
 ### Add Mambas callback to Keras
 ```
-mambas.keras.callback import MambasCallback
+from mambas.keras.callback import MambasCallback
 ...
 token = '<project_token>'
 callback = MambasCallback(token)
