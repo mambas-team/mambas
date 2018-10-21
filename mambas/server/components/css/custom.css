@@ -32,11 +32,11 @@
 }
 
 .btn.btn-error {
-    background: linear-gradient(60deg, #FF878D, #FF695F);
+    background: linear-gradient(60deg, #de516f, #FF695F);
 }
 
 .text-rose {
-    color: #FF695F !important;
+    color: #de516f !important;
 }
 
 .main-panel .header {
@@ -130,10 +130,6 @@
     margin: 0;
 }
 
-.card .card-header .navbar {
-    margin-bottom: 0;
-}
-
 .card .card-header .navbar i {
     width: 100%;
     height: 100%;
@@ -142,6 +138,10 @@
 
 .navbar .navbar-nav {
     display: inline-block;
+}
+
+.navbar .navbar-brand {
+   font-size: 1.4625rem;
 }
 
 .material-icons {
@@ -184,4 +184,20 @@
     text-align: left;
     max-width: 660px;
     list-style: none;
+}
+
+.material-datatables label {
+    display: inline-flex;
+}
+
+.material-datatables .dataTables_filter {
+    text-align: right !important;
+}
+
+.material-datatables .dataTables_filter input {
+    background-image: linear-gradient(to top, #00bcd4 2px, rgba(0, 188, 212, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+}
+
+.material-datatables .pagination {
+    justify-content: flex-end;
 }

@@ -71,6 +71,31 @@ class DashboardView(BaseView):
         self.view_model["number_projects"] = len(self.projects)
         self.view_model["number_running_sessions"] = sum([session.is_active for session in self.sessions])
 
+        self.view_model["list_projects"] = []
+        for project in self.projects:
+            list_project = {}
+            list_project["id"] = project.id_project
+            list_project["name"] = project.name
+            list_project["number_sessions"] = len([s for s in self.sessions if s.id_project == project.id_project])
+            list_project["token"] = project.token
+            self.view_model["list_projects"].append(list_project)
+
+        self.view_model["list_last_sessions"] = []
+        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[-5:]):
+            project = next(p for p in self.projects if p.id_project == session.id_project)
+            list_session = {}
+            list_session["id"] = session.id_session
+            list_session["index"] = session.index
+            list_session["start_date"] = session.dt_start
+            if session.dt_start is not None and session.dt_end is not None:
+                list_session["duration"] = session.dt_end - session.dt_start
+            list_session["project_name"] = project.name
+            list_session["is_active"] = session.is_active
+            list_session["is_favorite"] = session.is_favorite
+            list_session["id_project"] = session.id_project
+            list_session["name"] = "{}: {}".format(project.name, session.index)
+            self.view_model["list_last_sessions"].append(list_session)
+
 # PROJECT VIEWS -------------------------------------------------------------------------
 
 class ProjectView(BaseView):
@@ -112,6 +137,8 @@ class ProjectDashboardView(ProjectView):
 
         self.set_title("{} Dashboard".format(self.project.name))
 
+        # Loss & Accuracy
+
         self.view_model["graph_sessions_loss"] = []
         for i, session in enumerate(self.sessions[-10:]):
             losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i] if "loss" in epoch.metrics]
@@ -126,7 +153,7 @@ class ProjectDashboardView(ProjectView):
         if(len(last_loss_sessions) > 1):
             if(last_loss_sessions[0]["loss"] - last_loss_sessions[1]["loss"] > 0):
                 self.view_model["sessions_loss_state"] = "positive"
-            if(last_loss_sessions[0]["loss"] - last_loss_sessions[1]["loss"] < 0):
+            elif(last_loss_sessions[0]["loss"] - last_loss_sessions[1]["loss"] < 0):
                 self.view_model["sessions_loss_state"] = "negative"
 
         self.view_model["graph_sessions_acc"] = []
@@ -143,8 +170,14 @@ class ProjectDashboardView(ProjectView):
         if(len(last_acc_sessions) > 1):
             if(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] > 0):
                 self.view_model["sessions_acc_state"] = "negative"
-            if(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] < 0):
+            elif(last_acc_sessions[0]["acc"] - last_acc_sessions[1]["acc"] < 0):
                 self.view_model["sessions_acc_state"] = "positive"
+
+        # Sessions
+
+        self.view_model["number_sessions"] = len(self.sessions)
+        self.view_model["number_running_sessions"] = sum([s.is_active for s in self.sessions])
+        self.view_model["number_favorite_sessions"] = sum([s.is_favorite for s in self.sessions])
 
         self.view_model["list_last_sessions"] = []
         for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[-5:]):
@@ -177,10 +210,6 @@ class ProjectSessionsView(ProjectView):
 
         self.set_title("{} Sessions".format(self.project.name))
 
-        self.view_model["number_sessions"] = len(self.sessions)
-        self.view_model["number_running_sessions"] = sum([s.is_active for s in self.sessions])
-        self.view_model["number_favorite_sessions"] = sum([s.is_favorite for s in self.sessions])
-
         self.view_model["list_sessions"] = []
         for i, session in enumerate(self.sessions):
             list_session = {}
@@ -193,10 +222,26 @@ class ProjectSessionsView(ProjectView):
             list_session["is_favorite"] = session.is_favorite
             losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i] if "loss" in epoch.metrics]
             if len(losses) > 0:
-                list_session["loss"] = round(min(losses), 2)
+                min_loss = min(losses)
+                list_session["loss"] = round(min_loss, 2)
+                if(i > 0):
+                    last_losses = [epoch.metrics["loss"] for epoch in self.sessions_epochs[i-1] if "loss" in epoch.metrics]
+                    if(len(last_losses) > 0):
+                        if(min(last_losses) - min_loss > 0):
+                            list_session["loss_state"] = "positive"
+                        elif(min(last_losses) - min_loss < 0):
+                            list_session["loss_state"] = "negative"
             accs = [epoch.metrics["acc"] for epoch in self.sessions_epochs[i] if "acc" in epoch.metrics]
             if len(accs) > 0:
-                list_session["acc"] = round(max(accs), 2)
+                max_acc = max(accs)
+                list_session["acc"] = round(max_acc, 2)
+                if(i > 0):
+                    last_accs = [epoch.metrics["acc"] for epoch in self.sessions_epochs[i-1] if "acc" in epoch.metrics]
+                    if(len(last_accs) > 0):
+                        if(min(last_accs) - max_acc > 0):
+                            list_session["acc_state"] = "negative"
+                        elif(min(last_accs) - max_acc < 0):
+                            list_session["acc_state"] = "positive"
             list_session["id_project"] = self.project.id_project
             list_session["name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_sessions"].append(list_session)
