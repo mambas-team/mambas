@@ -195,7 +195,15 @@ $(function() {
     });
 
     $(".data-table").each(function() {
-        $(this).DataTable();
+        var table = $(this).DataTable({
+            "searching": true,
+            "lengthChange": false,
+            "pageLength": 2
+        });
+
+        $("#datatable-search").on("input", function() {
+            table.search(this.value).draw();
+        });
     });
 
     // TOGGLE BUTTON --------------------------------------------------------------------
