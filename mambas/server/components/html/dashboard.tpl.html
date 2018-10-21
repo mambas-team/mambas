@@ -80,6 +80,81 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                <div class="card-header card-header-icon card-header-info">
+                    <div class="card-icon">
+                        <i class="material-icons">view_list</i>
+                    </div>
+                    <h4 class="card-title ">Last Sessions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Status</th>
+                            <th>Start date</th>
+                            <th>Duration</th>
+                            <th>Project</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        % for session in list_last_sessions:
+                        % id, index, start_date = session['id'], session['index'], session['start_date']
+                        % is_active, project_name = session['is_active'], session['project_name']
+                        % is_favorite, id_project = session['is_favorite'], session['id_project']
+                        % name = session['name']
+                        <tr class="clickable-row" data-href="sessions/{{ id }}">
+                            <th class="text-center">{{ index }}</th>
+                            <td>
+                                % if is_active:
+                                <i class="fa fa-spinner spin text-info" rel="tooltip" title="Running"></i>
+                                % else:
+                                <i class="material-icons text-success" rel="tooltip" title="Finished">check</i>
+                                % end
+                            </td>
+                            <td>{{ start_date }}</td>
+                            <td>
+                                % if 'duration' in session.keys():
+                                % duration = session['duration']
+                                {{ duration }}
+                                % else:
+                                -
+                                % end
+                            </td>
+                            <td>
+                                <a href="/projects/{{ id_project }}">
+                                {{ project_name }}
+                                </a>
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="btn btn-link btn-just-icon btn-toggle">
+                                    % attr = 'checked' if is_favorite else ''
+                                    <input type="checkbox" class="mark-session" data-id-project="{{ id_project }}" data-id-session="{{ id }}" {{ attr }}>
+                                    <span class="icons">
+                                        <i rel="tooltip" class="material-icons" title="Mark as favorite">favorite_border</i>
+                                        <i rel="tooltip" class="material-icons text-rose" title="Unmark as favorite">favorite</i>
+                                    </span>
+                                </button>
+                                <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Delete Session {{ name }}" onclick="mambas.deleteSession('{{ name }}', '{{ id_project }}', '{{ id }}')">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </td>
+                        </tr>
+                        % end
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

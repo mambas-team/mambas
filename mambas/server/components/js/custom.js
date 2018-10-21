@@ -194,6 +194,10 @@ $(function() {
         }
     });
 
+    $(".data-table").each(function() {
+        $(this).DataTable();
+    });
+
     // TOGGLE BUTTON --------------------------------------------------------------------
 
     // Add 'checked' class to icons on loading when checkbox is initial checked

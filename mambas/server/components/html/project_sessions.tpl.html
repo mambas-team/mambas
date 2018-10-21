@@ -8,8 +8,8 @@
             <div class="col-md-12">
                 <div class="card card-plain">
                 <div class="card-body">
-                    <div class="table-responsive">
-                    <table class="table table-hover">
+                    <div class="material-datatables">
+                    <table class="table table-hover table-no-bordered table-striped data-table">
                         <thead>
                         <tr>
                             <th></th>
@@ -18,7 +18,7 @@
                             <th>Duration</th>
                             <th>Loss</th>
                             <th>Accuracy</th>
-                            <th></th>
+                            <th class="disabled-sorting"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -49,6 +49,13 @@
                                 % if 'loss' in session.keys():
                                 % loss = session['loss']
                                 {{ loss }}
+                                % if 'loss_state' in session.keys():
+                                % if session['loss_state'] == 'positive':
+                                <i class="material-icons text-success">arrow_drop_down</i>
+                                % elif session['loss_state'] == 'negative':
+                                <i class="material-icons text-rose">arrow_drop_up</i>
+                                % end
+                                % end
                                 % else:
                                 -
                                 % end
@@ -57,6 +64,13 @@
                                 % if 'acc' in session.keys():
                                 % acc = session['acc']
                                 {{ acc }}
+                                % if 'acc_state' in session.keys():
+                                % if session['acc_state'] == 'positive':
+                                <i class="material-icons text-success">arrow_drop_up</i>
+                                % elif session['acc_state'] == 'negative':
+                                <i class="material-icons text-rose">arrow_drop_down</i>
+                                % end
+                                % end
                                 % else:
                                 -
                                 % end
