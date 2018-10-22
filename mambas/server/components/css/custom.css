@@ -190,14 +190,36 @@
     display: none;
 }
 
+.material-datatables .pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
 @media (min-width: 768px) {
     .material-datatables .pagination {
         justify-content: flex-end;
     }
 }
 
-.material-datatables .pagination .page-item.active .page-link {
+.pagination > .page-item.active > a, .pagination > .page-item.active > a:focus, .pagination > .page-item.active > a:hover, .pagination > .page-item.active > span, .pagination > .page-item.active > span:focus, .pagination > .page-item.active > span:hover {
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
-    border-radius: 3px;
+    color: #fff;
+}
+
+.pagination > .page-item > .page-link, .pagination > .page-item > span {
+    border: 0;
+    border-radius: 30px !important;
+    transition: all .3s;
+    padding: 0 11px;
+    margin: 0 3px;
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #999;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: 0 0;
+    text-align: center;
 }

@@ -198,7 +198,21 @@ $(function() {
         var table = $(this).DataTable({
             "searching": true,
             "lengthChange": false,
-            "pageLength": 2
+            "pageLength": 30
+        });
+
+        $("#datatable-datepicker").datetimepicker({
+            icons: {
+                time: "fa fa-clock-o",
+                date: "fa fa-calendar",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
         });
 
         $("#datatable-search").on("input", function() {
