@@ -3,6 +3,10 @@
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
 }
 
+.nav-pills.nav-pills-info .nav-item .nav-link.active, .nav-pills.nav-pills-info .nav-item .nav-link.active:focus, .nav-pills.nav-pills-info .nav-item .nav-link.active:hover {
+    background: linear-gradient(60deg, #93D8E4, #63CAC6);
+}
+
 .btn.btn-info {
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
 }
@@ -37,6 +41,10 @@
 
 .text-rose {
     color: #de516f !important;
+}
+
+.sidebar[data-background-color="white"] {
+    background-color: white;
 }
 
 .main-panel .header {

@@ -59,7 +59,7 @@
                         % for project in list_projects:
                         % name, number_sessions = project['name'], project['number_sessions']
                         % id, token = project['id'], project['token']
-                        <tr class="clickable-row" data-href="projects/{{ id }}">
+                        <tr class="clickable-row" data-href="/projects/{{ id }}">
                             <td>{{ name }}</td>
                             <td>{{ number_sessions }}</td>
                             <td class="text-right">
@@ -109,7 +109,7 @@
                         % is_active, project_name = session['is_active'], session['project_name']
                         % is_favorite, id_project = session['is_favorite'], session['id_project']
                         % name = session['name']
-                        <tr class="clickable-row" data-href="sessions/{{ id }}">
+                        <tr class="clickable-row" data-href="/projects/{{ id_project }}/sessions/{{ id }}">
                             <th class="text-center">{{ index }}</th>
                             <td>
                                 % if is_active:
