@@ -12,31 +12,29 @@ mambas = {
             cancelButtonClass: "btn",
             confirmButtonText: "Create",
             buttonsStyling: false
-        }).then((result) => {
-            if (result.value) {
-                var projectName = $("#input-create-project").val()
-                var json = JSON.stringify({"name": projectName});
-                $.post("/api/projects", json).done((data) => {
-                    swal({
-                        title: "Created",
-                        html: "The Project <b>" + projectName + "</b> was created.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        var url = "/projects/" + data.id.toString() + "/dashboard";
-                        window.location.href = url;
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The Project <b>" + projectName + "</b> could not be created.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
+        }).then(function() {
+            var projectName = $("#input-create-project").val()
+            var json = JSON.stringify({"name": projectName});
+            $.post("/api/projects", json).done((data) => {
+                swal({
+                    title: "Created",
+                    html: "The Project <b>" + projectName + "</b> was created.",
+                    type: "success",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                }).then(() => {
+                    var url = "/projects/" + data.id.toString() + "/dashboard";
+                    window.location.href = url;
                 });
-            }
+            }).fail(() => {
+                swal({
+                    title: "Error",
+                    html: "The Project <b>" + projectName + "</b> could not be created.",
+                    type: "error",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                });
+            });
         });
     },
 
@@ -64,36 +62,34 @@ mambas = {
             cancelButtonClass: "btn",
             confirmButtonText: "Delete",
             buttonsStyling: false
-        }).then((result) => {
-            if(result.value) {
-                var url = "/api/projects/" + idProject;
-                $.ajax({
-                    url: url,
-                    type: "DELETE"
-                }).done(() => {
-                    swal({
-                        title: "Deleted",
-                        html: "The Project <b>" + projectName + "</b> was deleted.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        if(urlSuccess != null) {
-                            window.location.href = urlSuccess;
-                        } else {
-                            window.location.href = window.location.reload();
-                        }
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The Project <b>" + projectName + "</b> could not be deleted.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
+        }).then(function() {
+            var url = "/api/projects/" + idProject;
+            $.ajax({
+                url: url,
+                type: "DELETE"
+            }).done(() => {
+                swal({
+                    title: "Deleted",
+                    html: "The Project <b>" + projectName + "</b> was deleted.",
+                    type: "success",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                }).then(() => {
+                    if(urlSuccess != null) {
+                        window.location.href = urlSuccess;
+                    } else {
+                        window.location.href = window.location.reload();
+                    }
                 });
-            }
+            }).fail(() => {
+                swal({
+                    title: "Error",
+                    html: "The Project <b>" + projectName + "</b> could not be deleted.",
+                    type: "error",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                });
+            });
         });
     },
 
@@ -107,36 +103,34 @@ mambas = {
             cancelButtonClass: "btn",
             confirmButtonText: "Delete",
             buttonsStyling: false
-        }).then((result) => {
-            if(result.value) {
-                var url = "/api/projects/" + idProject + "/sessions/" + idSession;
-                $.ajax({
-                    url: url,
-                    type: "DELETE"
-                }).done(() => {
-                    swal({
-                        title: "Deleted",
-                        html: "The session <b>" + sessionName + "</b> was deleted.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        if(urlSuccess != null) {
-                            window.location.href = urlSuccess;
-                        } else {
-                            window.location.reload();
-                        }
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The session <b>" + sessionName + "</b> could not be deleted.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
+        }).then(function() {
+            var url = "/api/projects/" + idProject + "/sessions/" + idSession;
+            $.ajax({
+                url: url,
+                type: "DELETE"
+            }).done(() => {
+                swal({
+                    title: "Deleted",
+                    html: "The session <b>" + sessionName + "</b> was deleted.",
+                    type: "success",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                }).then(() => {
+                    if(urlSuccess != null) {
+                        window.location.href = urlSuccess;
+                    } else {
+                        window.location.reload();
+                    }
                 });
-            }
+            }).fail(() => {
+                swal({
+                    title: "Error",
+                    html: "The session <b>" + sessionName + "</b> could not be deleted.",
+                    type: "error",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                });
+            });
         });
     },
 
@@ -195,13 +189,67 @@ $(function() {
     });
 
     $(".data-table").each(function() {
-        $(this).DataTable();
+        var table = $(this).DataTable({
+            "searching": true,
+            "lengthChange": false,
+            "pageLength": 30,
+            "order": [],
+            "columnDefs": [{
+                "targets": "no-sort",
+                "orderable": false,
+            }]
+        });
+
+        table.on("draw", function () {
+            $(this).find(".btn-toggle").each(function() {
+                $(this).trigger("ready");
+            });
+        });
+
+        var icons = {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: "fa fa-chevron-left",
+            next: "fa fa-chevron-right",
+            today: "fa fa-screenshot",
+            clear: "fa fa-trash",
+            close: "fa fa-remove"
+        };
+
+        $("#datatable-datepicker-start").datetimepicker({
+            format: "DD/MM/YYYY",
+            icons: icons
+        }).on("dp.change", function() {
+            table.draw();
+        });
+
+        $("#datatable-datepicker-end").datetimepicker({
+            format: "DD/MM/YYYY",
+            icons: icons
+        }).on("dp.change", function() {
+            table.draw();
+        });
+
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = moment($("#datatable-datepicker-start").val(), "DD/MM/YYYY");
+                var max = moment($("#datatable-datepicker-end").val(), "DD/MM/YYYY");
+                var createdAt = moment(data[2] || 0);
+                return (min == "" || max == "") || createdAt.isBetween(min, max);
+            }
+        );
+
+        $("#datatable-search").on("input", function() {
+            table.search(this.value).draw();
+        });
     });
 
     // TOGGLE BUTTON --------------------------------------------------------------------
 
-    // Add 'checked' class to icons on loading when checkbox is initial checked
-    $(".btn-toggle").each(function() {
+    // Add 'checked' class to icons on ready when checkbox is initial checked
+    $("body").on("ready", ".btn-toggle", function(event) {
         var cb = $(this).find("input:checkbox");
         var state = cb.is(":checked");
         var icons = $(this).find(".icons");
@@ -211,8 +259,13 @@ $(function() {
         }
     });
 
+    // Trigger ready event when button is loaded
+    $(".btn-toggle").each(function() {
+        $(this).trigger("ready");
+    });
+
     // Trigger checkbox to handle click event and change icons
-    $(".btn-toggle").click(function(event) {
+    $("body").on("click", ".btn-toggle", function(event) {
         var cb = $(this).find("input:checkbox");
         cb.click();
         var state = cb.is(":checked");
@@ -354,7 +407,7 @@ $(function() {
 
     // MARK SESSION BUTTON --------------------------------------------------------------
 
-    $(".mark-session").on("click", async function() {
+    $("body").on("click", ".mark-session", async function() {
         var idProject = $(this).data("id-project");
         var idSession = $(this).data("id-session");
         var isFavorite = $(this).is(":checked");

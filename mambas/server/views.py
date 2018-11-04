@@ -81,7 +81,7 @@ class DashboardView(BaseView):
             self.view_model["list_projects"].append(list_project)
 
         self.view_model["list_last_sessions"] = []
-        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[-5:]):
+        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[:5]):
             project = next(p for p in self.projects if p.id_project == session.id_project)
             list_session = {}
             list_session["id"] = session.id_session
@@ -95,6 +95,7 @@ class DashboardView(BaseView):
             list_session["id_project"] = session.id_project
             list_session["name"] = "{}: {}".format(project.name, session.index)
             self.view_model["list_last_sessions"].append(list_session)
+        self.view_model["number_list_last_sessions"] = len(self.view_model["list_last_sessions"])
 
 # PROJECT VIEWS -------------------------------------------------------------------------
 
@@ -122,6 +123,8 @@ class ProjectView(BaseView):
         self.add_icon(icon_delete_project)
 
         self.add_breadcrumb(self.project.name, "/projects/{}".format(self.project.id_project))
+
+        self.view_model["id"] = self.project.id_project
 
         if len(self.sessions) < 1:
             self.custom_template = "instructions"
@@ -180,7 +183,7 @@ class ProjectDashboardView(ProjectView):
         self.view_model["number_favorite_sessions"] = sum([s.is_favorite for s in self.sessions])
 
         self.view_model["list_last_sessions"] = []
-        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[-5:]):
+        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)[:5]):
             list_session = {}
             list_session["id"] = session.id_session
             list_session["index"] = session.index
@@ -198,6 +201,7 @@ class ProjectDashboardView(ProjectView):
             list_session["id_project"] = self.project.id_project
             list_session["name"] = "{}: {}".format(self.project.name, session.index)
             self.view_model["list_last_sessions"].append(list_session)
+        self.view_model["number_list_last_sessions"] = len(self.view_model["list_last_sessions"])
 
 class ProjectSessionsView(ProjectView):
 
@@ -211,7 +215,7 @@ class ProjectSessionsView(ProjectView):
         self.set_title("{} Sessions".format(self.project.name))
 
         self.view_model["list_sessions"] = []
-        for i, session in enumerate(self.sessions):
+        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)):
             list_session = {}
             list_session["id"] = session.id_session
             list_session["index"] = session.index

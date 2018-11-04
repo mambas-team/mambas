@@ -59,7 +59,7 @@
                         % for project in list_projects:
                         % name, number_sessions = project['name'], project['number_sessions']
                         % id, token = project['id'], project['token']
-                        <tr class="clickable-row" data-href="projects/{{ id }}">
+                        <tr class="clickable-row" data-href="/projects/{{ id }}">
                             <td>{{ name }}</td>
                             <td>{{ number_sessions }}</td>
                             <td class="text-right">
@@ -81,6 +81,7 @@
             </div>
         </div>
 
+        % if number_list_last_sessions > 0:
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -88,7 +89,11 @@
                     <div class="card-icon">
                         <i class="material-icons">view_list</i>
                     </div>
-                    <h4 class="card-title ">Last Sessions</h4>
+                    % if number_list_last_sessions < 2:
+                    <h4 class="card-title">Last Session</h4>
+                    % else:
+                    <h4 class="card-title">Last {{ number_list_last_sessions }} Sessions</h4>
+                    % end
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -109,7 +114,7 @@
                         % is_active, project_name = session['is_active'], session['project_name']
                         % is_favorite, id_project = session['is_favorite'], session['id_project']
                         % name = session['name']
-                        <tr class="clickable-row" data-href="sessions/{{ id }}">
+                        <tr class="clickable-row" data-href="/projects/{{ id_project }}/sessions/{{ id }}">
                             <th class="text-center">{{ index }}</th>
                             <td>
                                 % if is_active:
@@ -154,6 +159,7 @@
                 </div>
             </div>
         </div>
+        % end
 
     </div>
 </div>
