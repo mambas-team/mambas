@@ -199,6 +199,7 @@ $(function() {
             "searching": true,
             "lengthChange": false,
             "pageLength": 30,
+            "order": [],
             "columnDefs": [{
                 "targets": "no-sort",
                 "orderable": false,

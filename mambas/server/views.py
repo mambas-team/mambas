@@ -211,7 +211,7 @@ class ProjectSessionsView(ProjectView):
         self.set_title("{} Sessions".format(self.project.name))
 
         self.view_model["list_sessions"] = []
-        for i, session in enumerate(self.sessions):
+        for i, session in enumerate(sorted(self.sessions, key=lambda s: s.index, reverse=True)):
             list_session = {}
             list_session["id"] = session.id_session
             list_session["index"] = session.index
