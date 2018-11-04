@@ -12,31 +12,29 @@ mambas = {
             cancelButtonClass: "btn",
             confirmButtonText: "Create",
             buttonsStyling: false
-        }).then((result) => {
-            if (result.value) {
-                var projectName = $("#input-create-project").val()
-                var json = JSON.stringify({"name": projectName});
-                $.post("/api/projects", json).done((data) => {
-                    swal({
-                        title: "Created",
-                        html: "The Project <b>" + projectName + "</b> was created.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        var url = "/projects/" + data.id.toString() + "/dashboard";
-                        window.location.href = url;
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The Project <b>" + projectName + "</b> could not be created.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
+        }).then(function() {
+            var projectName = $("#input-create-project").val()
+            var json = JSON.stringify({"name": projectName});
+            $.post("/api/projects", json).done((data) => {
+                swal({
+                    title: "Created",
+                    html: "The Project <b>" + projectName + "</b> was created.",
+                    type: "success",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                }).then(() => {
+                    var url = "/projects/" + data.id.toString() + "/dashboard";
+                    window.location.href = url;
                 });
-            }
+            }).fail(() => {
+                swal({
+                    title: "Error",
+                    html: "The Project <b>" + projectName + "</b> could not be created.",
+                    type: "error",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                });
+            });
         });
     },
 
@@ -64,36 +62,34 @@ mambas = {
             cancelButtonClass: "btn",
             confirmButtonText: "Delete",
             buttonsStyling: false
-        }).then((result) => {
-            if(result.value) {
-                var url = "/api/projects/" + idProject;
-                $.ajax({
-                    url: url,
-                    type: "DELETE"
-                }).done(() => {
-                    swal({
-                        title: "Deleted",
-                        html: "The Project <b>" + projectName + "</b> was deleted.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        if(urlSuccess != null) {
-                            window.location.href = urlSuccess;
-                        } else {
-                            window.location.href = window.location.reload();
-                        }
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The Project <b>" + projectName + "</b> could not be deleted.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
+        }).then(function() {
+            var url = "/api/projects/" + idProject;
+            $.ajax({
+                url: url,
+                type: "DELETE"
+            }).done(() => {
+                swal({
+                    title: "Deleted",
+                    html: "The Project <b>" + projectName + "</b> was deleted.",
+                    type: "success",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                }).then(() => {
+                    if(urlSuccess != null) {
+                        window.location.href = urlSuccess;
+                    } else {
+                        window.location.href = window.location.reload();
+                    }
                 });
-            }
+            }).fail(() => {
+                swal({
+                    title: "Error",
+                    html: "The Project <b>" + projectName + "</b> could not be deleted.",
+                    type: "error",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                });
+            });
         });
     },
 
@@ -107,36 +103,34 @@ mambas = {
             cancelButtonClass: "btn",
             confirmButtonText: "Delete",
             buttonsStyling: false
-        }).then((result) => {
-            if(result.value) {
-                var url = "/api/projects/" + idProject + "/sessions/" + idSession;
-                $.ajax({
-                    url: url,
-                    type: "DELETE"
-                }).done(() => {
-                    swal({
-                        title: "Deleted",
-                        html: "The session <b>" + sessionName + "</b> was deleted.",
-                        type: "success",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    }).then(() => {
-                        if(urlSuccess != null) {
-                            window.location.href = urlSuccess;
-                        } else {
-                            window.location.reload();
-                        }
-                    });
-                }).fail(() => {
-                    swal({
-                        title: "Error",
-                        html: "The session <b>" + sessionName + "</b> could not be deleted.",
-                        type: "error",
-                        confirmButtonClass: "btn",
-                        buttonsStyling: false
-                    });
+        }).then(function() {
+            var url = "/api/projects/" + idProject + "/sessions/" + idSession;
+            $.ajax({
+                url: url,
+                type: "DELETE"
+            }).done(() => {
+                swal({
+                    title: "Deleted",
+                    html: "The session <b>" + sessionName + "</b> was deleted.",
+                    type: "success",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                }).then(() => {
+                    if(urlSuccess != null) {
+                        window.location.href = urlSuccess;
+                    } else {
+                        window.location.reload();
+                    }
                 });
-            }
+            }).fail(() => {
+                swal({
+                    title: "Error",
+                    html: "The session <b>" + sessionName + "</b> could not be deleted.",
+                    type: "error",
+                    confirmButtonClass: "btn",
+                    buttonsStyling: false
+                });
+            });
         });
     },
 

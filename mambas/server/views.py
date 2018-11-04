@@ -95,6 +95,7 @@ class DashboardView(BaseView):
             list_session["id_project"] = session.id_project
             list_session["name"] = "{}: {}".format(project.name, session.index)
             self.view_model["list_last_sessions"].append(list_session)
+        self.view_model["number_list_last_sessions"] = len(self.view_model["list_last_sessions"])
 
 # PROJECT VIEWS -------------------------------------------------------------------------
 
