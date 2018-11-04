@@ -221,14 +221,25 @@ $(function() {
         $("#datatable-datepicker-start").datetimepicker({
             format: "DD/MM/YYYY",
             icons: icons
+        }).on("dp.change", function() {
+            table.draw();
         });
 
         $("#datatable-datepicker-end").datetimepicker({
             format: "DD/MM/YYYY",
             icons: icons
-        }).on("dp.change", function(e) {
-            table.column(2).search(e.date).draw();
+        }).on("dp.change", function() {
+            table.draw();
         });
+
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = moment($("#datatable-datepicker-start").val(), "DD/MM/YYYY");
+                var max = moment($("#datatable-datepicker-end").val(), "DD/MM/YYYY");
+                var createdAt = moment(data[2] || 0);
+                return (min == "" || max == "") || createdAt.isBetween(min, max);
+            }
+        );
 
         $("#datatable-search").on("input", function() {
             table.search(this.value).draw();
