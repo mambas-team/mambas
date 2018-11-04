@@ -198,23 +198,42 @@ $(function() {
         var table = $(this).DataTable({
             "searching": true,
             "lengthChange": false,
-            "pageLength": 30
+            "pageLength": 30,
+            "columnDefs": [{
+                "targets": "no-sort",
+                "orderable": false,
+            }]
         });
 
-        $("#datatable-datepicker").datetimepicker({
+        table.on("draw", function () {
+            $(this).find(".btn-toggle").each(function() {
+                $(this).trigger("ready");
+            });
+        });
+
+        var icons = {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: "fa fa-chevron-left",
+            next: "fa fa-chevron-right",
+            today: "fa fa-screenshot",
+            clear: "fa fa-trash",
+            close: "fa fa-remove"
+        };
+
+        $("#datatable-datepicker-start").datetimepicker({
             format: "DD/MM/YYYY",
-            icons: {
-              time: "fa fa-clock-o",
-              date: "fa fa-calendar",
-              up: "fa fa-chevron-up",
-              down: "fa fa-chevron-down",
-              previous: "fa fa-chevron-left",
-              next: "fa fa-chevron-right",
-              today: "fa fa-screenshot",
-              clear: "fa fa-trash",
-              close: "fa fa-remove"
-            }
-          });
+            icons: icons
+        });
+
+        $("#datatable-datepicker-end").datetimepicker({
+            format: "DD/MM/YYYY",
+            icons: icons
+        }).on("dp.change", function(e) {
+            table.column(2).search(e.date).draw();
+        });
 
         $("#datatable-search").on("input", function() {
             table.search(this.value).draw();
@@ -223,8 +242,8 @@ $(function() {
 
     // TOGGLE BUTTON --------------------------------------------------------------------
 
-    // Add 'checked' class to icons on loading when checkbox is initial checked
-    $(".btn-toggle").each(function() {
+    // Add 'checked' class to icons on ready when checkbox is initial checked
+    $("body").on("ready", ".btn-toggle", function(event) {
         var cb = $(this).find("input:checkbox");
         var state = cb.is(":checked");
         var icons = $(this).find(".icons");
@@ -234,8 +253,13 @@ $(function() {
         }
     });
 
+    // Trigger ready event when button is loaded
+    $(".btn-toggle").each(function() {
+        $(this).trigger("ready");
+    });
+
     // Trigger checkbox to handle click event and change icons
-    $(".btn-toggle").click(function(event) {
+    $("body").on("click", ".btn-toggle", function(event) {
         var cb = $(this).find("input:checkbox");
         cb.click();
         var state = cb.is(":checked");
@@ -377,7 +401,7 @@ $(function() {
 
     // MARK SESSION BUTTON --------------------------------------------------------------
 
-    $(".mark-session").on("click", async function() {
+    $("body").on("click", ".mark-session", async function() {
         var idProject = $(this).data("id-project");
         var idSession = $(this).data("id-session");
         var isFavorite = $(this).is(":checked");

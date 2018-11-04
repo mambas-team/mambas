@@ -5,20 +5,21 @@
 
         <div class="row">
             <div class="col-md-4 col-sm-12">
-            <div class="card card-stats">
+            <div class="card">
                 <div class="card-header card-header-info card-header-icon">
-                <div class="card-icon">
-                    <i class="material-icons">search</i>
+                    <div class="card-icon">
+                        <i class="material-icons">search</i>
+                    </div>
+                    <h4 class="card-title">Search</h4>
                 </div>
-                <p class="card-category">Search</p>
-                <div class="card-title form-group has-info">
-                    <input type="search" class="form-control" id="datatable-search">
+                <div class="card-body">
+                    <div class="card-title form-group has-info">
+                        <input type="search" class="form-control" id="datatable-search">
+                    </div>
                 </div>
-                </div>
-                <br>
             </div>
             </div>
-            <div class="col-md-4 col-sm-12">
+            <!--<div class="col-md-4 col-sm-12">
             <div class="card card-stats">
                 <div class="card-header card-header-info card-header-icon">
                 <div class="card-icon">
@@ -28,6 +29,30 @@
                 <div class="card-title form-group bmd-form-group has-info is-filled">
                     <input type="text" class="form-control datepicker" value="10/06/2018" id="datatable-datepicker">
                 </div>
+                </div>
+            </div>
+            </div>-->
+            <div class="col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">date_range</i>
+                    </div>
+                    <h4 class="card-title">Date Range</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group bmd-form-group has-info is-filled">
+                                <input type="text" class="form-control datepicker" value="01/06/2018" id="datatable-datepicker-start">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group bmd-form-group has-info is-filled">
+                                <input type="text" class="form-control datepicker" value="31/10/2018" id="datatable-datepicker-end">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             </div>
@@ -47,13 +72,13 @@
                     <table class="table table-hover table-no-bordered data-table">
                         <thead>
                         <tr>
-                            <th></th>
+                            <th class="no-sort"></th>
                             <th>Status</th>
                             <th>Start date</th>
                             <th>Duration</th>
                             <th>Loss</th>
                             <th>Accuracy</th>
-                            <th></th>
+                            <th class="no-sort"></th>
                         </tr>
                         </thead>
                         <tbody>
