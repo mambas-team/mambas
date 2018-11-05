@@ -2,6 +2,32 @@
 
 <div class="content">
     <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-profile">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">info</i>
+                        </div>
+                        <h4 class="card-title">Session {{ index }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description textarea-display" id="textarea-display" data-toggle-id="textarea-toggle">Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                        </p>
+                        <textarea class="form-control textarea-edit" rows="3" data-toggle-id="textarea-toggle" data-display-id="textarea-display"></textarea>
+                        <button class="btn btn-info btn-round btn-fab btn-toggle">
+                            <input type="checkbox" id="textarea-toggle">
+                            <span class="icons">
+                                <i rel="tooltip" class="material-icons" title="Edit description">edit</i>
+                                <i rel="tooltip" class="material-icons" title="Save description">check</i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Dashboard tiles -->
         <div class="row">
             <div class="col-md-4 col-sm-12">
@@ -176,9 +202,9 @@
                             % for i, k in enumerate(custom_graphs):
                             % active = 'active' if i < 1 else ''
                             <li class="nav-item">
-                            <button class="nav-link btn btn-info btn-sm {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
+                            <a class="nav-link {{ active }}" data-toggle="tab" href="#tab-{{ k }}" role="tablist">
                                 {{ k }}
-                            </button>
+                            </a>
                             </li>
                             % end
                         </ul>

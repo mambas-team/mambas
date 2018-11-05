@@ -219,7 +219,8 @@ class ProjectSessionsView(ProjectView):
             list_session = {}
             list_session["id"] = session.id_session
             list_session["index"] = session.index
-            list_session["start_date"] = session.dt_start
+            if session.dt_start is not None:
+                list_session["start_date"] = session.dt_start.strftime("%d/%m/%Y %H:%M:%S")
             if session.dt_start is not None and session.dt_end is not None:
                 list_session["duration"] = session.dt_end - session.dt_start
             list_session["is_active"] = session.is_active
@@ -275,6 +276,9 @@ class SessionView(BaseView):
         self.add_breadcrumb("Sessions", "/projects/{}/sessions".format(self.project.id_project))
         self.add_breadcrumb("Session {}".format(self.session.index),
             "/projects/{}/sessions/{}".format(self.project.id_project, self.session.id_session))
+
+        self.view_model["project_name"] = self.project.name
+        self.view_model["index"] = self.session.index
 
         self.view_model["graphs"] = {}
 

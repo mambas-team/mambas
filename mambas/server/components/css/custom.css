@@ -144,6 +144,21 @@
     line-height: 41px;
 }
 
+.card-profile .card-title {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+.card-profile textarea {
+    display: none;
+    text-align: center;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
 .navbar .navbar-nav {
     display: inline-block;
 }
@@ -232,7 +247,24 @@
     text-align: center;
 }
 
-.bootstrap-datetimepicker-widget table td.active:hover > div, .bootstrap-datetimepicker-widget table td.active > div {
+.bootstrap-datetimepicker-widget table td.active:hover > div, .bootstrap-datetimepicker-widget table td.active > div, .bootstrap-datetimepicker-widget table td span.active {
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+}
+
+.letter-icon {
+    width: 24px;
+    height: 24px;
+    background: #CCCCCC;
+    color: white;
+    font-size: 13px;
+    line-height: 24px;
+    text-transform: uppercase;
+}
+
+.card-avatar .letter-icon {
+    width: 130px;
+    height: 130px;
+    line-height: 130px;
+    font-size: 48px;
 }

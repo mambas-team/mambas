@@ -189,6 +189,9 @@ $(function() {
     });
 
     $(".data-table").each(function() {
+        $.fn.dataTable.moment("DD/MM/YYYY");
+        $.fn.dataTable.moment("DD/MM/YYYY HH:mm:ss");
+
         var table = $(this).DataTable({
             "searching": true,
             "lengthChange": false,
@@ -235,8 +238,8 @@ $(function() {
         $.fn.dataTable.ext.search.push(
             function(settings, data, dataIndex) {
                 var min = moment($("#datatable-datepicker-start").val(), "DD/MM/YYYY");
-                var max = moment($("#datatable-datepicker-end").val(), "DD/MM/YYYY");
-                var createdAt = moment(data[2] || 0);
+                var max = moment($("#datatable-datepicker-end").val() + "23:59:59", "DD/MM/YYYY HH:mm:ss");
+                var createdAt = moment(data[2] || 0, "DD/MM/YYYY HH:mm:ss");
                 return (min == "" || max == "") || createdAt.isBetween(min, max);
             }
         );
@@ -448,6 +451,52 @@ $(function() {
             download.on("click", function() {
                 if(chart.is(":visible")) {
                     downloadObjectAsJson(data, chart.data("name"));
+                }
+            });
+        }
+    });
+
+    // TEXTAREA -------------------------------------------------------------------------
+
+    $(".textarea-edit").each(function() {
+        var textarea = $(this);
+        var idToggle = textarea.data("toggle-id");
+        var idDisplay = textarea.data("display-id");
+        if(idToggle && idDisplay) {
+            var toggle = $("#" + idToggle);
+            var display = $("#" + idDisplay);
+            if(toggle.is(":checked")) {
+                textarea.val(display.text());
+                textarea.show();
+            } else {
+                textarea.hide();
+            }
+            toggle.on("click", function(event) {
+                if($(this).is(":checked")) {
+                    textarea.val(display.text());
+                    textarea.show();
+                } else {
+                    textarea.hide();
+                }
+            });
+        }
+    });
+
+    $(".textarea-display").each(function() {
+        var textarea = $(this);
+        var idToggle = textarea.data("toggle-id");
+        if(idToggle) {
+            var toggle = $("#" + idToggle);
+            if(toggle.is(":checked")) {
+                textarea.hide();
+            } else {
+                textarea.show();
+            }
+            toggle.on("click", function(event) {
+                if($(this).is(":checked")) {
+                    textarea.hide();
+                } else {
+                    textarea.show();
                 }
             });
         }
