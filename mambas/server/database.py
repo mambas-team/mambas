@@ -85,7 +85,7 @@ class MambasDatabase():
         return session
 
     def get_session(self, id_session):
-        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project FROM sessions WHERE id_session = ?"
+        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, description, id_project FROM sessions WHERE id_session = ?"
         vars = [id_session]
         rows = self.query(query, vars).fetchall()
         session = None
@@ -98,12 +98,13 @@ class MambasDatabase():
             is_active = row[4]
             is_favorite = row[5]
             host = row[6]
-            id_project = row[7]
-            session = models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project)
+            description = row[7]
+            id_project = row[8]
+            session = models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, description, id_project)
         return session
 
     def get_sessions_for_project(self, id_project):
-        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project FROM sessions WHERE id_project = ?"
+        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, description, id_project FROM sessions WHERE id_project = ?"
         vars = [id_project]
         rows = self.query(query, vars).fetchall()
         sessions = []
@@ -115,12 +116,13 @@ class MambasDatabase():
             is_active = row[4]
             is_favorite = row[5]
             host = row[6]
-            id_project = row[7]
-            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project))
+            description = row[7]
+            id_project = row[8]
+            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, description, id_project))
         return sessions
 
     def get_all_sessions(self):
-        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project FROM sessions"
+        query = "SELECT id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, description, id_project FROM sessions"
         rows = self.query(query).fetchall()
         sessions = []
         for row in rows:
@@ -131,8 +133,9 @@ class MambasDatabase():
             is_active = row[4]
             is_favorite = row[5]
             host = row[6]
-            id_project = row[7]
-            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, id_project))
+            description = row[7]
+            id_project = row[8]
+            sessions.append(models.Session(id_session, session_index, dt_start, dt_end, is_active, is_favorite, host, description, id_project))
         return sessions
 
     def set_session_inactive(self, id_session):
@@ -159,6 +162,13 @@ class MambasDatabase():
     def set_session_is_favorite(self, id_session, is_favorite):
         query = "UPDATE sessions SET is_favorite = ? WHERE id_session = ?"
         vars = (bool(is_favorite), id_session)
+        self.query(query, vars)
+        session = self.get_session(id_session)
+        return session
+
+    def set_session_description(self, id_session, description):
+        query = "UPDATE sessions SET description = ? WHERE id_session = ?"
+        vars = (description, id_session)
         self.query(query, vars)
         session = self.get_session(id_session)
         return session

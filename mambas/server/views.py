@@ -277,8 +277,12 @@ class SessionView(BaseView):
         self.add_breadcrumb("Session {}".format(self.session.index),
             "/projects/{}/sessions/{}".format(self.project.id_project, self.session.id_session))
 
+        self.view_model["id_session"] = self.session.id_session
+        self.view_model["id_project"] = self.session.id_project
+
         self.view_model["project_name"] = self.project.name
         self.view_model["index"] = self.session.index
+        self.view_model["description"] = self.session.description
 
         self.view_model["graphs"] = {}
 

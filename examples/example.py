@@ -62,7 +62,7 @@ def custom_metric(epoch):
 def custom_metric2(epoch):
     return 1
 
-callback = MambasCallback("7403b3d78723691b74126a497a8177e9", custom_metrics=[custom_metric, custom_metric2])
+callback = MambasCallback("6b7cd07af12b59f3ea5aa35523aca1d4", custom_metrics=[custom_metric, custom_metric2])
 
 history = model.fit(x_train, y_train,
                     batch_size=batch_size,

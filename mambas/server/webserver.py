@@ -208,6 +208,8 @@ class MambasWebserver(bottle.Bottle):
             self.db.set_session_inactive(session.id_session)
         if "is_favorite" in message:
             self.db.set_session_is_favorite(session.id_session, message["is_favorite"])
+        if "description" in message:
+            self.db.set_session_description(session.id_session, message["description"])
         # Return empty answer
         return {}
 

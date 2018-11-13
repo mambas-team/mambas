@@ -6,7 +6,7 @@ class Project():
         self.token = token
 
 class Session():
-    def __init__(self, id_session, index, dt_start, dt_end, is_active, is_favorite, host, id_project):
+    def __init__(self, id_session, index, dt_start, dt_end, is_active, is_favorite, host, description, id_project):
         self.id_session = id_session
         self.index = index
         self.dt_start = dt_start
@@ -14,6 +14,7 @@ class Session():
         self.is_active = is_active
         self.is_favorite = is_favorite
         self.host = host
+        self.description = description
         self.id_project = id_project
 
 class Epoch():

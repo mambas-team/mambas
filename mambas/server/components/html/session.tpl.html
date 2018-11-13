@@ -13,9 +13,10 @@
                         <h4 class="card-title">Session {{ index }}</h4>
                     </div>
                     <div class="card-body">
-                        <p class="card-description textarea-display" id="textarea-display" data-toggle-id="textarea-toggle">Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
-                        </p>
-                        <textarea class="form-control textarea-edit" rows="3" data-toggle-id="textarea-toggle" data-display-id="textarea-display"></textarea>
+                        <p class="card-description textarea-display" id="textarea-display" data-toggle-id="textarea-toggle">{{ description }}</p>
+                        <div class="form-group has-info">
+                            <textarea class="form-control textarea-edit" rows="1" data-toggle-id="textarea-toggle" data-display-id="textarea-display" data-id-project="{{ id_project }}" data-id-session="{{ id_session }}"></textarea>
+                        </div>
                         <button class="btn btn-info btn-round btn-fab btn-toggle">
                             <input type="checkbox" id="textarea-toggle">
                             <span class="icons">

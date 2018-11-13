@@ -156,6 +156,38 @@ mambas = {
             });
         }).catch(() => {});
         return success;
+    },
+
+    setSessionDescription: async function(idProject, idSession, description) {
+        var url = "/api/projects/" + idProject + "/sessions/" + idSession;
+        var json = JSON.stringify({"description": description});
+        var success = false;
+        await $.ajax({
+            url: url,
+            type: "PUT",
+            contentType: "application/json",
+            data: json
+        }).done(() => {
+            success = true;
+        }).fail((data) => {
+            swal({
+                title: "Error",
+                html: "Could not save the Session description.",
+                type: "error",
+                confirmButtonClass: "btn",
+                buttonsStyling: false
+            });
+        }).catch(() => {});
+        return success;
+    },
+
+    setTextareaRows: function(textarea) {
+        var rows = textarea.val().split("\n").length;
+        if(rows > 10) {
+            textarea.attr("rows", 10);
+        } else {
+            textarea.attr("rows", rows);
+        }
     }
 };
 
@@ -460,6 +492,16 @@ $(function() {
 
     $(".textarea-edit").each(function() {
         var textarea = $(this);
+        mambas.setTextareaRows(textarea);
+        textarea.keyup(function() {
+            mambas.setTextareaRows(textarea);
+        });
+    });
+
+    $(".textarea-edit").each(function() {
+        var textarea = $(this);
+        var idProject = textarea.data("id-project");
+        var idSession = textarea.data("id-session");
         var idToggle = textarea.data("toggle-id");
         var idDisplay = textarea.data("display-id");
         if(idToggle && idDisplay) {
@@ -476,7 +518,11 @@ $(function() {
                     textarea.val(display.text());
                     textarea.show();
                 } else {
-                    textarea.hide();
+                    var success = mambas.setSessionDescription(idProject, idSession, textarea.val());
+                    if(success) {
+                        display.text(textarea.val());
+                        textarea.hide();
+                    }
                 }
             });
         }
