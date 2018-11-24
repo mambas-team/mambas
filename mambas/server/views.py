@@ -21,6 +21,7 @@ class BaseView():
             navigation_project = {}
             navigation_project["name"] = project.name
             navigation_project["id"] = project.id_project
+            navigation_project["initials"] = "".join([x[0].upper() for x in project.name.split(" ")[:2]])
             self.view_model["navigation_projects"].append(navigation_project)
 
     def add_icon(self, icon):
@@ -76,6 +77,7 @@ class DashboardView(BaseView):
             list_project = {}
             list_project["id"] = project.id_project
             list_project["name"] = project.name
+            list_project["initials"] = "".join([x[0].upper() for x in project.name.split(" ")[:2]])
             list_project["number_sessions"] = len([s for s in self.sessions if s.id_project == project.id_project])
             list_project["token"] = project.token
             self.view_model["list_projects"].append(list_project)
@@ -90,6 +92,7 @@ class DashboardView(BaseView):
             if session.dt_start is not None and session.dt_end is not None:
                 list_session["duration"] = session.dt_end - session.dt_start
             list_session["project_name"] = project.name
+            list_session["project_initials"] = "".join([x[0].upper() for x in project.name.split(" ")[:2]])
             list_session["is_active"] = session.is_active
             list_session["is_favorite"] = session.is_favorite
             list_session["id_project"] = session.id_project

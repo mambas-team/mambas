@@ -49,7 +49,7 @@ class TestDashboardView():
     def test_render(self):
         dashboard_view = views.DashboardView()
         dashboard_view.set_projects([models.Project(1, "Project1", 0, "token")])
-        dashboard_view.set_sessions([models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)])
+        dashboard_view.set_sessions([models.Session(1, 1, None, None, True, False, "127.0.0.1", "My Description", 1)])
         dashboard_view.render()
         assert dashboard_view.view_model["title"] == "Dashboard"
         assert dashboard_view.view_model["number_projects"] == 1
@@ -68,7 +68,7 @@ class TestProjectView():
 
     def test_set_project_sessions(self):
         project_view = views.ProjectView()
-        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
+        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", "My Description", 1)]
         project_view.set_project_sessions(sessions)
         assert project_view.sessions[0] == sessions[0]
 
@@ -76,7 +76,7 @@ class TestProjectView():
         project_view = views.ProjectView()
         project = models.Project(1, "Project1", 0, "token")
         project_view.set_project(project)
-        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
+        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", "My Description", 1)]
         project_view.set_project_sessions(sessions)
         project_view.render()
         assert any(d["type"] == "display_token" for d in project_view.view_model["icons"])
@@ -98,7 +98,7 @@ class TestProjectDashboardView():
         project_dashboard_view = views.ProjectDashboardView()
         assert project_dashboard_view.type == "project_dashboard"
 
-class TestProjectSessionView():
+class TestProjectSessionsView():
 
     def test_init(self):
         project_sessions_view = views.ProjectSessionsView()
@@ -108,7 +108,7 @@ class TestProjectSessionView():
         project_sessions_view = views.ProjectSessionsView()
         project = models.Project(1, "Project1", 0, "token")
         project_sessions_view.set_project(project)
-        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)]
+        sessions = [models.Session(1, 1, None, None, True, False, "127.0.0.1", "My Description", 1)]
         project_sessions_view.set_project_sessions(sessions)
         sessions_epochs = [[models.Epoch(1, 0, {"loss": 0, "acc": 1, "custom": 2}, datetime.datetime.now(), 1)]]
         project_sessions_view.set_project_sessions_epochs(sessions_epochs)
@@ -135,7 +135,7 @@ class TestSessionView():
 
     def test_set_session(self):
         session_view = views.SessionView()
-        session = models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)
+        session = models.Session(1, 1, None, None, True, False, "127.0.0.1", "My Description", 1)
         session_view.set_session(session)
         assert session_view.session == session
 
@@ -149,7 +149,7 @@ class TestSessionView():
         session_view = views.SessionView()
         project = models.Project(1, "Project1", 0, "token")
         session_view.set_project(project)
-        session = models.Session(1, 1, None, None, True, False, "127.0.0.1", 1)
+        session = models.Session(1, 1, None, None, True, False, "127.0.0.1", "My Description", 1)
         session_view.set_session(session)
         epochs = [models.Epoch(1, 0, {"loss": 0, "acc": 1, "custom": 2}, datetime.datetime.now(), 1)]
         session_view.set_session_epochs(epochs)
@@ -167,6 +167,7 @@ class TestSessionView():
         assert session_view.view_model["graphs"]["custom"]["data"][0]["custom"] == 2
         assert session_view.view_model["is_active"] == True
         assert session_view.view_model["number_epochs"] == 1
+        assert session_view.view_model["description"] == "My Description"
         assert any(d["type"] == "delete_session" for d in session_view.view_model["icons"])
 
 if __name__ == "__main__":

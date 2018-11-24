@@ -5,7 +5,7 @@ mambas = {
         swal({
             title: "Create a new Project",
             html: "<div class='form-group has-info'>" +
-                "<input id='input-create-project' type='text' class='form-control' placeholder='Enter a project name' />" +
+                "<input id='input-create-project' type='text' class='form-control' placeholder='Enter a project name' maxlength='20' pattern='[a-zA-Z0-9 ]+' required />" +
                 "</div>",
             showCancelButton: true,
             confirmButtonClass: "btn btn-info",
@@ -52,7 +52,7 @@ mambas = {
         });
     },
 
-    deleteProject: function(projectName, idProject, urlSuccess = null) {
+    deleteProject: function(projectName, idProject, urlSuccess = undefined) {
         swal({
             title: "Are you sure?",
             html: "The Project <b>" + projectName + "</b> will be deleted permanently. You won't be able to revert this!",
@@ -75,7 +75,7 @@ mambas = {
                     confirmButtonClass: "btn",
                     buttonsStyling: false
                 }).then(() => {
-                    if(urlSuccess != null) {
+                    if(urlSuccess) {
                         window.location.href = urlSuccess;
                     } else {
                         window.location.href = window.location.reload();
@@ -93,7 +93,7 @@ mambas = {
         });
     },
 
-    deleteSession: function(sessionName, idProject, idSession, urlSuccess = null) {
+    deleteSession: function(sessionName, idProject, idSession, urlSuccess = undefined) {
         swal({
             title: "Are you sure?",
             html: "The Session <b>" + sessionName + "</b> will be deleted permanently. You won't be able to revert this!",
@@ -116,7 +116,7 @@ mambas = {
                     confirmButtonClass: "btn",
                     buttonsStyling: false
                 }).then(() => {
-                    if(urlSuccess != null) {
+                    if(urlSuccess) {
                         window.location.href = urlSuccess;
                     } else {
                         window.location.reload();
@@ -204,7 +204,7 @@ $(function() {
         $(".nav li a").each(function() {
             var href = $(this).attr("href");
             if(path.substring(0, href.length) === href) {
-                $(this).parent("li").addClass("active");
+                $(this).parents("li").addClass("active");
                 $(this).parents(".collapse").addClass("show");
             }
         })

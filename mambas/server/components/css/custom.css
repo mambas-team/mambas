@@ -19,6 +19,12 @@
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
 }
 
+.sidebar[data-color="azure"] li.active > [data-toggle=collapse] {
+    background: rgba(200, 200, 200, .2);
+    color: #3C4858;
+    box-shadow: none;
+}
+
 /* COLOR SUCCESS --------------------------------------------------------------------- */
 
 .card .card-header-success .card-icon, .card .card-header-success .card-text, .card .card-header-success:not(.card-header-icon):not(.card-header-text), .card.bg-success, .card.card-rotate.bg-success .front, .card.card-rotate.bg-success .back {
@@ -164,7 +170,8 @@
 }
 
 .navbar .navbar-brand {
-   font-size: 1.4625rem;
+   font-size: 1.2625rem;
+   text-transform: capitalize;
 }
 
 .material-icons {
@@ -252,19 +259,41 @@
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
 }
 
-.letter-icon {
-    width: 24px;
-    height: 24px;
-    background: #CCCCCC;
-    color: white;
-    font-size: 13px;
-    line-height: 24px;
-    text-transform: uppercase;
+.sidebar .nav i {
+    line-height: 24px !important;
 }
 
-.card-avatar .letter-icon {
+.letter-icon {
+    border-radius: 3px;
+    margin-right: 15px;
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
+    background: linear-gradient(60deg, #93D8E4, #63CAC6);
+    background: #a9afbb;
+}
+
+table td p {
+    line-height: 30px;
+    margin-bottom: 0;
+}
+
+table td a, table td a:hover {
+    color: inherit;
+}
+
+/*.card-avatar .letter-icon {
     width: 130px;
     height: 130px;
     line-height: 130px;
     font-size: 48px;
-}
+}*/

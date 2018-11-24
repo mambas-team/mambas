@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS projects (
     id_project INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(40),
+    name VARCHAR(20),
     session_counter INTEGER DEFAULT 0,
     token VARCHAR(32),
     CONSTRAINT name_unique UNIQUE (name),

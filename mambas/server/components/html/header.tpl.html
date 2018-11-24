@@ -62,9 +62,10 @@
             </nav>
             <ul class="nav">
                 % for project in navigation_projects:
-                % id, name = project['id'], project['name']
+                % id, name, initials = project['id'], project['name'], project['initials']
                 <li class="nav-item ">
                     <a class="nav-link collapsed" data-toggle="collapse" href="#project-{{ id }}" aria-expanded="false">
+                        <span class="letter-icon">{{ initials }}</span>
                         <p> {{ name }} 
                             <b class="caret"></b>
                         </p>

@@ -58,9 +58,12 @@
                         <tbody>
                         % for project in list_projects:
                         % name, number_sessions = project['name'], project['number_sessions']
-                        % id, token = project['id'], project['token']
+                        % initials, id, token = project['initials'], project['id'], project['token']
                         <tr class="clickable-row" data-href="/projects/{{ id }}">
-                            <td>{{ name }}</td>
+                            <td>
+                                <span class="letter-icon">{{ initials }}</span>
+                                <p>{{ name }}</p>
+                            </td>
                             <td>{{ number_sessions }}</td>
                             <td class="text-right">
                                 <button type="button" rel="tooltip" class="btn btn-link btn-just-icon" title="Display Token" onclick="mambas.displayToken('{{ token }}')">
@@ -113,7 +116,7 @@
                         % id, index, start_date = session['id'], session['index'], session['start_date']
                         % is_active, project_name = session['is_active'], session['project_name']
                         % is_favorite, id_project = session['is_favorite'], session['id_project']
-                        % name = session['name']
+                        % name, project_initials = session['name'], session['project_initials']
                         <tr class="clickable-row" data-href="/projects/{{ id_project }}/sessions/{{ id }}">
                             <th class="text-center">{{ index }}</th>
                             <td>
@@ -134,7 +137,8 @@
                             </td>
                             <td>
                                 <a href="/projects/{{ id_project }}">
-                                {{ project_name }}
+                                    <span class="letter-icon">{{ project_initials }}</span>
+                                    <p>{{ project_name }}</p>
                                 </a>
                             </td>
                             <td class="text-right">
