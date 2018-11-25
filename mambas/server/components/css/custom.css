@@ -1,3 +1,7 @@
+body {
+    font-weight: 400;
+}
+
 /* COLOR INFO ------------------------------------------------------------------------ */
 .card .card-header-info .card-icon, .card .card-header-info .card-text, .card .card-header-info:not(.card-header-icon):not(.card-header-text), .card.bg-info, .card.card-rotate.bg-info .front, .card.card-rotate.bg-info .back {
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
@@ -16,13 +20,28 @@
 }
 
 .sidebar[data-color="azure"] li.active > a {
-    background: linear-gradient(60deg, #93D8E4, #63CAC6);
-}
-
-.sidebar[data-color="azure"] li.active > [data-toggle=collapse] {
     background: rgba(200, 200, 200, .2);
     color: #3C4858;
     box-shadow: none;
+}
+
+.sidebar[data-color="azure"] li.active > [data-toggle=collapse] {
+    background: linear-gradient(60deg, #93D8E4, #63CAC6);
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0,188,212,.4);
+}
+
+.sidebar li.active > [data-toggle=collapse] p,
+.sidebar li.active > [data-toggle=collapse] .letter-icon {
+    color: white;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    -ms-transition: none;
+    transition: none;
+}
+
+.sidebar li.active > [data-toggle=collapse] .caret {
+    color: white;
 }
 
 /* COLOR SUCCESS --------------------------------------------------------------------- */
@@ -92,6 +111,23 @@
 
 .sidebar .nav {
     margin-top: 0;
+}
+
+.sidebar .nav i {
+    line-height: 24px !important;
+    color: #999;
+}
+
+.sidebar .nav li.active > a i {
+    color: #999;
+}
+
+.sidebar .caret {
+    color: #a9afbb;
+}
+
+.sidebar .nav li:first-child > a {
+    margin: 10px 15px 0;
 }
 
 .footer ul li .btn {
@@ -248,7 +284,7 @@
 
 .pagination > .page-item > .page-link, .pagination > .page-item > span {
     border: 0;
-    border-radius: 30px !important;
+    border-radius: 3px !important;
     transition: all .3s;
     padding: 0 11px;
     margin: 0 3px;
@@ -266,18 +302,10 @@
 .bootstrap-datetimepicker-widget table td.active:hover > div, .bootstrap-datetimepicker-widget table td.active > div, .bootstrap-datetimepicker-widget table td span.active {
     background: linear-gradient(60deg, #93D8E4, #63CAC6);
     box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
-}
-
-.sidebar .nav i {
-    line-height: 24px !important;
-}
-
-.sidebar .caret {
-    color: #a9afbb;
+    border-radius: 3px;
 }
 
 .sidebar .letter-icon {
-    color: #a9afbb;
     margin-right: 15px;
 }
 
@@ -300,11 +328,19 @@
     overflow: hidden;
 }
 
-table td p {
+.card .table tr td p {
     line-height: 30px;
     margin-bottom: 0;
 }
 
-table td a, table td a:hover {
+.card .table tr td a, .card .table tr td a:hover {
     color: inherit;
+}
+
+.card .table tr td {
+    padding: 6px 8px;
+}
+
+.nav .nav .nav-link {
+    padding-left: 20px;
 }
