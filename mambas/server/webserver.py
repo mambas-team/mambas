@@ -249,3 +249,9 @@ class MambasWebserver(bottle.Bottle):
         answer = {"id_project": project.id_project}
         bottle.response.content_type = "application/json"
         return json.dumps(answer)
+
+    # ERROR -----------------------------------------------------------------------------
+
+    def default_error_handler(self, res):
+        error_path = pkg_resources.resource_filename(__package__, "components/html/error.tpl.html")
+        return bottle.template(error_path, { "code": res.status_code, "body": res.body })

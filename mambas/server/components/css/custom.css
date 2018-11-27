@@ -147,6 +147,17 @@ body {
     color: #999999;
 }
 
+.error-page .footer ul li .version {
+    color: white;
+}
+
+.error-page .title {
+    font-size: 12em;
+    color: #fff;
+    letter-spacing: 14px;
+    font-weight: 700;
+}
+
 .btn-toggle input[type=checkbox] {
     opacity: 0;
     width: 0;
